@@ -97,7 +97,7 @@
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>　　积累久了的知识还是要拿出来顺一顺，碰巧这几天研究瀑布流，就顺带理清了瀑布流的实现思路，也用ajax实现了下拉从数据库加载数据的效果,并且对实现过程中遇到的问题作出了解决。代码也已经放上了<a href="https://github.com/xurna/waterfall" target="_blank" rel="external">github</a>，有需要者自行下载。</p>
 <p>　　瀑布流相信大家都不会陌生，据说最早是<a href="https://www.pinterest.com/" target="_blank" rel="external">Pinterest</a>网站使用的网页布局，后来流行于各大网站。<br>　　瀑布流的实现有几种方式，详情可见：<a href="http://ued.taobao.org/blog/2011/09/waterfall/" target="_blank" rel="external">淘宝网UED官方博客</a><br>　　而我所用的方法是使用<code>JavaScript</code>来实现，其他方法在这里就不多描述了。</p>
 <h1 id="静态瀑布流实现过程"><a href="#静态瀑布流实现过程" class="headerlink" title="静态瀑布流实现过程"></a>静态瀑布流实现过程</h1><p><a href="https://github.com/QuantaCenter/oureffect/tree/master/pubuliu" target="_blank" rel="external">下载地址</a></p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
 <li><p>html的基本页面布局为</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span> class=<span class="string">"container"</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">"imgShow"</span>&gt;&lt;img src=<span class="string">""</span>/&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 </li>
@@ -105,7 +105,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">     position: absolute;</span><br><span class="line">     top: 20px;</span><br><span class="line">     width:100%;</span><br><span class="line">&#125;</span><br><span class="line">.imgShow &#123;</span><br><span class="line">     position: absolute;</span><br><span class="line">     border: solid 1px <span class="comment">#ccc;</span></span><br><span class="line">     padding: 10px;</span><br><span class="line">     width: 200px;</span><br><span class="line">     top: 0px;</span><br><span class="line">     left: 0px;</span><br><span class="line">&#125;</span><br><span class="line">img &#123; width: 100%; &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="核心过程"><a href="#核心过程" class="headerlink" title="核心过程"></a>核心过程</h3><p>实现瀑布流的过程中使用了函数的prototype属性，当创建一个函数实例的时候，实例可以共享原型对象包含的属性和方法。</p>
+<h2 id="核心过程"><a href="#核心过程" class="headerlink" title="核心过程"></a>核心过程</h2><p>实现瀑布流的过程中使用了函数的prototype属性，当创建一个函数实例的时候，实例可以共享原型对象包含的属性和方法。</p>
 <blockquote>
 <p>我们创建的每个函数都有一个prototype（原型）属性，这个属性是一个指针，指向一个对象，<br>而这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。<br>使用原型对象的好处是可以让所有的对象实例共享它包含的属性和方法。<br>–《JavaScript高级程序设计》</p>
 </blockquote>
