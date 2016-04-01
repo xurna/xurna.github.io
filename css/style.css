@@ -560,9 +560,10 @@ header nav ul li a:hover {
   font-size: 0.87em;
   line-height: 1.7;
   border: 1px solid #fff;
-  -webkit-border-radius:40px;
-  border-radius: 40px;
   color: #fff;
+  -webkit-border-radius: 40px;
+  -webkit-border-radius: 40px;
+  border-radius: 40px;
   background: transparent;
   width: 80%;
   padding-left: 0.5em;
