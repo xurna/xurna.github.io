@@ -186,7 +186,8 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	var water = new WaterFull(<span class="string">"container"</span>);</span><br><span class="line">	water.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>考虑到当窗口大小在进行改变但未终止时都要对瀑布流进行重排渲染的话，网页性能会大大降低，所以我采用setTimeout的方法来适当延时窗口大小改变后瀑布流的重排渲染。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> var timer;</span><br><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	clearTimeout(timer);</span><br><span class="line">	timer = <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">		water.show()</span><br><span class="line">	&#125;,300);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>考虑到当窗口大小在进行改变但未终止时都要对瀑布流进行重排渲染的话，网页性能会大大降低，所以我采用setTimeout的方法来适当延时窗口大小改变后瀑布流的重排渲染。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> var timer;</span><br><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	clearTimeout(timer);</span><br><span class="line">	timer = <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">		water.show()</span><br><span class="line">	&#125;,300);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>进行到这里，静态的瀑布流效果就完成了。但是现在很多网页不会一下子把格子里面的内容从数据库中导出，而是通过ajax来实现分页请求数据。</p>
 <h1 id="动态瀑布流实现过程"><a href="#动态瀑布流实现过程" class="headerlink" title="动态瀑布流实现过程"></a>动态瀑布流实现过程</h1><p><a href="https://github.com/xurna/waterfall" target="_blank" rel="external">下载地址</a></p>
 <ol>
@@ -444,15 +445,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
 			
 		
 			
