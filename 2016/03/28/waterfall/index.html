@@ -20,7 +20,7 @@
 <meta property="og:description" content="背景　　积累久了的知识还是要拿出来顺一顺，碰巧这几天研究瀑布流，就顺带理清了瀑布流的实现思路，也用ajax实现了下拉从数据库加载数据的效果,并且对实现过程中遇到的问题作出了解决。代码也已经放上了github，有需要者自行下载。
 　　瀑布流相信大家都不会陌生，据说最早是Pinterest网站使用的网页布局，后来流行于各大网站。　　瀑布流的实现有几种方式，详情可见：淘宝网UED官方博客　　而我所用的方">
 <meta property="og:image" content="http://i2.piimg.com/d99ac71edb48c283.jpg">
-<meta property="og:updated_time" content="2016-04-01T02:08:49.606Z">
+<meta property="og:updated_time" content="2016-04-01T02:12:11.531Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="瀑布流实现">
 <meta name="twitter:description" content="背景　　积累久了的知识还是要拿出来顺一顺，碰巧这几天研究瀑布流，就顺带理清了瀑布流的实现思路，也用ajax实现了下拉从数据库加载数据的效果,并且对实现过程中遇到的问题作出了解决。代码也已经放上了github，有需要者自行下载。
@@ -137,8 +137,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	var water = new WaterFull(<span class="string">"container"</span>);</span><br><span class="line">	water.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>考虑到当窗口大小在进行改变但未终止时都要对瀑布流进行重排渲染的话，网页性能会大大降低，所以我采用setTimeout的方法来适当延时窗口大小改变后瀑布流的重排渲染。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> var timer;</span><br><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	clearTimeout(timer);</span><br><span class="line">	timer = <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">		water.show()</span><br><span class="line">	&#125;,300);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　考虑到当窗口大小在进行改变但未终止时都要对瀑布流进行重排渲染的话，网页性能会大大降低，所以我采用setTimeout的方法来适当延时窗口大小改变后瀑布流的重排渲染。上面的代码改为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> var timer;</span><br><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	clearTimeout(timer);</span><br><span class="line">	timer = <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">		water.show()</span><br><span class="line">	&#125;,300);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>进行到这里，静态的瀑布流效果就完成了。但是现在很多网页不会一下子把格子里面的内容从数据库中导出，而是通过ajax来实现分页请求数据。</p>
 <h1 id="动态瀑布流实现过程"><a href="#动态瀑布流实现过程" class="headerlink" title="动态瀑布流实现过程"></a>动态瀑布流实现过程</h1><p><a href="https://github.com/xurna/waterfall" target="_blank" rel="external">下载地址</a></p>
 <ol>
