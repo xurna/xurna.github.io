@@ -94,7 +94,78 @@
 </header>
     <div class="article-content">
         
-        <p>博客更新中，敬请期待……</p>
+        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>　　果然，知识还是总结为好，以前看过的闭包(Closure)过一段时间再去看还是有点概念不清，趁着最近在整理知识，就来总结一下闭包的原理，顺带解决一下之前我所不懂的问题。</p>
+<h2 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h2><p>感觉闭包这个概念只可意会，不可言传，但总结来说，闭包有三个特性：</p>
+<ul>
+<li>函数嵌套函数</li>
+<li>函数内部可以应用外部的参数和变量</li>
+<li>参数和变量不会被垃圾回收机制回收</li>
+</ul>
+<blockquote>
+<p>在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。<br>–阮一峰（<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="external">学习Javascript闭包（Closure）</a>）</p>
+</blockquote>
+<p>理解闭包之前，我们需要理解<code>JavaScript</code>特殊的变量作用域。<br>变量的作用域无非就是两种：<code>全局变量</code>和<code>局部变量</code>。<br>Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量,在函数外部自然无法读取函数内的局部变量。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var t1=22;</span><br><span class="line">var fun1 = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    var t2 = 33;</span><br><span class="line">    var fun2 = <span class="function"><span class="title">function</span></span> ()&#123;</span><br><span class="line">        //</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(t2); //33</span><br><span class="line">    console.log(t1); //22</span><br><span class="line">    console.log(fun2); //<span class="keyword">function</span></span><br><span class="line">    console.log(fun1); //<span class="keyword">function</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(t1); //22</span><br><span class="line">console.log(fun1); //<span class="keyword">function</span></span><br><span class="line">fun1();</span><br><span class="line">console.log(t2);  //error: not defined</span><br><span class="line">console.log(fun2); //error: not defined</span><br></pre></td></tr></table></figure></p>
+<p>这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">fun2</span></span>()&#123;</span><br><span class="line">　　n=44;</span><br><span class="line">　　alert(n);</span><br><span class="line">&#125;</span><br><span class="line">fun2();</span><br><span class="line">alert(n); // 44</span><br></pre></td></tr></table></figure></p>
+<p>对于函数的作用域，还要理解一下作用域链</p>
+<blockquote>
+<p>当某个函数第一次被调用时，会创建一个执行环境以及相应的作用域链，并把作用域链赋值给一个特殊的内部属性（即[[Scope]]）.然后，使用this、arguments和其他命名参数的值来初始化函数的活动对象。<br>但在作用域链中，外部函数的活动对象始终处于第二位，外部函数的外部函数的活动对象处于第三位，······直至作为作用域链终点的全局执行环境。<br>-《JavaScript高级程序设计》</p>
+</blockquote>
+<p>上面所说的作用域链很重要，闭包的特性就是依赖于作用域来实现的。<br>通过作用域链，可以决定变量的访问方向。<br>作用域链就是函数在定义的时候创建的,用于寻找使用到的变量的值的一个索引。<br>变量的寻找是向上爬寻的。上面的例子可以理解为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window(全局作用域，包含t1,fun1)</span><br><span class="line">^</span><br><span class="line">|</span><br><span class="line">fun1(fun1函数内部作用域，包含t2,fun2)</span><br></pre></td></tr></table></figure></p>
+<p>t1，fun1是全局变量，在全局中声明；b，fun2是局部变量，在局部声明。<br>无论在fun1内部调用变量，还是在外部调用变量，调用时会先在内部作用域中寻找变量，如果找不到，再向上一层活动对象中寻找，直到找到或者到了全局执行环境下还没有找到的话，则解释器返回undefined.</p>
+<p>所以说，怎样才能在外部访问到函数内部的变量呢，闭包可以做到。</p>
+<p>回到开始我所讲到的闭包的三个特性，可以思考一下下面的代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>()&#123;</span><br><span class="line">　　　　var n=999;</span><br><span class="line">　　　　nAdd=<span class="function"><span class="title">function</span></span>()&#123;n+=1&#125;</span><br><span class="line">　　　　<span class="keyword">function</span> <span class="function"><span class="title">f2</span></span>()&#123;</span><br><span class="line">　　　　　　alert(n);</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="built_in">return</span> f2;</span><br><span class="line">　　&#125;</span><br><span class="line">　　var result=f1();</span><br><span class="line">　　result(); // 999</span><br><span class="line">　　nAdd();</span><br><span class="line">　　result(); // 1000</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</p>
+<p>f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制GC（garbage collection）回收。</p>
+<p>这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。<br>–阮一峰（<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="external">学习Javascript闭包（Closure）</a>）</p>
+</blockquote>
+<p>还有一个典型的作用域问题：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>() &#123;</span><br><span class="line">    var res = new Array();</span><br><span class="line">    <span class="keyword">for</span>(var i=0;i&lt;10;i++)&#123;</span><br><span class="line">        res[i] = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">            alert(i);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">var f2 = f1();</span><br><span class="line">f2[0]();//alert 10</span><br><span class="line">f2[1]();//alert 10</span><br><span class="line">//并不会返回一次弹出0-9的函数数组，而是弹出10个10的函数数组,因为res中每个函数的作用域中都保存着f1()的活动对象，引用的是同一个变量i，当f1()返回后i的值为10</span><br></pre></td></tr></table></figure></p>
+<p>解决办法为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>() &#123;</span><br><span class="line">    var res = new Array();</span><br><span class="line">    <span class="keyword">for</span>(var i=0;i&lt;10;i++)&#123;</span><br><span class="line">        res[i] = (<span class="keyword">function</span>(num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> ()&#123;</span><br><span class="line">                alert(num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(i);//函数参数按值传递</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">var f2 = f1();</span><br><span class="line">f2[0]();//alert 0</span><br><span class="line">f2[1]();//alert 1</span><br></pre></td></tr></table></figure></p>
+<h2 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h2><p>上面我们谈到了“垃圾回收机制”，其实涉及到内存泄露的问题，开始我也不懂什么是内存泄露，现在就来给大家科普一下，方便理解闭包。</p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><blockquote>
+<p>首先我们明确下内存泄露的概念：内存里不能被回收也不能被利用的空间即为内存泄露。为什么不能被回收呢？不符合内存回收的算法；为什么不能被利用呢？在栈上没有指向他的指针。<br>-<a href="http://www.tuicool.com/articles/bemQRf" target="_blank" rel="external">(再议 js闭包和ie内存泄露原理)</a></p>
+</blockquote>
+<p>垃圾回收方式有两种：</p>
+<ol>
+<li>标记清除</li>
+<li>引用计数</li>
+</ol>
+<blockquote>
+<p>标记清除：垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记，然后，它会去掉环境中的变量的标记和被环境中的变量引用的变量的标记，此后，如果变量再被标记则表示此变量准备被删除。 2008年为止，IE，Firefox，opera，chrome，Safari的javascript都用使用了该方式；<br>引用计数：跟踪记录每个值被引用的次数，当声明一个变量并将一个引用类型的值赋给该变量时，这个值的引用次数就是1，如果这个值再被赋值给另一个变量，则引用次数加1。相反，如果一个变量脱离了该值的引用，则该值引用次数减1，当次数为0时，就会等待垃圾收集器的回收。<br>-<a href="http://www.tuicool.com/articles/N7NfqqE" target="_blank" rel="external">js闭包,垃圾回收,内存泄漏</a></p>
+</blockquote>
+<p>垃圾回收机制现在很成熟了，但早期的IE版本里（ie4-ie6），对宿主对象（也就是document对象）采用是<code>计数</code>的垃圾回收机制，闭包导致内存泄露的一个原因就是这个算法的一个缺陷。<code>循环引用</code>会导致没法回收，这个循环引用只限定于有宿主对象(BOM和DOM)参与的循环引用，而js对象之间即时形成循环引用，也不会产生内存泄露，因为对js对象的回收算法不是计数的方式。</p>
+<p>低版本IE中采用的就是引用计数的方式，所以会经常出现内存泄露问题。<br>引用计数，可以用两个例子说明。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">fa</span></span>() &#123;</span><br><span class="line">    var o = new Object();</span><br><span class="line">&#125;</span><br><span class="line">fa();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">栈             堆</span><br><span class="line">var o------&gt;new object</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>栈上只是存了一个指针，指针就是堆上对象的的地址；这个是时候我们的程序通过这个指针句可以操作堆上的对象。栈上的这个指针是自动管理的，但函数退出后，就销毁了；主要程序就在没办法访问到堆上的这个对象了，而堆上的这个对象这个时候就会被我们的GC自动回收了；如果回收不了，就是内存泄露了。</p>
+</blockquote>
+<p>另一个例子就是上面的闭包例子。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>()&#123;</span><br><span class="line">　　　　var n=999;</span><br><span class="line">　　　　nAdd=<span class="function"><span class="title">function</span></span>()&#123;n+=1&#125;</span><br><span class="line">　　　　<span class="keyword">function</span> <span class="function"><span class="title">f2</span></span>()&#123;</span><br><span class="line">　　　　　　alert(n);</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="built_in">return</span> f2;</span><br><span class="line">　　&#125;</span><br><span class="line">　　var result=f1();</span><br><span class="line">　　result(); // 999</span><br><span class="line">　　nAdd();</span><br><span class="line">　　result(); // 1000</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">栈             堆</span><br><span class="line">var n---------&gt;o1</span><br><span class="line">var result----&gt;o2</span><br></pre></td></tr></table></figure>
+<p>当执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var n=999;</span><br></pre></td></tr></table></figure></p>
+<p>的时候，o1的计数为1。<br>在执行f2的时候，o2的计数为1，为了保持函数对n这个变量的引用，在这个f2的作用域链上加了一个对o1的引用，<br>这样o1的计数值加1变为2，在f1函数执行完后，o1计数减1变成1，所以o1不会被内存回收。<br>那么o1什么时候会被回收呢？o2被回收的时候；o2什么时候被回收呢？当指向o2的全局变量var result从栈上消失的时候。</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>我觉得要理解为什么会造成循环引用还是比较难的，而且现实中很容易就会造成循环引用问题。<br><a href="http://www.cnblogs.com/yakun/p/3932026.html" target="_blank" rel="external">浅析闭包和内存泄露的问题</a><br>循环引用简单来说就是对象A引用了对象B，而对象B又引用了对象A<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A ---------&gt; B ------------&gt; C</span><br><span class="line">             ^、_ _ _ _ _ _ _|</span><br></pre></td></tr></table></figure></p>
+<p>当A释放时，仍然有来自C的指针指向B，这样B就不能被释放掉，需要JavaScript的特殊处理。</p>
+<p>我主要想提一下DOM与JavaScript的循环，通过查阅资料，可以知道，IE中有一部分对象并不是原生额javascript对象，例如，BOM和DOM中的对象就是以COM对象的形式实现的，而COM对象的垃圾回收机制采用的就是引用计数。因此，虽然IE的javascript引擎采用的是标记清除策略，但是访问COM对象依然是基于引用计数的，因此只要在IE中设计COM对象就会存在循环引用的问题！。</p>
+<blockquote>
+<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。<br>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
+</blockquote>
+<p>导致这种循环的一个常见原因是简单的事件处理（这里引用上面博客的例子）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(document).ready(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    var button = document.getElementById(<span class="string">'button-1'</span>);</span><br><span class="line">    button.onclick = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(<span class="string">'hello'</span>);</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>当指定单击事件处理程序时，就创建了一个在其封闭的函数中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。</p>
+<p>如要释放内存，需要断开循环引用。方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.关闭浏览器</span><br><span class="line">2.删除onclick属性</span><br><span class="line">$(document).ready(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    var button = document.getElementById(<span class="string">'button-1'</span>);</span><br><span class="line">    button.onclick = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(<span class="string">'hello'</span>);</span><br><span class="line">    button.onclick = null;</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">3.断开循环引用</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">hello</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">'hello'</span>);</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">$(document).ready(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    var button = document.getElementById(<span class="string">'button-1'</span>);</span><br><span class="line">    button.onclick = hello;</span><br><span class="line">&#125;);</span><br><span class="line">因为hello()函数不再包含 button，引用就成了单向的（从button到hello）,不存在循环，所以就不会造成内存泄漏了。</span><br><span class="line">第三种方法也是谷歌js编码规范里的。</span><br></pre></td></tr></table></figure></p>
+<p>其实上面的循环引用也可以用计数方式来解释：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">执行 var button的时候O1为1</span><br><span class="line">执行button.onclick的时候匿名函数O2为1，O1加1。</span><br><span class="line">当结束函数时O1的计数为1，o2的计数为1，都不能被内存回收。</span><br><span class="line">（有解释说：其实fa里面的宿主对象只是真正对象一个副本，当执行e.event这句指令的时候做了两件事，</span><br><span class="line">一个是副本的对象指向O2，这时O2的计数加1，真正的宿主对象又指向这个O2，这个O2的计数再加1 变为了2。[这里我还没弄懂个中意思]）</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　感觉自己说了一堆关于闭包所涉及的知识，如果你对我所说的概念都有一个比较清晰的理解的话，相信你对闭包也有了深刻的认识。现在就来总结一下闭包的优缺点吧。</p>
+<p>优点：</p>
+<ul>
+<li>当需要一个变量常驻内存时，闭包可以实现一个变量常驻内存 (如果多了就占用内存了)</li>
+<li>避免全局变量的污染</li>
+<li>私有化变量，保护函数内的变量安全,加强了封装性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>因为闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存</li>
+<li>引起内存泄露</li>
+</ul>
+<p>当然，闭包的优缺点可能不止我所说的，当你真正去用的时候可能你才会真正去了解它。</p>
 
         
         
@@ -113,7 +184,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/闭包/">闭包</a>
   </div>
 
 </div>
@@ -444,6 +515,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
@@ -452,7 +527,7 @@
 			
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
 			
 		
 			
