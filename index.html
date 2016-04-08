@@ -166,6 +166,9 @@
 <li>引起内存泄露</li>
 </ul>
 <p>当然，闭包的优缺点可能不止我所说的，当你真正去用的时候可能你才会真正去了解它。</p>
+<h2 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h2><p>想了想，还是附上<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="external">阮一峰</a>里面的思考题吧，对理解闭包会有帮助：<br>代码片段一：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var name = <span class="string">"The Window"</span>;</span><br><span class="line">　　var object = &#123;</span><br><span class="line">　　　　name : <span class="string">"My Object"</span>,</span><br><span class="line">　　　　getNameFunc : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">　　　　　　<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">　　　　　　　　<span class="built_in">return</span> this.name;</span><br><span class="line">　　　　　　&#125;;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;;</span><br><span class="line">　　alert(object.getNameFunc()());</span><br></pre></td></tr></table></figure></p>
+<p>代码片段二：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var name = <span class="string">"The Window"</span>;</span><br><span class="line">　　var object = &#123;</span><br><span class="line">　　　　name : <span class="string">"My Object"</span>,</span><br><span class="line">　　　　getNameFunc : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">　　　　　　var that = this;</span><br><span class="line">　　　　　　<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">　　　　　　　　<span class="built_in">return</span> that.name;</span><br><span class="line">　　　　　　&#125;;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;;</span><br><span class="line">　　alert(object.getNameFunc()());</span><br></pre></td></tr></table></figure></p>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>对于代码片段一<br>object.getnameFunc() 返回的匿名闭包函数被全局变量所引用，其中的this指向全局变量，当执行时打印The Window 。<br>对于代码片段二<br>object.getnameFunc() 在返回闭包函数前，将this赋给that，此时getnameFunc是由object调用的，故而this指向object，当内部函数被返回时，由于闭包的特性，仍然能访问到外部函数中的值，当执行打印My Object 。</p>
 
         
         
@@ -515,15 +518,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
 			
 		
 			
