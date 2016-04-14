@@ -1,0 +1,543 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>模块化开发(一) | xurna</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Xurna Yang">
+    
+
+    
+    <meta name="description" content="先知先觉随着前端项目越来越复杂，使用模块化开发可以提高代码的重用性，并且使项目结构清晰化。一个模块就是实现特定功能的文件，有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。模块开发需要遵循一定的规范，否则就都乱套了。
+目前，通行的js模块规范主要由三种：AMD,CMD,CommonJS.
+简单来说，就是使用define定义模块，使用require调用模块。
+先盗用一张图来方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模块化开发(一)">
+<meta property="og:url" content="http://yoursite.com/2016/04/12/module/index.html">
+<meta property="og:site_name" content="xurna">
+<meta property="og:description" content="先知先觉随着前端项目越来越复杂，使用模块化开发可以提高代码的重用性，并且使项目结构清晰化。一个模块就是实现特定功能的文件，有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。模块开发需要遵循一定的规范，否则就都乱套了。
+目前，通行的js模块规范主要由三种：AMD,CMD,CommonJS.
+简单来说，就是使用define定义模块，使用require调用模块。
+先盗用一张图来方">
+<meta property="og:image" content="http://i2.piimg.com/090c6bf8a4da2cad.png">
+<meta property="og:updated_time" content="2016-04-14T12:31:38.355Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模块化开发(一)">
+<meta name="twitter:description" content="先知先觉随着前端项目越来越复杂，使用模块化开发可以提高代码的重用性，并且使项目结构清晰化。一个模块就是实现特定功能的文件，有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。模块开发需要遵循一定的规范，否则就都乱套了。
+目前，通行的js模块规范主要由三种：AMD,CMD,CommonJS.
+简单来说，就是使用define定义模块，使用require调用模块。
+先盗用一张图来方">
+<meta name="twitter:image" content="http://i2.piimg.com/090c6bf8a4da2cad.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="xurna" title="xurna"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="xurna">xurna</a></h1>
+				<h2 class="blog-motto">Never too late to learn.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/12/module/" title="模块化开发(一)" itemprop="url">模块化开发(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-12T14:02:21.000Z" itemprop="datePublished"> 发表于 2016-04-12</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先知先觉"><span class="toc-number">1.</span> <span class="toc-text">先知先觉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD规范"><span class="toc-number">2.</span> <span class="toc-text">AMD规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#define-函数"><span class="toc-number">2.1.</span> <span class="toc-text">define() 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#require-函数"><span class="toc-number">2.2.</span> <span class="toc-text">require() 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RequireJS模块的加载（手打RequireJS相关代码地址）"><span class="toc-number">3.</span> <span class="toc-text">RequireJS模块的加载（手打RequireJS相关代码地址）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#调用require-js"><span class="toc-number">3.1.</span> <span class="toc-text">调用require.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块加载自定义"><span class="toc-number">3.2.</span> <span class="toc-text">模块加载自定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMD模块的写法"><span class="toc-number">3.3.</span> <span class="toc-text">AMD模块的写法</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="先知先觉"><a href="#先知先觉" class="headerlink" title="先知先觉"></a>先知先觉</h2><p>随着前端项目越来越复杂，使用模块化开发可以提高代码的重用性，并且使项目结构清晰化。一个模块就是实现特定功能的文件，有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。模块开发需要遵循一定的规范，否则就都乱套了。</p>
+<p>目前，通行的js模块规范主要由三种：<code>AMD</code>,<code>CMD</code>,<code>CommonJS</code>.</p>
+<p>简单来说，就是使用<code>define</code>定义模块，使用<code>require</code>调用模块。</p>
+<p>先盗用一张图来方便理解他们的异同：<br><img src="http://i2.piimg.com/090c6bf8a4da2cad.png" alt="module"></p>
+<h2 id="AMD规范"><a href="#AMD规范" class="headerlink" title="AMD规范"></a>AMD规范</h2><p><a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">AMD规范文档</a><br><code>AMD</code> 即<code>Asynchronous Module Definition</code>，中文名是<code>异步模块定义</code>的意思。它是一个在浏览器端模块化开发的规范，服务器端的规范是<code>CommonJS</code></p>
+<p>模块将被<code>异步加载</code>，模块加载不影响后面语句的运行。所有依赖某些模块的语句均放置在回调函数中。</p>
+<p><code>AMD</code> 是<code>RequireJS</code> 在推广过程中对模块定义的规范化的产出。</p>
+<p>优点：</p>
+<ol>
+<li>实现js文件的异步加载，避免网页失去响应；</li>
+<li>管理模块之间的依赖性，便于代码的编写和维护。</li>
+</ol>
+<p>目前，实现AMD的库有<code>RequireJS</code> 、<code>curl</code> 、<code>Dojo</code>  、<code>Nodules</code> 等。</p>
+<h3 id="define-函数"><a href="#define-函数" class="headerlink" title="define() 函数"></a>define() 函数</h3><p>AMD规范只定义了一个函数 define，它是<code>全局变量</code>。函数的描述为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(id?, dependencies?, factory);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>id：指定义中模块的名字，可选；如果没有提供该参数，模块的名字应该默认为模块加载器请求的指定脚本的名字。如果提供了该参数，模块名必须是“顶级”的和绝对的（不允许相对名字）。</p>
+<p>依赖dependencies：是一个当前模块依赖的，已被模块定义的模块标识的数组字面量。<br>依赖参数是可选的，如果忽略此参数，它应该默认为[“require”, “exports”, “module”]。然而，如果工厂方法的长度属性小于3，加载器会选择以函数的长度属性指定的参数个数调用工厂方法。</p>
+<p>工厂方法factory，模块初始化要执行的函数或对象。如果为函数，它应该只被执行一次。如果是对象，此对象应该为模块的输出值。<br>(来自-<a href="https://segmentfault.com/a/1190000000733959#articleHeader8" target="_blank" rel="external">segment</a>)</p>
+</blockquote>
+<p>模块名用来<code>唯一标识</code>定义中模块，它们同样在依赖性数组中使用，当一个文件中有多个define定义时，需要使用文件路径作为模块名来区分调用的模块是哪个。</p>
+<p>模块名可以为 “相对的” 或 “顶级的”。如果首字符为“.”或“..”则为相对的模块名；如果你定义了根目录（<code>baseUrl</code>），那么顶级的模块名从根命名空间的概念模块解析.</p>
+<p>函数定义例子：创建一个名为”alpha”的模块，使用了require，exports，和名为”beta”的模块:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">"alpha"</span>, [<span class="string">"require"</span>, <span class="string">"exports"</span>, <span class="string">"beta"</span>], <span class="keyword">function</span> (require, exports, beta) &#123;</span><br><span class="line">       exports.verb = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">           <span class="built_in">return</span> beta.verb();</span><br><span class="line">           //Or:</span><br><span class="line">           <span class="built_in">return</span> require(<span class="string">"beta"</span>).verb();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>RequireJS默认假定所有的依赖资源都是js脚本，因此无需在module ID上再加”.js”后缀，RequireJS在进行module ID到path的解析时会自动补上后缀。</p>
+<h3 id="require-函数"><a href="#require-函数" class="headerlink" title="require() 函数"></a>require() 函数</h3><p>可以看下面的实际例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require([<span class="string">'jquery'</span>,<span class="string">'underscore'</span>,<span class="string">'backbone'</span>],<span class="keyword">function</span>($, _, Backbone)&#123;</span><br><span class="line">	console.log($(<span class="string">".box"</span>).width());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>require()函数接受两个参数。第一个参数是一个<code>数组</code>，表示所依赖的模块，上例就是<code>[&#39;jquery&#39;, &#39;underscore&#39;, &#39;backbone&#39;]</code>，即主模块依赖这三个模块；第二个参数是一个<code>回调函数</code>，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块。require()异步加载<code>jquery</code>，<code>underscore</code>和<code>backbone</code>，浏览器不会失去响应；它指定的回调函数，只有前面的模块都加载成功后，才会运行，解决了依赖性的问题。</p>
+<h2 id="RequireJS模块的加载（手打RequireJS相关代码地址）"><a href="#RequireJS模块的加载（手打RequireJS相关代码地址）" class="headerlink" title="RequireJS模块的加载（手打RequireJS相关代码地址）"></a>RequireJS模块的加载（<a href="">手打RequireJS相关代码地址</a>）</h2><h3 id="调用require-js"><a href="#调用require-js" class="headerlink" title="调用require.js"></a>调用require.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"js/require.js"</span> data-main=<span class="string">"js/main"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>data-main属性的作用是，指定网页程序的主模块。在上例中，就是js目录下面的main.js，这个文件会第一个被require.js加载。由于require.js默认的文件后缀名是js，所以可以把main.js简写成main。</p>
+<h3 id="模块加载自定义"><a href="#模块加载自定义" class="headerlink" title="模块加载自定义"></a>模块加载自定义</h3><p>使用require.config()方法，我们可以对模块的加载行为进行自定义。require.config()就写在主模块（main.js）的头部。参数就是一个对象，这个对象的paths属性指定各个模块的加载路径。</p>
+<p>如果这些模块在其他目录，比如js/lib目录，则有两种写法。一种是逐一指定路径。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">　　　　paths: &#123;</span><br><span class="line">　　　　　　<span class="string">"jquery"</span>: <span class="string">"lib/jquery.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"underscore"</span>: <span class="string">"lib/underscore.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"backbone"</span>: <span class="string">"lib/backbone.min"</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>另一种则是直接改变基目录（baseUrl）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">　　　　baseUrl: <span class="string">"js/lib"</span>,</span><br><span class="line">　　　　paths: &#123;</span><br><span class="line">　　　　　　<span class="string">"jquery"</span>: <span class="string">"jquery.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"underscore"</span>: <span class="string">"underscore.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"backbone"</span>: <span class="string">"backbone.min"</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>注意一点，如果加载require.js模块的时候出现<code>timeout</code>现象，解决办法：只要在config里面加上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>Seconds: 0, //解决timeout问题</span><br></pre></td></tr></table></figure></p>
+<p>除了paths，还有shim用来加载非规范的模块，可以<a href="http://www.ruanyifeng.com/blog/2012/11/require_js.html" target="_blank" rel="external">查看相关信息</a>.</p>
+<h3 id="AMD模块的写法"><a href="#AMD模块的写法" class="headerlink" title="AMD模块的写法"></a>AMD模块的写法</h3><p>require.js加载的模块，采用AMD规范。也就是说，模块必须按照AMD的规定来写。<br>具体来说，就是模块必须采用特定的define()函数来定义。如果一个模块不依赖其他模块，那么可以直接定义在define()函数之中。<br>假定现在有一个math.js文件，它定义了一个math模块。那么，math.js就要这样写：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// math.js</span><br><span class="line">　　define(<span class="function"><span class="title">function</span></span> ()&#123;</span><br><span class="line">　　　　var add = <span class="keyword">function</span> (x,y)&#123;</span><br><span class="line">　　　　　　<span class="built_in">return</span> x+y;</span><br><span class="line">　　　　&#125;;</span><br><span class="line">　　　　<span class="built_in">return</span> &#123;</span><br><span class="line">　　　　　　add: add</span><br><span class="line">　　　　&#125;;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>加载方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">　　require([<span class="string">'math'</span>], <span class="keyword">function</span> (math)&#123;</span><br><span class="line">　　　　alert(math.add(1,1));</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>如果这个模块被其他模块依赖，那么define()函数的第一个参数，必须是一个数组，指明该模块的依赖性。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//myLib.js</span><br><span class="line">define([<span class="string">'../module/math'</span>],<span class="keyword">function</span>(math)&#123;</span><br><span class="line">	<span class="built_in">return</span> math.add(1,1);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>当require()函数加载上面这个模块的时候，就会先加载myLib.js文件。</p>
+<p>先写到这吧，有点累了，下次接着写。</p>
+<p>参考文章：<br>1.<a href="https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88" target="_blank" rel="external">https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88</a>)</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/04/12/module/" data-title="模块化开发(一) | xurna" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/04/14/module2/" title="模块化开发(二)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  模块化开发(二)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/04/08/mobileAdapter/"  title="移动端适配">
+ <strong>下一篇：</strong><br/> 
+ <span>移动端适配
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先知先觉"><span class="toc-number">1.</span> <span class="toc-text">先知先觉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AMD规范"><span class="toc-number">2.</span> <span class="toc-text">AMD规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#define-函数"><span class="toc-number">2.1.</span> <span class="toc-text">define() 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#require-函数"><span class="toc-number">2.2.</span> <span class="toc-text">require() 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RequireJS模块的加载（手打RequireJS相关代码地址）"><span class="toc-number">3.</span> <span class="toc-text">RequireJS模块的加载（手打RequireJS相关代码地址）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#调用require-js"><span class="toc-number">3.1.</span> <span class="toc-text">调用require.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块加载自定义"><span class="toc-number">3.2.</span> <span class="toc-text">模块加载自定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMD模块的写法"><span class="toc-number">3.3.</span> <span class="toc-text">AMD模块的写法</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/重构/" title="重构">重构<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块化/" title="模块化">模块化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.quantacenter.com/" target="_blank" title="(量子）信息技术服务中心">Quanta</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Welcome to my blog , I&#39;m Xurna Yang from GDUFS. <br/>
+			A programmer in QuantaCenter</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2696740840" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/xurna" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:565627595@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Xurna Yang">Xurna Yang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

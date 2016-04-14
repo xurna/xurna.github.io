@@ -4,29 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hexo快速建成博客 | xurna</title>
+    <title>模块化开发(三) | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="初衷　　在学习中，发现对很多东西都是一知半解，知识结构比较混乱，虽然也有在笔记本上记录自己的学习过程，但终究达不到总结的作用。固搭建此博客，意在记录自身的学习过程，与志同道合之人聊聊技术，分享所学心得。
-　　以前有了解过用wordpress搭建博客，但最近从朋友中了解到用github也可以，于是心血来潮，建成此博客。
-　　此博客的搭建快速简单，容易上手（对于程序员来说），但其中也遇到一些坑爹问题。">
+    <meta name="description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
+根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
+输出模块变量的最好方法是使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo快速建成博客">
-<meta property="og:url" content="http://yoursite.com/2016/03/24/blog1/index.html">
+<meta property="og:title" content="模块化开发(三)">
+<meta property="og:url" content="http://yoursite.com/2016/04/14/module3/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="初衷　　在学习中，发现对很多东西都是一知半解，知识结构比较混乱，虽然也有在笔记本上记录自己的学习过程，但终究达不到总结的作用。固搭建此博客，意在记录自身的学习过程，与志同道合之人聊聊技术，分享所学心得。
-　　以前有了解过用wordpress搭建博客，但最近从朋友中了解到用github也可以，于是心血来潮，建成此博客。
-　　此博客的搭建快速简单，容易上手（对于程序员来说），但其中也遇到一些坑爹问题。">
-<meta property="og:updated_time" content="2016-03-25T08:27:06.651Z">
+<meta property="og:description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
+根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
+输出模块变量的最好方法是使用">
+<meta property="og:updated_time" content="2016-04-14T14:03:51.488Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo快速建成博客">
-<meta name="twitter:description" content="初衷　　在学习中，发现对很多东西都是一知半解，知识结构比较混乱，虽然也有在笔记本上记录自己的学习过程，但终究达不到总结的作用。固搭建此博客，意在记录自身的学习过程，与志同道合之人聊聊技术，分享所学心得。
-　　以前有了解过用wordpress搭建博客，但最近从朋友中了解到用github也可以，于是心血来潮，建成此博客。
-　　此博客的搭建快速简单，容易上手（对于程序员来说），但其中也遇到一些坑爹问题。">
+<meta name="twitter:title" content="模块化开发(三)">
+<meta name="twitter:description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
+根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
+输出模块变量的最好方法是使用">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -86,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/24/blog1/" title="hexo快速建成博客" itemprop="url">hexo快速建成博客</a>
+      <a href="/2016/04/14/module3/" title="模块化开发(三)" itemprop="url">模块化开发(三)</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-24T15:18:34.000Z" itemprop="datePublished"> 发表于 2016-03-24</time>
+    <time datetime="2016-04-14T13:22:41.000Z" itemprop="datePublished"> 发表于 2016-04-14</time>
     
   </p>
 </header>
@@ -102,49 +102,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初衷"><span class="toc-number">1.</span> <span class="toc-text">初衷</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建"><span class="toc-number">2.</span> <span class="toc-text">搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#完成"><span class="toc-number">3.</span> <span class="toc-text">完成</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS规范"><span class="toc-number">1.</span> <span class="toc-text">CommonJS规范</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h1><p>　　在学习中，发现对很多东西都是一知半解，知识结构比较混乱，虽然也有在笔记本上记录自己的学习过程，但终究达不到总结的作用。固搭建此博客，意在记录自身的学习过程，与志同道合之人聊聊技术，分享所学心得。</p>
-<p>　　以前有了解过用<code>wordpress</code>搭建博客，但最近从朋友中了解到用<code>github</code>也可以，于是心血来潮，建成此博客。</p>
-<p>　　此博客的搭建快速简单，容易上手（对于程序员来说），但其中也遇到一些坑爹问题。希望这篇博客对大家搭建自己的博客和解决遇到的问题会有所帮助。</p>
-<p>　　下面开始博客搭建之旅吧~~</p>
-<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><p>博客搭建的原理是用静态页面生成静态博客，使用github pages来搭建，不过github pages只有300M免费空间，所以尽量省着点用吧。但一般生成的html都不会很大，主要是图片占空间。为了节省空间，图片可以使用<a href="http://tuchuang.org/" target="_blank" rel="external">图床</a>保存然后接网址过来。。<br>　　<br>准备工作可以参考以下网址：</p>
-<ul>
-<li><a href="http://cnfeat.com/blog/2014/05/10/how-to-build-a-blog/" target="_blank" rel="external">http://cnfeat.com/blog/2014/05/10/how-to-build-a-blog/</a></li>
-</ul>
-<p>在上面的链接中，如果你没有购买域名，没有关系，可以直接跳到<code>安装准备软件</code>步骤。首先，你要准备好以下软件（注意安装路径不要有中文字符，安装位置随意）：</p>
-<ul>
-<li>Node.js</li>
-<li>Git</li>
-</ul>
-<p>然后按照教程注册一个github并且配置SSH keys。成功后，如果没有购买域名，忽略<code>将独立域名与 GitHub Pages 的空间绑定</code>这一步以及后面的步骤，因为其实没有什么用处。<br>接下来可以查看这个链接继续：</p>
-<ul>
-<li><a href="http://zipperary.com/2013/05/28/hexo-guide-2/" target="_blank" rel="external">http://zipperary.com/2013/05/28/hexo-guide-2/</a></li>
-</ul>
-<p>前面有些重复的步骤可以不用理，跳到<code>安装hexo</code>这里，用命令行安装，这步需要按照<a href="https://hexo.io/" target="_blank" rel="external">hexo官网</a>上的安装命令来安装，因为有可能更新了安装命令。后续步骤按照这篇博客进行安装即可。<br>（如果在<code>hexo init</code>这步在<code>git bash</code>中没有反应就在命令行中进入到文件夹位置再输入命令行）</p>
-<p>注意：到<code>部署</code>这一步时，根目录下_config.yml文件的最下面<code>deploy</code>的配置应该为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: http://hexo.io/docs/deployment.html</span></span><br><span class="line">deploy:</span><br><span class="line"><span class="built_in">type</span>: git</span><br><span class="line">repo: git@github.com:xurna/xurna.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure></p>
-<p>其中每个属性后面都要加一个空格！！！并且<code>type</code>的属性值为<code>git</code>，<code>repository</code>改为<code>repo</code>,<code>repo</code>的属性值为你刚刚在github所建的**.github.io仓库的SSH地址，复制下来即可。</p>
-<p>最后的<code>hexo deploy</code>命令需要在git bash中进行，在执行 <code>hexo deploy</code> 后,如果出现 <code>error deployer not found:github</code> 的错误,解决办法是输入命令<code>npm install hexo-deployer-git --save</code>，然后在部署，问题解决。</p>
-<blockquote>
-<p>tips<br>hexo现在支持更加简单的命令格式了，比如：</p>
-<ul>
-<li>hexo g == hexo generate</li>
-<li>hexo d == hexo deploy</li>
-<li>hexo s == hexo server</li>
-<li>hexo n == hexo new</li>
-</ul>
-</blockquote>
-<p>这样，博客就部署到网上了，试试在新的网页中打开你刚建立的<a href="">**.github.io</a>网址,如果页面正常显示，那就大功告成了，恭喜你拥有了属于你的个人博客。</p>
-<h1 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h1><p>　　进行到这步，你的搭建博客之旅算是到了尾声。但是，挑剔的人会觉得博客的主题并不好看，其实还有很多<code>hexo</code>主题的，我用的是<code>jacman</code>主题,在github中搜索“jacman”，找到“wuchong/jacman”就可以查看相关文档。<br>在git bash中在你的博客文件夹目录下输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/wuchong/jacman.git themes/jacman</span><br></pre></td></tr></table></figure></p>
-<p>就可以把主题克隆下来，然后修改配置文件_config.yml:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line">theme: jacman</span><br></pre></td></tr></table></figure></p>
-<p><code>theme</code>的属性值改为主题的名字<code>jacman</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language: zh-CN</span><br></pre></td></tr></table></figure>
-<p>如果一开始出现繁体字，可以加上语言设置，一般情况下最好设置一下,更多样式修改请查看配置文件。</p>
-<p>这样就可以使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"blog name"</span></span><br></pre></td></tr></table></figure></p>
-<p>开始建立自己的第一篇博客了，博客语法为<code>markdown</code>语法，这里不详细说了，可以查看文档<a href="http://www.markdown.cn/" target="_blank" rel="external">http://www.markdown.cn/</a>.</p>
-<p>建成了个人博客，是不是有点小激动和成就感？</p>
+		<h2 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a>CommonJS规范</h2><p>上两篇博客中提到的<code>AMD``CMD</code>都是浏览器端的模块开发方案，而<code>CommonJS</code>是服务器端模块的规范，<code>Node.js</code>采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
+<p>根据<code>CommonJS</code>规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为<code>global</code>对象的属性。</p>
+<p>输出模块变量的最好方法是使用<code>module.exports</code>对象。</p>
+<p>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象(之前所用的exports其实是module.exports的一个引用,<a href="https://github.com/seajs/seajs/issues/242" target="_blank" rel="external">详情</a>)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br><span class="line">var max = 30;</span><br><span class="line"></span><br><span class="line">module.exports = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  <span class="keyword">for</span> (i; i++ &lt; max; ) &#123;</span><br><span class="line">    console.log(i);</span><br><span class="line">  &#125;</span><br><span class="line">  max * = 1.1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面代码通过<code>module.exports</code>对象，定义了一个函数，该函数就是模块外部与内部通信的桥梁。<br>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象。</p>
+<p>为什么<code>CommonJS</code>适用于服务器端呢？需要分析一下浏览器端的js和服务器端js都主要做了哪些事，有什么不同了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------服务器端JS   |    浏览器端JS-------------------------------</span><br><span class="line"></span><br><span class="line">                      相同的代码需要多次执行  |    代码需要从一个服务器端分发到多个客户端执行</span><br><span class="line"></span><br><span class="line">                        CPU和内存资源是瓶颈   |    带宽是瓶颈</span><br><span class="line"></span><br><span class="line">                         加载时从磁盘中加载   |    加载时需要通过网络加载</span><br></pre></td></tr></table></figure>
+<p><code>CommonJS</code>加载模块是<code>同步</code>的，所以只有加载完成才能执行后面的操作。像<code>Node.js</code>主要用于服务器的编程，加载的模块文件一般都已经存在本地硬盘，所以加载起来比较快，不用考虑异步加载的方式，所以<code>CommonJS</code>规范比较适用。但如果是浏览器环境，要从服务器加载模块，这时就必须采用异步模式。所以就有了 <code>AMD</code>  <code>CMD</code> 解决方案。</p>
+<p>不过，<code>Node.js</code>还没有看咧，待我学好了再来深入了解这个规范吧~~</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -152,13 +123,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Blog/">Blog</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/blog/">blog</a><a href="/tags/hexo/">hexo</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
   </div>
 
 </div>
@@ -167,7 +138,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/03/24/blog1/" data-title="hexo快速建成博客 | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/04/14/module3/" data-title="模块化开发(三) | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -180,19 +151,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/03/28/waterfall/" title="瀑布流实现">
-  <strong>上一篇：</strong><br/>
-  <span>
-  瀑布流实现</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/03/24/hello-world/"  title="Hello World">
+<a href="/2016/04/14/module2/"  title="模块化开发(二)">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>模块化开发(二)
 </span>
 </a>
 </div>
@@ -207,7 +170,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初衷"><span class="toc-number">1.</span> <span class="toc-text">初衷</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建"><span class="toc-number">2.</span> <span class="toc-text">搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#完成"><span class="toc-number">3.</span> <span class="toc-text">完成</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS规范"><span class="toc-number">1.</span> <span class="toc-text">CommonJS规范</span></a></li></ol>
  
   </div>
 
