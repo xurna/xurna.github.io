@@ -81,6 +81,173 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/22/http/" title="http协议" itemprop="url">http协议</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-22T03:11:44.000Z" itemprop="datePublished"> 发表于 2016-04-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>面试前端的时候有时会提到网络方面的问题，趁热打铁，温习一下关于http相关知识。</p>
+<h2 id="认识http"><a href="#认识http" class="headerlink" title="认识http"></a>认识http</h2><p><code>http（超文本传输协议）</code>是一个基于<code>请求与响应模式</code>的、<code>无状态的</code>、<code>应用层</code>的协议，常基于<code>TCP</code>的连接方式。<br>http的特点：</p>
+<ol>
+<li>使用面向连接的<code>TCP作为运输层协</code>，保证数据可靠性。</li>
+<li><code>无连接</code>：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。</li>
+<li><code>无状态</code>：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<p>http协议通常承载与TCP协议之上，有时也承载于<code>TLS</code>或者<code>SSL</code>协议层之上，这个时候，就变成常见的<code>HTTPS</code>。默认http端口号是<code>80</code>，https的端口号是<code>443</code>.<br><img src="http://i2.buimg.com/3adbbc37b41db444.jpg" alt="http协议"></p>
+<h2 id="http版本"><a href="#http版本" class="headerlink" title="http版本"></a>http版本</h2><h3 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h3><p>http1.0是无连接方式，所以浏览器每次发送http请求，就会建立一条TCP连接，等待服务器端响应后，这条连接就会断开。等下次再有请求的时候，需要再建立一条TCP连接，这样导致每次有2倍RTT往返时间（TCP占一个RTT,HTTP请求与响应占一个RTT），增加了网络开销。</p>
+<p>好在浏览器都提供了嫩能够打开5-10个并行的TCP连接，而每一个连接处理客户的一个请求。因此，使用并行TCP连接可以缩短响应时间。</p>
+<h3 id="http1-1"><a href="#http1-1" class="headerlink" title="http1.1"></a>http1.1</h3><p>http1.1改进了http1.0的缺点，http1.1采用<code>持续连接</code>，即只要建立一个TCP连接，就可以在这条连接上进行复用。优点是可以减少重复进行TCP三次握手的开销，提高效率。<br>http1.1分为两类：</p>
+<ol>
+<li>非流水线方式：在同一个TCP连接中，新的请求需要等上次请求的响应后，才能发送。因此，在TCP连接建立以后，客户每访问一次对象就要用去一个往返时间RTT，这比非持续连接的两倍RTT的开销节省了建立TCP连接所需的一个RTT时间。</li>
+<li>流水线方式：在同一个TCP连接中，客户在收到http响应报文之前就能够接着发送新的请求报文。于是一个接一个的请求报文到达服务器后，服务器就可以连续发送响应报文。使用流水线方式时，客户访问所有的对象只需花费一个RTT的时间，使TCP连接中的空闲时间减少，提高下载文档的速度。</li>
+</ol>
+<h3 id="http2-0"><a href="#http2-0" class="headerlink" title="http2.0"></a>http2.0</h3><p>http2.0提出<code>服务器推</code>的概念，服务器可以对一个客户端的请求发送多个响应，除了最初的请求外，还会额外想客户端推送资源，而无需客户端明确请求，客户端还可以缓存资源。</p>
+<p>http2.0的请求都在一条TCP连接上，允许多个信息在一条连接上同时交叉，采用并行双向字节流的请求和响应，只使用一个连接，可以并行交错发送请求和响应。</p>
+<p>增加了首部压缩，即使非常小的请求，其请求与响应的header都只会占用很小比例的带宽。</p>
+<h2 id="http请求与响应报文格式"><a href="#http请求与响应报文格式" class="headerlink" title="http请求与响应报文格式"></a>http请求与响应报文格式</h2><p>http请求报文和响应报文都是由<code>开始行</code>，<code>首部行</code>，<code>实体主体</code>，而请求与响应报文的不同在于<code>开始行</code>不一样。</p>
+<h3 id="请求格式"><a href="#请求格式" class="headerlink" title="请求格式"></a>请求格式</h3><p>请求行 = <code>方法</code> + <code>请求资源的URL</code> + <code>http版本</code> + [回车换行CRLF]<br>例子如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /hello.htm HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">If-Modified-Since: Wed, 17 Oct 2016 02:15:55 GMT</span><br><span class="line">If-None-Match: W/<span class="string">"158-1192587355000"</span></span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)</span><br><span class="line">Host: 192.168.2.162:8080</span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<h3 id="响应格式"><a href="#响应格式" class="headerlink" title="响应格式"></a>响应格式</h3><p>状态行 = <code>http版本</code> + <code>状态码</code> + <code>解释状态码的简单短语</code> + [回车换行CRLF]<br>例子如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">ETag: W/<span class="string">"158-1192590101000"</span></span><br><span class="line">Last-Modified: Wed, 17 Oct 2016 03:01:41 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 158</span><br><span class="line">Date: Wed, 17 Oct 2016 03:01:59 GMT</span><br><span class="line">Server: Apache-Coyote/1.1</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　http网络这块对于理解前端优化，服务器端优化来说还是很有必要的，理解后很多东西就豁然开朗了，所以说基础知识还是要打牢，并且随着互联网的发展，新出的技术可以使以前一些繁琐的处理变得简单甚至变得没有必要。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/http/">http</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/15/dns-search/" title="DNS查找过程" itemprop="url">DNS查找过程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-15T01:36:46.000Z" itemprop="datePublished"> 发表于 2016-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>这几天看了一些关于网络方面的知识，总结一下<code>域名系统DNS(Domain Name System)</code>的查找过程。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>定义很容易理解：DNS就是用来把便于人们使用的机器名字转换成ip地址。</p>
+<p><code>域名结构</code>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">     mail.qq.com</span><br><span class="line">    /     |     \</span><br><span class="line">三级域名.二级域名.顶级域名</span><br></pre></td></tr></table></figure></p>
+<p><code>域名服务器</code>；</p>
+<ol>
+<li>根域名服务器：最高层次的域名服务器，也是最重要的域名服务器。所有的根域名服务器都知道所有的顶级域名服务器的域名和IP地址。不管是哪一个本地域名服务器，若要对因特网上任何一个域名进行解析，只要自己无法解析，就首先求助根域名服务器。在很多情况下，根域名服务器并不直接把待查询的域名直接解析出IP地址，而是告诉本地域名服务器下一步应当找哪一个顶级域名服务器进行查询。</li>
+<li>顶级域名服务器：负责管理在该顶级域名服务器注册的二级域名。</li>
+<li>权限域名服务器：负责一个“区”的域名服务器。</li>
+<li>本地域名服务器：当一个主机发出DNS查询请求时，这个查询请求报文就发送给本地域名服务器。</li>
+</ol>
+<p><code>DNS查询方式分类</code>：</p>
+<ol>
+<li>递归查询：主机所询问的本地域名服务器不知道被查询的域名ip地址，那么本地服务器就以DNS客户的身份，向其他的根域名服务器继续发出查询请求报文，不论成功与否，都会做出对应的响应。（发生在DNS客户端与DNS服务器之间）<br><img src="http://i4.buimg.com/87fdd686bd1af0bd.jpg" alt="递归查询"></li>
+<li>迭代查询：DNS服务器根据自己的高速缓存或区域的数据，以最佳结果响应。如果DNS服务器无法解析，它可能返回一个指针。指针指向下级域名的DNS服务器，继续该过程。知道找到拥有所查询名字的DNS服务器，或者出错，超时为止。（发生在DNS服务器之间）<br><img src="http://i4.buimg.com/ec9da5e10bde8744.jpg" alt="迭代查询"></li>
+</ol>
+<h2 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h2><p>假设主机想查询另一个主机的www.163.com的IP地址，则查询步骤如下：</p>
+<ol>
+<li>主机向本地DNS服务器进行递归查询，浏览器检查缓存中有没有这个域名对应的解析过的ip地址，如果缓存中有，则查询过程结束。</li>
+<li>否则本地服务器采用迭代查询。它先向一个根域名服务器查询，全球只有13台根域名服务器。</li>
+<li>根域名服务器告诉本地服务器，下一次应查询的顶级域名服务器dns.com的IP地址。</li>
+<li>本地域名服务器向顶级域名服务器dns.com进行查询。</li>
+<li>顶级域名服务器dns.com告诉本地域名服务器，下一步应查询的权限服务器dns.163.com的IP地址。</li>
+<li>本地域名服务器向权限域名服务器dns.163.com进行查询。</li>
+<li>权限域名服务器dns.163.com告诉本地域名服务器，所查询的主机的IP地址。</li>
+<li>本地域名服务器最后把查询结果告诉主机。<br>引用别人的一张图片：<br><img src="http://i4.buimg.com/0ebd847531d57f06.jpg" alt="DNS查询过程"></li>
+</ol>
+<p>整个查询过程共用到了8个UDP报文。<br>为了提高DNS查询效率，并减轻服务器的负荷和减少因特网上的DNS查询报文数量，在域名服务器中广泛使用了高速缓存，用来存放最近查询过的域名以及从何处获得域名映射信息的记录。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/DNS/">DNS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/11/module3/" title="模块化开发(三)" itemprop="url">模块化开发(三)</a>
   </h1>
   <p class="article-author">By
@@ -914,6 +1081,10 @@
 		  
 		
 		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/重构/" title="重构">重构<sup>1</sup></a></li>
 		  
 		
@@ -935,6 +1106,14 @@
 			
 		
 			
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
@@ -943,7 +1122,7 @@
 			
 		
 			
-				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
 			
 		
 			
@@ -951,7 +1130,11 @@
 			
 		
 			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 			
