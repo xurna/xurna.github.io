@@ -81,14 +81,100 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/22/http/" title="http协议" itemprop="url">http协议</a>
+      <a href="/2016/06/15/androidGet/" title="安卓问题解决方案" itemprop="url">安卓问题解决方案</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-22T03:11:44.000Z" itemprop="datePublished"> 发表于 2016-04-22</time>
+    <time datetime="2016-06-15T07:46:50.000Z" itemprop="datePublished"> 发表于 2016-06-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在赶安卓项目，做了一个日记app，原生安卓开发，刚入门安卓，各方面还不是很懂，但一个项目下来自己能学到很多，servlet，多线程，网络访问等等，其中也遇到不少问题，拿来与大家分享。</p>
+<h2 id="问题与解决方案"><a href="#问题与解决方案" class="headerlink" title="问题与解决方案"></a>问题与解决方案</h2><ol>
+<li><p>新建低版本的项目时马上出现appcompat_v7上有个红色的叉提示错误时，右键点击两个项目，（appcompat_v7和test）都要打开properties，然后取消下图3的打勾，打上4的勾<br><img src="http://i4.buimg.com/2cca03b57f472394.jpg" alt="图1"></p>
+</li>
+<li><p>在下图红色框中切换代码和调试模式<br><img src="http://i4.buimg.com/f18ddb5a57e66ce8.png"></p>
+</li>
+<li><p>如果想要使用Xutils框架的东西的话，需要进行初始化：把这个类作为安卓程序的接入点：<br><img src="http://i4.buimg.com/f18ddb5a57e66ce8.png"><br>并且需要在AndroidManifest.xml文件里面加上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;（这句表示允许网络连接）</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span> /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果从其他项目复制activity到另外一个项目，只要把另一个项目里的AndroidManifest.xml里面相关模块加上就能用了，例如：<br><img src="http://i4.buimg.com/f18ddb5a57e66ce8.png"></p>
+</li>
+<li><p>在服务器中建立文件夹的方式：<br>String folderPath =”images/“+user.getUserName();<br>String targetFile = request.getSession().getServletContext().getRealPath(“/“ + folderPath);<br>File dir = new File(targetFile);</p>
+</li>
+<li><p>安卓的TextView设置字符一定要为String类型，不然会出错，整型要转化String类型，例如：<br>String text_concern.setText(Integer.toString(concernN));</p>
+</li>
+<li><p>服务器出现如下问题：<br><img src="http://i4.buimg.com/f18ddb5a57e66ce8.png"><br>出现这个错误是因为在一个错误的包新建了servlet，然后又把这个servlet拖到其他的包里，这样就会导致web.xml里面的配置描述不匹配，然后服务器实例化servlet的时候就会导致错误。解决的办法就是把下面的那个包名描述改回来。（web.xml）<br><img src="http://i1.buimg.com/dfef586109eeef39.png"></p>
+</li>
+<li><p>关注列表点击闪退到登录界面，原因是忘记了传currentUser参数到日记正文，导致缺少参数出错，解决办法是在上一个页面跳转中加上需要传的参数，如：intent.putExtra(“currentuser”, currentuser);</p>
+</li>
+<li><p>使用ImageLoader 外部类，必须先初始化，不然会报错。初始化方法：<br>ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(Activity.this));</p>
+</li>
+<li><p>MyEclipse启动本地Tomcat出错：Cannot change deployment state from ERROR to REDEPLOYING.<br>解决办法：<br>右击“项目名” –&gt;myeclipse–&gt;add and remove project deployments,然后在Server选项卡里删除出错的项目，重新部署即可，但是此时tomcat7里面的数据会丢失，所以最好先保存一份数据。</p>
+</li>
+<li><p>返回键的简单应用：Activity.this.finish();</p>
+</li>
+</ol>
+<p>暂时写这么多吧，其实一些细节问题挺多的，但作为安卓入门来说却是一大收获。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/安卓/">安卓</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">android</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/30/http/" title="http协议" itemprop="url">http协议</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-30T03:11:44.000Z" itemprop="datePublished"> 发表于 2016-04-30</time>
     
   </p>
 </header>
@@ -134,7 +220,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/http/">http</a>
+  <span></span> <a href="/tags/http/">http</a><a href="/tags/网络/">网络</a>
   </div>
 
 </div>
@@ -991,74 +1077,10 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/24/hello-world/" title="Hello World" itemprop="url">Hello World</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-24T14:29:07.247Z" itemprop="datePublished"> 发表于 2016-03-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Blog/">Blog</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/blog/">blog</a><a href="/tags/hexo/">hexo</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
+  <nav id="page-nav" class="clearfix">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
 
 </div>
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
@@ -1078,6 +1100,10 @@
 		
 		  
 			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/安卓/" title="安卓">安卓<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1106,14 +1132,6 @@
 			
 		
 			
-				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
@@ -1122,7 +1140,19 @@
 			
 		
 			
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 			
@@ -1134,11 +1164,11 @@
 			
 		
 			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
 			
 		
 		</ul>
