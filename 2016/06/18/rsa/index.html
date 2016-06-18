@@ -4,36 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>安卓问题解决方案 | xurna</title>
+    <title>RSA算法 | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="前言最近在赶安卓项目，做了一个日记app，原生安卓开发，刚入门安卓，各方面还不是很懂，但一个项目下来自己能学到很多，servlet，多线程，网络访问等等，其中也遇到不少问题，拿来与大家分享。
-问题与解决方案
-新建低版本的项目时马上出现appcompat_v7上有个红色的叉提示错误时，右键点击两个项目，（appcompat_v7和test）都要打开properties，然后取消下图3的打勾，打上4的">
+    <meta name="description" content="RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。
+在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。
+密钥生成步骤假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。
+1.第一步，随机选择两个不相等的质数p和q。假设A选择了61和53。（实际应用中，这两个质数越">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安卓问题解决方案">
-<meta property="og:url" content="http://yoursite.com/2016/06/15/androidGet/index.html">
+<meta property="og:title" content="RSA算法">
+<meta property="og:url" content="http://yoursite.com/2016/06/18/rsa/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="前言最近在赶安卓项目，做了一个日记app，原生安卓开发，刚入门安卓，各方面还不是很懂，但一个项目下来自己能学到很多，servlet，多线程，网络访问等等，其中也遇到不少问题，拿来与大家分享。
-问题与解决方案
-新建低版本的项目时马上出现appcompat_v7上有个红色的叉提示错误时，右键点击两个项目，（appcompat_v7和test）都要打开properties，然后取消下图3的打勾，打上4的">
-<meta property="og:image" content="http://i4.buimg.com/2cca03b57f472394.jpg">
-<meta property="og:image" content="http://i4.buimg.com/f18ddb5a57e66ce8.png">
-<meta property="og:image" content="http://i1.buimg.com/06b083aafdc2a435.png">
-<meta property="og:image" content="http://i1.buimg.com/06b083aafdc2a435.png">
-<meta property="og:image" content="http://i1.buimg.com/eb0046c10fd54a16.png">
-<meta property="og:image" content="http://i1.buimg.com/dfef586109eeef39.png">
-<meta property="og:updated_time" content="2016-06-18T07:12:21.646Z">
+<meta property="og:description" content="RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。
+在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。
+密钥生成步骤假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。
+1.第一步，随机选择两个不相等的质数p和q。假设A选择了61和53。（实际应用中，这两个质数越">
+<meta property="og:updated_time" content="2016-06-18T13:24:04.296Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安卓问题解决方案">
-<meta name="twitter:description" content="前言最近在赶安卓项目，做了一个日记app，原生安卓开发，刚入门安卓，各方面还不是很懂，但一个项目下来自己能学到很多，servlet，多线程，网络访问等等，其中也遇到不少问题，拿来与大家分享。
-问题与解决方案
-新建低版本的项目时马上出现appcompat_v7上有个红色的叉提示错误时，右键点击两个项目，（appcompat_v7和test）都要打开properties，然后取消下图3的打勾，打上4的">
-<meta name="twitter:image" content="http://i4.buimg.com/2cca03b57f472394.jpg">
+<meta name="twitter:title" content="RSA算法">
+<meta name="twitter:description" content="RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。
+在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。
+密钥生成步骤假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。
+1.第一步，随机选择两个不相等的质数p和q。假设A选择了61和53。（实际应用中，这两个质数越">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -93,14 +89,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/15/androidGet/" title="安卓问题解决方案" itemprop="url">安卓问题解决方案</a>
+      <a href="/2016/06/18/rsa/" title="RSA算法" itemprop="url">RSA算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-06-15T07:46:50.000Z" itemprop="datePublished"> 发表于 2016-06-15</time>
+    <time datetime="2016-06-18T09:20:37.000Z" itemprop="datePublished"> 发表于 2016-06-18</time>
     
   </p>
 </header>
@@ -109,37 +105,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题与解决方案"><span class="toc-number">2.</span> <span class="toc-text">问题与解决方案</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥生成步骤"><span class="toc-number">1.</span> <span class="toc-text">密钥生成步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法可靠性"><span class="toc-number">2.</span> <span class="toc-text">算法可靠性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加密和解密"><span class="toc-number">3.</span> <span class="toc-text">加密和解密</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在赶安卓项目，做了一个日记app，原生安卓开发，刚入门安卓，各方面还不是很懂，但一个项目下来自己能学到很多，servlet，多线程，网络访问等等，其中也遇到不少问题，拿来与大家分享。</p>
-<h2 id="问题与解决方案"><a href="#问题与解决方案" class="headerlink" title="问题与解决方案"></a>问题与解决方案</h2><ol>
-<li><p>新建低版本的项目时马上出现appcompat_v7上有个红色的叉提示错误时，右键点击两个项目，（appcompat_v7和test）都要打开properties，然后取消下图3的打勾，打上4的勾<br><img src="http://i4.buimg.com/2cca03b57f472394.jpg" alt="图1"></p>
-</li>
-<li><p>在下图红色框中切换代码和调试模式<br><img src="http://i4.buimg.com/f18ddb5a57e66ce8.png"></p>
-</li>
-<li><p>如果想要使用Xutils框架的东西的话，需要进行初始化：把这个类作为安卓程序的接入点：<br><img src="http://i1.buimg.com/06b083aafdc2a435.png"><br>并且需要在AndroidManifest.xml文件里面加上</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;（这句表示允许网络连接）</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span> /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果从其他项目复制activity到另外一个项目，只要把另一个项目里的AndroidManifest.xml里面相关模块加上就能用了，例如：<br><img src="http://i1.buimg.com/06b083aafdc2a435.png"></p>
-</li>
-<li><p>在服务器中建立文件夹的方式：<br>String folderPath =”images/“+user.getUserName();<br>String targetFile = request.getSession().getServletContext().getRealPath(“/“ + folderPath);<br>File dir = new File(targetFile);</p>
-</li>
-<li><p>安卓的TextView设置字符一定要为String类型，不然会出错，整型要转化String类型，例如：<br>String text_concern.setText(Integer.toString(concernN));</p>
-</li>
-<li><p>服务器出现如下问题：<br><img src="http://i1.buimg.com/eb0046c10fd54a16.png"><br>出现这个错误是因为在一个错误的包新建了servlet，然后又把这个servlet拖到其他的包里，这样就会导致web.xml里面的配置描述不匹配，然后服务器实例化servlet的时候就会导致错误。解决的办法就是把下面的那个包名描述改回来。（web.xml）<br><img src="http://i1.buimg.com/dfef586109eeef39.png"></p>
-</li>
-<li><p>关注列表点击闪退到登录界面，原因是忘记了传currentUser参数到日记正文，导致缺少参数出错，解决办法是在上一个页面跳转中加上需要传的参数，如：intent.putExtra(“currentuser”, currentuser);</p>
-</li>
-<li><p>使用ImageLoader 外部类，必须先初始化，不然会报错。初始化方法：<br>ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(Activity.this));</p>
-</li>
-<li><p>MyEclipse启动本地Tomcat出错：Cannot change deployment state from ERROR to REDEPLOYING.<br>解决办法：<br>右击“项目名” –&gt;myeclipse–&gt;add and remove project deployments,然后在Server选项卡里删除出错的项目，重新部署即可，但是此时tomcat7里面的数据会丢失，所以最好先保存一份数据。</p>
-</li>
-<li><p>返回键的简单应用：Activity.this.finish();</p>
-</li>
-</ol>
-<p>暂时写这么多吧，其实一些细节问题挺多的，但作为安卓入门来说却是一大收获。</p>
+		<p>RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。</p>
+<p>在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。</p>
+<h2 id="密钥生成步骤"><a href="#密钥生成步骤" class="headerlink" title="密钥生成步骤"></a>密钥生成步骤</h2><p>假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。</p>
+<p>1.第一步，随机选择两个<code>不相等的质数p和q</code>。<br>假设A选择了61和53。（实际应用中，这两个质数越大，就越难破解。）</p>
+<p>2.第二步，计算p和q的<code>乘积n</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = 61×53 = 3233</span><br></pre></td></tr></table></figure></p>
+<p><code>n的长度就是密钥长度</code>。3233写成二进制是110010100001，一共有12位，所以这个密钥就是12位。实际应用中，RSA密钥一般是<code>1024</code>位，重要场合则为<code>2048</code>位。</p>
+<p>3.第三步，计算n的<code>欧拉函数φ(n)</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">φ(n) = (p-1)(q-1)</span><br></pre></td></tr></table></figure></p>
+<p>算出φ(3233)等于60×52，即3120。</p>
+<p>4.第四步，随机选择一个<code>整数e</code>，条件是<code>1&lt; e &lt; φ(n)</code>，且<code>e与φ(n) 互质</code>。<br>在1到3120之间，随机选择了17。（实际应用中，常常选择65537。）</p>
+<p>5.第五步，计算e对于φ(n)的<code>模反元素d</code>。<br>所谓”模反元素”就是指有一个整数d，可以使得ed被φ(n)除的余数为1。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    ed ≡ 1 (mod φ(n))</span><br><span class="line">即：</span><br><span class="line">    ed + 1 = φ(n)x</span><br><span class="line">已知 e=17, φ(n)=3120，</span><br><span class="line">所以：</span><br><span class="line">    17d +1 =3120x</span><br><span class="line">求出一组解为（d,x）=(2753,-15) ,即d = 2753</span><br></pre></td></tr></table></figure></p>
+<p>至此所有计算完成。</p>
+<p>6.第六步，将n和e封装成公钥，n和d封装成私钥。<br>n=3233，e=17，d=2753，所以公钥就是 <code>(3233,17)</code>，私钥就是<code>（3233, 2753）</code>。<br>实际应用中，公钥和私钥的数据都采用ASN.1格式表达（实例）。</p>
+<h2 id="算法可靠性"><a href="#算法可靠性" class="headerlink" title="算法可靠性"></a>算法可靠性</h2><p>密钥生成步骤中，（n，e）是公钥，是公开的，p,q,φ(n),d是不公开的，其中最关键的是d，因为n和d组成了私钥，一旦d泄漏，就等于私钥泄漏。</p>
+<blockquote>
+<p>那么，有无可能在已知n和e的情况下，推导出d？</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）ed≡1 (mod φ(n))。只有知道e和φ(n)，才能算出d。</span><br><span class="line">（2）φ(n)=(p-1)(q-1)。只有知道p和q，才能算出φ(n)。</span><br><span class="line">（3）n=pq。只有将n因数分解，才能算出p和q。</span><br></pre></td></tr></table></figure>
+<p>结论：如果n可以被因数分解，d就可以算出，也就意味着私钥被破解。<br>可是，大整数的因数分解，是一件非常困难的事情。目前，除了暴力破解，还没有发现别的有效方法。</p>
+<h2 id="加密和解密"><a href="#加密和解密" class="headerlink" title="加密和解密"></a>加密和解密</h2><p>（1）加密要用公钥 (n,e)<br>假设B要向A发送加密信息m，他就要用A的公钥 (n,e) 对m进行加密。这里需要注意，m必须是整数（字符串可以取ascii值或unicode值），且m必须小于n。<br>所谓”加密”，就是算出下式的c：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　c = ( m^e) mod n</span><br></pre></td></tr></table></figure></p>
+<p>A的公钥是 (3233, 17)，B的m假设是65，那么可以算出下面的等式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　c =( 65^17) mod 3233 =  2790</span><br></pre></td></tr></table></figure></p>
+<p>c = 2790,B把2790发给A</p>
+<p>（2）解密要用私钥(n,d)<br>A收到B发过来的2790后，就用自己的私钥（3233,2753）进行解密。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = (c^d) mod n</span><br><span class="line">即：</span><br><span class="line">m = (2790^2753) mod 3233 = 65</span><br></pre></td></tr></table></figure></p>
+<p>A知道了B加密前的原文就是65。</p>
+<p>至此，”加密–解密”的整个过程全部完成。<br>我们可以看到，如果不知道d，就没有办法从c求出m。而前面已经说过，要知道d就必须分解n，这是极难做到的，所以RSA算法保证了通信安全。<br>你可能会问，公钥(n,e) 只能加密小于n的整数m，那么如果要加密大于n的整数，该怎么办？有两种解决方法：一种是把长信息分割成若干段短消息，每段分别加密；另一种是先选择一种”对称性加密算法”（比如DES），用这种算法的密钥加密信息，再用RSA公钥加密DES密钥。</p>
+<p>参考文章：<br><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -147,13 +141,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/安卓/">安卓</a>
+  <a class="article-category-link" href="/categories/网络安全/">网络安全</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/android/">android</a>
+  <span></span> <a href="/tags/网安/">网安</a>
   </div>
 
 </div>
@@ -162,7 +156,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/06/15/androidGet/" data-title="安卓问题解决方案 | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/06/18/rsa/" data-title="RSA算法 | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -175,19 +169,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/06/18/shulun/" title="数论">
-  <strong>上一篇：</strong><br/>
-  <span>
-  数论</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/30/http/"  title="http协议">
+<a href="/2016/06/18/shulun/"  title="数论">
  <strong>下一篇：</strong><br/> 
- <span>http协议
+ <span>数论
 </span>
 </a>
 </div>
@@ -202,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题与解决方案"><span class="toc-number">2.</span> <span class="toc-text">问题与解决方案</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥生成步骤"><span class="toc-number">1.</span> <span class="toc-text">密钥生成步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法可靠性"><span class="toc-number">2.</span> <span class="toc-text">算法可靠性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加密和解密"><span class="toc-number">3.</span> <span class="toc-text">加密和解密</span></a></li></ol>
  
   </div>
 
