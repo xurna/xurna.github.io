@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | xurna</title>
+    <title>cookie和Session | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="cookiecookie定义用户访问网络，服务器给当前客户机上创建的一个临时文件用来保存用户信息，以便用户下次继续访问该网络时，网站服务器能识别用户身份，常见cookie用来保存用户界面，用户id等资源。
+cookie的使用1.创建cookie：当前页面设置cookie不是立即生效，等下一个页面才能看到。123456setcookie(&apos;name&apos;,&apos;mary&apos;,time()+24*60*60)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/03/24/hello-world/index.html">
+<meta property="og:title" content="cookie和Session">
+<meta property="og:url" content="http://yoursite.com/2016/06/23/cookieAndSession/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-03-25T08:19:04.995Z">
+<meta property="og:description" content="cookiecookie定义用户访问网络，服务器给当前客户机上创建的一个临时文件用来保存用户信息，以便用户下次继续访问该网络时，网站服务器能识别用户身份，常见cookie用来保存用户界面，用户id等资源。
+cookie的使用1.创建cookie：当前页面设置cookie不是立即生效，等下一个页面才能看到。123456setcookie(&apos;name&apos;,&apos;mary&apos;,time()+24*60*60)">
+<meta property="og:updated_time" content="2016-06-23T03:49:39.108Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="cookie和Session">
+<meta name="twitter:description" content="cookiecookie定义用户访问网络，服务器给当前客户机上创建的一个临时文件用来保存用户信息，以便用户下次继续访问该网络时，网站服务器能识别用户身份，常见cookie用来保存用户界面，用户id等资源。
+cookie的使用1.创建cookie：当前页面设置cookie不是立即生效，等下一个页面才能看到。123456setcookie(&apos;name&apos;,&apos;mary&apos;,time()+24*60*60)">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -83,14 +83,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/24/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2016/06/23/cookieAndSession/" title="cookie和Session" itemprop="url">cookie和Session</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-24T14:29:07.247Z" itemprop="datePublished"> 发表于 2016-03-24</time>
+    <time datetime="2016-06-23T02:45:36.000Z" itemprop="datePublished"> 发表于 2016-06-23</time>
     
   </p>
 </header>
@@ -99,19 +99,20 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-number">1.</span> <span class="toc-text">cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie定义"><span class="toc-number">1.1.</span> <span class="toc-text">cookie定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie的使用"><span class="toc-number">1.2.</span> <span class="toc-text">cookie的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session"><span class="toc-number">2.</span> <span class="toc-text">session</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#session定义"><span class="toc-number">2.1.</span> <span class="toc-text">session定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session的使用"><span class="toc-number">2.2.</span> <span class="toc-text">session的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie与session之间的联系"><span class="toc-number">3.</span> <span class="toc-text">cookie与session之间的联系</span></a></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><h3 id="cookie定义"><a href="#cookie定义" class="headerlink" title="cookie定义"></a>cookie定义</h3><p>用户访问网络，服务器给当前客户机上创建的一个临时文件用来保存用户信息，以便用户下次继续访问该网络时，网站服务器能识别用户身份，常见cookie用来保存用户界面，用户id等资源。</p>
+<h3 id="cookie的使用"><a href="#cookie的使用" class="headerlink" title="cookie的使用"></a>cookie的使用</h3><p>1.创建cookie：当前页面设置cookie不是立即生效，等下一个页面才能看到。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">setcookie(<span class="string">'name'</span>,<span class="string">'mary'</span>,time()+24*60*60) //一天</span><br><span class="line">          cookie名称  cookie值  有效时间</span><br><span class="line">应用：</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_POST</span>[<span class="string">'name'</span>]&amp;&amp;<span class="variable">$_POST</span>[<span class="string">'password'</span>])&#123;</span><br><span class="line">    setcookie(<span class="string">'name'</span>,<span class="string">'mary'</span>,time()+24*60*60);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>设置有效时间，cookie会保存在硬盘里，不设置，则保存在内存里，用户关掉页面就消失了。<br>cookie是http协议头的一部分，用于浏览器和服务器之间传递信息，cookie是通过http报头发送的。</p>
+<p>2.接受cookie<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isset(<span class="variable">$_COOKIE</span>(<span class="string">'name'</span>)))&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$_COOKIE</span>(<span class="string">'name'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.删除cookie<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setcookie(<span class="string">'name'</span>,<span class="string">''</span>,time()-1);</span><br></pre></td></tr></table></figure></p>
+<p>如何利用实现自动登录：<br>当用户在某个网站注册后，就会收到一个<code>惟一用户ID</code>的cookie。客户后来重新连接时，这个用户ID会自动返回，服务器对它进行检查，确定它是否为注册用户且选择了自动登录，从而使用户务需给出明确的用户名和密码，就可以访问服务器上的资源。</p>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><h3 id="session定义"><a href="#session定义" class="headerlink" title="session定义"></a>session定义</h3><p>服务器机制，使用类似散列表的结构来保存信息，php会给每一个访问用户创建一个session id，该id<code>唯一</code>，它的存放有三种方式:<br>· url传递：安全性差<br>· 保存在客户端的cookie中：php会话机制通过设置cookie，在cookie中保存会话id（session id），在服务器会生成session文件，与用户关联。<br>· 保存在数据库中：安全，但是效率下降。</p>
+<h3 id="session的使用"><a href="#session的使用" class="headerlink" title="session的使用"></a>session的使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">启动session：</span><br><span class="line">    session_start() //必须放在文件最前面</span><br><span class="line"></span><br><span class="line">创建session：</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">'name'</span>] = <span class="string">"hello"</span>;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">'arr'</span>] = array(<span class="string">"name"</span>=&gt;<span class="string">"hello"</span>,<span class="string">"type"</span>=&gt;<span class="string">"web"</span>);</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$_SESSION</span>[<span class="string">'name'</span>];</span><br><span class="line"></span><br><span class="line">删除session：</span><br><span class="line">    <span class="built_in">unset</span>(<span class="variable">$_SESSION</span>[<span class="string">'name'</span>]);</span><br><span class="line"></span><br><span class="line">清空用户所有的session信息：</span><br><span class="line">    session_destroy();</span><br></pre></td></tr></table></figure>
+<p>当程序为某个用户创建一个session，服务器首先检查客户端请求是够包含session标识（session id），若有，则服务器按照session id把session检索出来使用；若无，则服务器创建一个session并且生成一个与此相关联的session id，这个session id将在本次响应中返回给客户端保存。</p>
+<h2 id="cookie与session之间的联系"><a href="#cookie与session之间的联系" class="headerlink" title="cookie与session之间的联系"></a>cookie与session之间的联系</h2><p>具体来说cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案。同时我们也看到，由于才服务器端保持状态的方案在客户端也需要保存一个标识，所以session机制可能需要借助于cookie机制来达到保存标识的目的，但实际上还有其他选择.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -119,13 +120,13 @@ Quick">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Blog/">Blog</a>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/blog/">blog</a><a href="/tags/hexo/">hexo</a>
+  <span></span> <a href="/tags/web存储/">web存储</a>
   </div>
 
 </div>
@@ -134,7 +135,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/03/24/hello-world/" data-title="Hello World | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/06/23/cookieAndSession/" data-title="cookie和Session | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,14 +148,14 @@ Quick">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/03/24/blog1/" title="hexo快速建成博客">
-  <strong>上一篇：</strong><br/>
-  <span>
-  hexo快速建成博客</span>
+
+<div class="next">
+<a href="/2016/06/18/rsa/"  title="RSA算法">
+ <strong>下一篇：</strong><br/> 
+ <span>RSA算法
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -166,7 +167,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-number">1.</span> <span class="toc-text">cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie定义"><span class="toc-number">1.1.</span> <span class="toc-text">cookie定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie的使用"><span class="toc-number">1.2.</span> <span class="toc-text">cookie的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session"><span class="toc-number">2.</span> <span class="toc-text">session</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#session定义"><span class="toc-number">2.1.</span> <span class="toc-text">session定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session的使用"><span class="toc-number">2.2.</span> <span class="toc-text">session的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie与session之间的联系"><span class="toc-number">3.</span> <span class="toc-text">cookie与session之间的联系</span></a></li></ol>
  
   </div>
 
