@@ -4,29 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>模块化开发(三) | xurna</title>
+    <title>fiddler调试 | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
-根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
-输出模块变量的最好方法是使用">
+    <meta name="description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
+为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
+调试过程手机调试
+首先">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模块化开发(三)">
-<meta property="og:url" content="http://yoursite.com/2016/04/11/module3/index.html">
+<meta property="og:title" content="fiddler调试">
+<meta property="og:url" content="http://yoursite.com/2016/07/12/fiddler/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
-根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
-输出模块变量的最好方法是使用">
-<meta property="og:updated_time" content="2016-04-14T14:14:53.721Z">
+<meta property="og:description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
+为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
+调试过程手机调试
+首先">
+<meta property="og:updated_time" content="2016-07-12T14:57:58.512Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模块化开发(三)">
-<meta name="twitter:description" content="CommonJS规范上两篇博客中提到的AMD``CMD都是浏览器端的模块开发方案，而CommonJS是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。
-根据CommonJS规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为global对象的属性。
-输出模块变量的最好方法是使用">
+<meta name="twitter:title" content="fiddler调试">
+<meta name="twitter:description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
+为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
+调试过程手机调试
+首先">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -86,14 +89,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/11/module3/" title="模块化开发(三)" itemprop="url">模块化开发(三)</a>
+      <a href="/2016/07/12/fiddler/" title="fiddler调试" itemprop="url">fiddler调试</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-11T13:22:41.000Z" itemprop="datePublished"> 发表于 2016-04-11</time>
+    <time datetime="2016-07-12T13:57:47.000Z" itemprop="datePublished"> 发表于 2016-07-12</time>
     
   </p>
 </header>
@@ -102,20 +105,22 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS规范"><span class="toc-number">1.</span> <span class="toc-text">CommonJS规范</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用fiddler调试"><span class="toc-number">1.</span> <span class="toc-text">利用fiddler调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试过程"><span class="toc-number">2.</span> <span class="toc-text">调试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手机调试"><span class="toc-number">2.1.</span> <span class="toc-text">手机调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pc端调试"><span class="toc-number">2.2.</span> <span class="toc-text">pc端调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">3.</span> <span class="toc-text">抓包</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a>CommonJS规范</h2><p>上两篇博客中提到的<code>AMD``CMD</code>都是浏览器端的模块开发方案，而<code>CommonJS</code>是服务器端模块的规范，<code>Node.js</code>采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
-<p>根据<code>CommonJS</code>规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为<code>global</code>对象的属性。</p>
-<p>输出模块变量的最好方法是使用<code>module.exports</code>对象。</p>
-<p>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象(之前所用的exports其实是module.exports的一个引用,<a href="https://github.com/seajs/seajs/issues/242" target="_blank" rel="external">详情</a>)。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br><span class="line">var max = 30;</span><br><span class="line"></span><br><span class="line">module.exports = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  <span class="keyword">for</span> (i; i++ &lt; max; ) &#123;</span><br><span class="line">    console.log(i);</span><br><span class="line">  &#125;</span><br><span class="line">  max * = 1.1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面代码通过<code>module.exports</code>对象，定义了一个函数，该函数就是模块外部与内部通信的桥梁。<br>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象。</p>
-<p>为什么<code>CommonJS</code>适用于服务器端呢？需要分析一下浏览器端的js和服务器端js都主要做了哪些事，有什么不同了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------服务器端JS   |    浏览器端JS-------------------------------</span><br><span class="line"></span><br><span class="line">                      相同的代码需要多次执行  |    代码需要从一个服务器端分发到多个客户端执行</span><br><span class="line"></span><br><span class="line">                        CPU和内存资源是瓶颈   |    带宽是瓶颈</span><br><span class="line"></span><br><span class="line">                         加载时从磁盘中加载   |    加载时需要通过网络加载</span><br></pre></td></tr></table></figure>
-<p><code>CommonJS</code>加载模块是<code>同步</code>的，所以只有加载完成才能执行后面的操作。像<code>Node.js</code>主要用于服务器的编程，加载的模块文件一般都已经存在本地硬盘，所以加载起来比较快，不用考虑异步加载的方式，所以<code>CommonJS</code>规范比较适用。但如果是浏览器环境，要从服务器加载模块，这时就必须采用异步模式。所以就有了 <code>AMD</code>  <code>CMD</code> 解决方案。</p>
-<p>不过，<code>Node.js</code>还没有看咧，待我学好了再来深入了解这个规范吧~~</p>
+		<h2 id="利用fiddler调试"><a href="#利用fiddler调试" class="headerlink" title="利用fiddler调试"></a>利用fiddler调试</h2><p>其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。</p>
+<p>为什么需要用到fiddler来调试，它主要是为了调试手机或者页面<code>存在缓存</code>或者需要在线下<code>修复bug</code>而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。</p>
+<h2 id="调试过程"><a href="#调试过程" class="headerlink" title="调试过程"></a>调试过程</h2><h3 id="手机调试"><a href="#手机调试" class="headerlink" title="手机调试"></a>手机调试</h3><ol>
+<li><p>首先设置一下fiddler，打开tool-&gt;fidder options-&gt;connection,按照下图配置：</p>
+</li>
+<li><p>然后在手机端设置一下http代理，找到与电脑服务器连接同一wifi的ip地址，可在cmd中ipconfig中找到wifi的ip，电脑与手机需要在同一网段中才能成功。<br>手机的配置如下图，输入<code>服务器</code>和<code>端口</code>：</p>
+</li>
+<li><p>成功后在fiddler页面的左边可以看到所在进行的网络访问记录，找到你需要调试的页面，在<code>autoRespondor</code>中<code>add rules</code>,可以看到再下面出现你所选的页面，在下一个文本框中选择<code>find a file</code>，找到本地你需要进行调试的文件，然后点击<code>save</code>,如下图，最后就可以进行本地文件的修改，可以直接看到线上的效果，但是，这只是调试，最后文件调试好后还要上传你所更改过的文件。</p>
+</li>
+</ol>
+<h3 id="pc端调试"><a href="#pc端调试" class="headerlink" title="pc端调试"></a>pc端调试</h3><p>pc端的调试不用配置手机调试中的第一步与第二部，只要完成上面的第三步即可。</p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>fiddler除了可以调试网页外，还可以进行抓包，查看http的头部信息等，这里没怎么用到我就不说了，点到为止。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -123,13 +128,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/开发工具使用/">开发工具使用</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
+  <span></span> <a href="/tags/fiddler调试/">fiddler调试</a>
   </div>
 
 </div>
@@ -138,7 +143,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/04/11/module3/" data-title="模块化开发(三) | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/07/12/fiddler/" data-title="fiddler调试 | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,19 +156,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/15/dns-search/" title="DNS查找过程">
-  <strong>上一篇：</strong><br/>
-  <span>
-  DNS查找过程</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/11/module2/"  title="模块化开发(二)">
+<a href="/2016/06/23/cookieAndSession/"  title="cookie和Session">
  <strong>下一篇：</strong><br/> 
- <span>模块化开发(二)
+ <span>cookie和Session
 </span>
 </a>
 </div>
@@ -178,7 +175,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS规范"><span class="toc-number">1.</span> <span class="toc-text">CommonJS规范</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用fiddler调试"><span class="toc-number">1.</span> <span class="toc-text">利用fiddler调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试过程"><span class="toc-number">2.</span> <span class="toc-text">调试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手机调试"><span class="toc-number">2.1.</span> <span class="toc-text">手机调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pc端调试"><span class="toc-number">2.2.</span> <span class="toc-text">pc端调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">3.</span> <span class="toc-text">抓包</span></a></li></ol>
  
   </div>
 

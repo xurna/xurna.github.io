@@ -81,6 +81,159 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/08/mobileAdapter/" title="移动端适配" itemprop="url">移动端适配</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-08T07:17:24.000Z" itemprop="datePublished"> 发表于 2016-04-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>　　对于移动端重构，又是一大令人头疼的问题，每次开始一个项目前，我都要认真思考一番使用何种布局方式会比较好，使用什么库比较好，使用的库会不会产生不兼容等种种问题。为了以后的我做项目前可以少一点纠结，我决定总结一下关于移动端如何进行适配的问题。<br>　　相关代码示例已经上传到<a href="https://github.com/xurna/mobileAdapter" target="_blank" rel="external">Github</a>。
+　　</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ol>
+<li>开发移动端H5页面</li>
+<li>面对不同分辨率的手机</li>
+<li>面对不同屏幕尺寸的手机</li>
+</ol>
+<h2 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h2><ul>
+<li><p>三个需要了解的概念:</p>
+<ul>
+<li>PPI: 可以理解为屏幕的显示密度</li>
+<li>DPR: 设备物理像素和逻辑像素的对应关系，即物理像素/逻辑像素</li>
+<li>Resolution: 就是我们常说的分辨率</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>物理像素与逻辑像素<br><img src="http://i2.piimg.com/d3c33d5b9f920306.jpg" alt="mobile"><br>  看了我们上面内容一的第一点之后，或许有些人会有些疑问，我的安卓手机，或者iphone6plus(目前应该仅限于这一款机型吧)，买回来的是1920x1080的或者其他更高的，比我之前所谓的那个viewport默认的980px要大。</p>
+<p>  这样的问题，也就是我之前所说的物理像素与逻辑像素的关系了（即DPR）。以1920x1080为例，1080为物理像素，而我们在viewport中，获取到的，比如”width-device”，是逻辑像素。所以之前viewport的默认值，所比对的大小，其实是逻辑像素的大小，而非物理像素的大小。</p>
+<p>  以iphone6为例，在不做任何缩放的条件下，iphone6的获取到的’width-device’为375px,为屏幕的逻辑像素。而购买时我们所知的750px，则为屏幕的物理像素。</p>
+</li>
+<li><p>分辨率和像素<br>经新xcode6模拟器验证（分辨率为pt，像素为真实pixel）：</p>
+</li>
+</ul>
+<p>　　1. iPhone5分辨率320×568，像素640×1136，@2x<br>　　2. iPhone6分辨率375×667，像素750×1334，@2x<br>　　3. iPhone6 Plus分辨率414×736，像素1242×2208，@3x，（注意，在这个分辨率下渲染后，图像等比降低pixel分辨率至1080p(1080×1920)）<br><img src="http://i2.piimg.com/c76e348ab0e40500.jpg" alt="Resolution"></p>
+<ul>
+<li><p>设备像素比DPR(device pixel ratio)<br>  在javascript中，可以通过<code>window.devicePixelRatio</code>获取到当前设备的dpr。</p>
+<p>  在css中，可以通过<code>-webkit-device-pixel-ratio</code>，<code>-webkit-min-device-pixel-ratio</code>和 <code>-webkit-max-device-pixel-ratio</code>进行媒体查询，对不同dpr的设备，做一些样式适配(这里只针对webkit内核的浏览器和webview)。</p>
+</li>
+<li><p>CSS的问题<br>  有了上面第二点的一些基础，还是以iphone6为例，我们可以知道，其实我们所写的1px，在iphone6上为2px的物理像素。所以，最后的，给出一个结论。就是我们写的1px，在移动端，是逻辑像素的1px，而非物理像素的1px。</p>
+<p>  所以说，在iPhone6下，如果设计稿为<code>750×1334</code>,而设备宽高为<code>375×667</code>，由于它的DPR为2，所以说切下来的图不会失真；但是如果把这张图放到非retina 屏幕（即普通屏幕DPR为1）下，<br>  图片就相当于被压缩了，就出现一个物理像素点对应4个位图像素点，所以它的取色也只能通过一定的算法(显示结果就是一张只有原图像素总数四分之一，我们称这个过程叫做<code>downsampling</code>)，肉眼看上去虽然图片不会模糊，但是会觉得图片缺少一些锐利度，或者是有点色差(但还是可以接受的)。</p>
+<p>  反过来，如果在普通屏幕下切的图设计稿为<code>375×667</code>，放到retina手机上显示，图片就相当于拉伸了，即一个位图像素点要显示4个物理像素点，图片就会模糊。</p>
+<p>  所以说，在retina屏幕下，设计稿的位图像素点个数可以跟物理像素点个数形成 1 : 1的比例，图片自然就清晰了(这也解释了为啥dpr为2的视觉稿的画布大小要×2)。</p>
+</li>
+</ul>
+<h2 id="几个问题"><a href="#几个问题" class="headerlink" title="几个问题"></a>几个问题</h2><h3 id="retina下，图片高清问题"><a href="#retina下，图片高清问题" class="headerlink" title="retina下，图片高清问题"></a>retina下，图片高清问题</h3><p>解决方案：两倍图片(@2x)，然后图片容器缩小50%。</p>
+<p>如：图片大小，400×600;</p>
+<p>1.img标签<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">width: 200px;</span><br><span class="line">height: 300px;</span><br></pre></td></tr></table></figure></p>
+<p>2.背景图片<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">width: 200px;</span><br><span class="line">height: 300px;</span><br><span class="line">background-image: url(image@2x.jpg);</span><br><span class="line">background-size: 200px 300px; // 或者: background-size: contain;</span><br></pre></td></tr></table></figure></p>
+<p>这样的缺点，很明显，普通屏幕下：</p>
+<ol>
+<li>同样下载了@2x的图片，造成资源浪费。</li>
+<li>图片由于<code>downsampling</code>，会失去了一些锐利度(或是色差)。<br>所以最好的解决办法是：不同的dpr下，加载不同的尺寸的图片。</li>
+</ol>
+<p>不管是通过css媒体查询，还是通过javascript条件判断都是可以的。</p>
+<h3 id="retina下，border-1px问题"><a href="#retina下，border-1px问题" class="headerlink" title="retina下，border: 1px问题"></a>retina下，border: 1px问题</h3><p>设计师想要的retina下border: 1px;，其实就是1物理像素宽，对于css而言，可以认为是border: 0.5px;，这是retina下(dpr=2)下能显示的最小单位。<br>然而，无奈并不是所有手机浏览器都能识别<code>border: 0.5px</code>;，ios7以下，android等其他系统里，0.5px会被当成为0px处理，那么如何实现这0.5px呢？</p>
+<p>最简单的一个做法就是这样(<code>元素scale</code>)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.scale&#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.scale:after&#123;</span><br><span class="line">    content:<span class="string">""</span>;</span><br><span class="line">    position: absolute;</span><br><span class="line">    bottom:0px;</span><br><span class="line">    left:0px;</span><br><span class="line">    right:0px;</span><br><span class="line">    border-bottom:1px solid <span class="comment">#ddd;</span></span><br><span class="line">    -webkit-transform:scaleY(.5);</span><br><span class="line">    -webkit-transform-origin:0 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们照常写<code>border-bottom: 1px solid #ddd</code>;，然后通过<code>transform: scaleY(.5)</code>缩小0.5倍来达到<code>0.5px</code>的效果，但是这样hack实在是不够通用(如：圆角等)，写起来也麻烦。</p>
+<h3 id="多屏适配布局问题"><a href="#多屏适配布局问题" class="headerlink" title="多屏适配布局问题"></a>多屏适配布局问题</h3><p>移动端布局，为了适配各种大屏手机，目前最好用的方案莫过于使用相对单位<code>rem</code>。</p>
+<p>基于rem的原理，我们要做的就是: 针对不同<code>手机屏幕尺寸</code>和<code>dpr</code>动态的改变根节点html的<code>font-size</code>大小(基准值)。</p>
+<p>这里我们提取了一个公式(rem表示基准值)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rem = document.documentElement.clientWidth * dpr / 10</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ol>
+<li>乘以dpr，是因为页面有可能为了实现1px border页面会缩放(scale) 1/dpr 倍(如果没有，dpr=1),。</li>
+<li>除以10，是为了取整，方便计算(理论上可以是任何值)<br>所以就像下面这样，html的font-size可能会：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iphone3gs: 320px / 10 = 32px</span><br><span class="line"></span><br><span class="line">iphone4/5: 320px * 2 / 10 = 64px</span><br><span class="line"></span><br><span class="line">iphone6: 375px * 2 / 10 = 75px</span><br></pre></td></tr></table></figure>
+<p>对于动态改变根节点html的font-size，我们可以通过css做，也可以通过javascript做。<br><code>css方式</code>，可以通过设备宽度来媒体查询来改变html的font-size：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">html&#123;font-size:32;&#125;</span><br><span class="line">//iphone6</span><br><span class="line">@media (min-device-width:375)&#123;</span><br><span class="line">    html&#123;font-size:75px;&#125;</span><br><span class="line">&#125;</span><br><span class="line">//iphone6 plus</span><br><span class="line">@media (min-device-width:414px)&#123;</span><br><span class="line">    html&#123;font-size:82.8px;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>缺点：通过设备宽度<code>范围区间</code>这样的媒体查询来动态改变rem基准值，其实不够精确，比如：宽度为360px 和 宽度为320px的手机，因为屏宽在同一范围区间内(&lt;375px)，所以会被同等对待(rem基准值相同)，而事实上他们的屏幕宽度并不相等，它们的布局也应该有所不同。最终，结论就是：这样的做法，没有做到足够的精确，但是够用。</p>
+</blockquote>
+<p><code>javascript方式</code>，通过上面的公式，计算出基准值rem，然后写入样式，大概如下(代码参考自<a href="https://github.com/amfe/lib-flexible/blob/master/src/flexible.js" target="_blank" rel="external">flexible.js</a>)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">;(<span class="keyword">function</span>(win, lib) &#123;</span><br><span class="line">    var doc = win.document;</span><br><span class="line">    var docEl = doc.documentElement;</span><br><span class="line">    var metaEl = doc.querySelector(<span class="string">'meta[name="viewport"]'</span>);</span><br><span class="line">    var flexibleEl = doc.querySelector(<span class="string">'meta[name="flexible"]'</span>);</span><br><span class="line">    var dpr = 0;</span><br><span class="line">    var scale = 0;</span><br><span class="line">    var tid;</span><br><span class="line">    var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (metaEl) &#123;</span><br><span class="line">        console.warn(<span class="string">'将根据已有的meta标签来设置缩放比例'</span>);</span><br><span class="line">        var match = metaEl.getAttribute(<span class="string">'content'</span>).match(/initial\-scale=([\d\.]+)/);</span><br><span class="line">        <span class="keyword">if</span> (match) &#123;</span><br><span class="line">            scale = parseFloat(match[1]);</span><br><span class="line">            dpr = parseInt(1 / scale);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (flexibleEl) &#123;</span><br><span class="line">        var content = flexibleEl.getAttribute(<span class="string">'content'</span>);</span><br><span class="line">        <span class="keyword">if</span> (content) &#123;</span><br><span class="line">            var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);</span><br><span class="line">            var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);</span><br><span class="line">            <span class="keyword">if</span> (initialDpr) &#123;</span><br><span class="line">                dpr = parseFloat(initialDpr[1]);</span><br><span class="line">                scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (maximumDpr) &#123;</span><br><span class="line">                dpr = parseFloat(maximumDpr[1]);</span><br><span class="line">                scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!dpr &amp;&amp; !scale) &#123;</span><br><span class="line">        var isAndroid = win.navigator.appVersion.match(/android/gi);</span><br><span class="line">        var isIPhone = win.navigator.appVersion.match(/iphone/gi);</span><br><span class="line">        var devicePixelRatio = win.devicePixelRatio;</span><br><span class="line">        <span class="keyword">if</span> (isIPhone) &#123;</span><br><span class="line">            // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</span><br><span class="line">            <span class="keyword">if</span> (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;</span><br><span class="line">                dpr = 3;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2))&#123;</span><br><span class="line">                dpr = 2;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                dpr = 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            // 其他设备下，仍旧使用1倍的方案</span><br><span class="line">            dpr = 1;</span><br><span class="line">        &#125;</span><br><span class="line">        scale = 1 / dpr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    docEl.setAttribute(<span class="string">'data-dpr'</span>, dpr);</span><br><span class="line">    <span class="keyword">if</span> (!metaEl) &#123;</span><br><span class="line">        metaEl = doc.createElement(<span class="string">'meta'</span>);</span><br><span class="line">        metaEl.setAttribute(<span class="string">'name'</span>, <span class="string">'viewport'</span>);</span><br><span class="line">        metaEl.setAttribute(<span class="string">'content'</span>, <span class="string">'initial-scale='</span> + scale + <span class="string">', maximum-scale='</span> + scale + <span class="string">', minimum-scale='</span> + scale + <span class="string">', user-scalable=no'</span>);</span><br><span class="line">        <span class="keyword">if</span> (docEl.firstElementChild) &#123;</span><br><span class="line">            docEl.firstElementChild.appendChild(metaEl);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            var wrap = doc.createElement(<span class="string">'div'</span>);</span><br><span class="line">            wrap.appendChild(metaEl);</span><br><span class="line">            doc.write(wrap.innerHTML);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">refreshRem</span></span>()&#123;</span><br><span class="line">        var width = docEl.getBoundingClientRect().width;</span><br><span class="line">        <span class="keyword">if</span> (width / dpr &gt; 540) &#123;</span><br><span class="line">            width = 540 * dpr;</span><br><span class="line">        &#125;</span><br><span class="line">        var rem = width / 10;</span><br><span class="line">        docEl.style.fontSize = rem + <span class="string">'px'</span>;</span><br><span class="line">        flexible.rem = win.rem = rem;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    win.addEventListener(<span class="string">'resize'</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        clearTimeout(tid);</span><br><span class="line">        tid = <span class="built_in">set</span>Timeout(refreshRem, 300);</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">    win.addEventListener(<span class="string">'pageshow'</span>, <span class="keyword">function</span>(e) &#123;</span><br><span class="line">        <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">            clearTimeout(tid);</span><br><span class="line">            tid = <span class="built_in">set</span>Timeout(refreshRem, 300);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (doc.readyState === <span class="string">'complete'</span>) &#123;</span><br><span class="line">        doc.body.style.fontSize = 12 * dpr + <span class="string">'px'</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        doc.addEventListener(<span class="string">'DOMContentLoaded'</span>, <span class="keyword">function</span>(e) &#123;</span><br><span class="line">            doc.body.style.fontSize = 12 * dpr + <span class="string">'px'</span>;</span><br><span class="line">        &#125;, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    refreshRem();</span><br><span class="line"></span><br><span class="line">    flexible.dpr = win.dpr = dpr;</span><br><span class="line">    flexible.refreshRem = refreshRem;</span><br><span class="line">    flexible.rem2px = <span class="keyword">function</span>(d) &#123;</span><br><span class="line">        var val = parseFloat(d) * this.rem;</span><br><span class="line">        <span class="keyword">if</span> (typeof d === <span class="string">'string'</span> &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">            val += <span class="string">'px'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line">    flexible.px2rem = <span class="keyword">function</span>(d) &#123;</span><br><span class="line">        var val = parseFloat(d) / this.rem;</span><br><span class="line">        <span class="keyword">if</span> (typeof d === <span class="string">'string'</span> &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">            val += <span class="string">'rem'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)(window, window[<span class="string">'lib'</span>] || (window[<span class="string">'lib'</span>] = &#123;&#125;));</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这种方式，可以精确地算出不同屏幕所应有的rem基准值，缺点就是要加载这么一段js代码，但个人觉得是这是目前最好的方案了。</p>
+<p>因为这个方案同时解决了三个问题：</p>
+<ol>
+<li>border: 1px问题</li>
+<li>图片高清问题</li>
+<li>屏幕适配布局问题</li>
+</ol>
+</blockquote>
+<h3 id="字体大小问题"><a href="#字体大小问题" class="headerlink" title="字体大小问题"></a>字体大小问题</h3><p>对于字体缩放问题，设计师原本的要求是这样的：<code>任何手机屏幕上字体大小都要统一</code>，所以我们针对不同的分辨率(dpr不同)，会做如下处理：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">font-size: 16px;</span><br><span class="line">[data-dpr=<span class="string">"2"</span>] input &#123;</span><br><span class="line">  font-size: 32px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(注意，字体不可以用rem，误差太大了，且不能满足任何屏幕下字体大小相同)<br>为了方便，我们也会用less写一个mixin：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.px2px(@name, @px)&#123;</span><br><span class="line">    @&#123;name&#125;: round(@px / 2) * 1px;</span><br><span class="line">    [data-dpr=<span class="string">"2"</span>] &amp; &#123;</span><br><span class="line">        @&#123;name&#125;: @px * 1px;</span><br><span class="line">    &#125;</span><br><span class="line">    // <span class="keyword">for</span> mx3</span><br><span class="line">    [data-dpr=<span class="string">"2.5"</span>] &amp; &#123;</span><br><span class="line">        @&#123;name&#125;: round(@px * 2.5 / 2) * 1px;</span><br><span class="line">    &#125;</span><br><span class="line">    // <span class="keyword">for</span> 小米note</span><br><span class="line">    [data-dpr=<span class="string">"2.75"</span>] &amp; &#123;</span><br><span class="line">        @&#123;name&#125;: round(@px * 2.75 / 2) * 1px;</span><br><span class="line">    &#125;</span><br><span class="line">    [data-dpr=<span class="string">"3"</span>] &amp; &#123;</span><br><span class="line">        @&#123;name&#125;: round(@px / 2 * 3) * 1px</span><br><span class="line">    &#125;</span><br><span class="line">    // <span class="keyword">for</span> 三星note4</span><br><span class="line">    [data-dpr=<span class="string">"4"</span>] &amp; &#123;</span><br><span class="line">        @&#123;name&#125;: @px * 2px;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(注意：html的data-dpr属性就是之前js方案里面有提到的，这里就有用处了)</p>
+<p>根据经验和测试，还是会出现这些奇奇葩葩的dpr，这里做了统一兼容~</p>
+<p>用的时候，就像这样：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.px2px(font-size, 32);</span><br></pre></td></tr></table></figure></p>
+<p>当然对于其他css属性，如果也要求不同dpr下都保持一致的话，也可以这样操作，如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.px2px(padding, 20);</span><br><span class="line">.px2px(right, 8);</span><br></pre></td></tr></table></figure></p>
+<p>　　引入flexible.js是为了实现自适应，使移动端布局在不同设备上看起来是一样的，例如在iphone6上一行中可以看到3个div，那么在其他设备上也只能看到3个，通常来说，会让<code>宽高</code>和<code>padding</code>，<code>margin</code>等布局元素使用<code>.px2rem</code>进行转换，这样才能实现上述的效果。对于图片的设置，可以用<code>.px2rem</code>设置外层div宽高后，图片在里层100%；而文字通常来说用px来实现就好，这样在哪个设备上所看到的16px也就是真实的16px。</p>
+<p>需要注意的问题是：<br>　　当你要用到dpr和viewport等元素进行scale缩放时，才用到关于字体的<code>.px2px</code>(也就是说flexible.js和.px2px要同时使用，假设设计稿为750*1344，那么在less上写的宽高等也是按照750的设计稿来量，在网页调试状态下，所看到的宽高是在less中写的宽高，但是由于viewport的scale按照比例进行缩小了，所以才呈现了正常的逻辑像素下的效果，此处要理解！),因为这是专门为了设备的dpr不同而准备的，这里引申出来一个问题：<br>　　如果你需要引入其他的css库，例如<code>WeUI</code>微信网页开发样式库，那么当你的页面使用scale进行缩放的时候，就会影响到其他库的使用，所以说，使用需三思。</p>
+<p>　　当然，你也可以摒弃一些关于dpr的设置，这样就不用加上字体的<code>.px2px</code>去适应不同的dpr了，而页面的可扩展性就更强。你只需要根据设计稿的大小加上<code>.px2rem</code>，并且设置好转换格式就能轻松地实现自适应屏幕了。<br>　　最后给出一张<code>没有布局适配(上图)</code>和用<code>rem布局适配(下图)</code>的对比图，参考代码<a href="https://github.com/xurna/mobileAdapter" target="_blank" rel="external">Github</a>：<br>    <img src="http://i2.piimg.com/e0280a7760269a81.png" alt="没有布局适配"><br>    <img src="http://i2.piimg.com/f80e1aefb1a1d61c.png" alt="rem布局适配"><br>　　可以看出，同样的html代码，使用rem布局适配后无论在哪种移动端下，布局都是一样的，而没有使用布局适配的页面就会产生偏差：每一行的图标个数不同。</p>
+<p>　　如果忽略<code>border: 1px问题</code>这个问题的话，为了不影响其他样式库元素的缩放和方便你理解页面，我把js修改成如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">;(<span class="keyword">function</span>(win, lib) &#123;</span><br><span class="line">    var doc = win.document;</span><br><span class="line">    var docEl = doc.documentElement;</span><br><span class="line">    var tid;</span><br><span class="line">    var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">refreshRem</span></span>()&#123;</span><br><span class="line">        var width = docEl.getBoundingClientRect().width;//逻辑像素</span><br><span class="line">        <span class="keyword">if</span> (width &gt; 540) &#123;</span><br><span class="line">            width = 540;</span><br><span class="line">        &#125;</span><br><span class="line">        var rem = width / 10;</span><br><span class="line">        docEl.style.fontSize = rem + <span class="string">'px'</span>;</span><br><span class="line">        flexible.rem = win.rem = rem;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    win.addEventListener(<span class="string">'resize'</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        clearTimeout(tid);</span><br><span class="line">        tid = <span class="built_in">set</span>Timeout(refreshRem, 300);</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">    win.addEventListener(<span class="string">'pageshow'</span>, <span class="keyword">function</span>(e) &#123;</span><br><span class="line">        //查看页面是直接从服务器上载入还是从缓存中读取,从浏览器的缓存中读取该属性返回 ture</span><br><span class="line">        <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">            clearTimeout(tid);</span><br><span class="line">            tid = <span class="built_in">set</span>Timeout(refreshRem, 300);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    refreshRem();</span><br><span class="line"></span><br><span class="line">    flexible.refreshRem = refreshRem;</span><br><span class="line">    flexible.rem2px = <span class="keyword">function</span>(d) &#123;</span><br><span class="line">        var val = parseFloat(d) * this.rem;</span><br><span class="line">        <span class="keyword">if</span> (typeof d === <span class="string">'string'</span> &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">            val += <span class="string">'px'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line">    flexible.px2rem = <span class="keyword">function</span>(d) &#123;</span><br><span class="line">        var val = parseFloat(d) / this.rem;</span><br><span class="line">        <span class="keyword">if</span> (typeof d === <span class="string">'string'</span> &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">            val += <span class="string">'rem'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //var t1 = flexible.rem2px(<span class="string">"10rem"</span>);</span><br><span class="line">    //var t2 = flexible.px2rem(<span class="string">"375px"</span>);</span><br><span class="line">    //console.log(t1);</span><br><span class="line">    //console.log(t2);</span><br><span class="line"></span><br><span class="line">&#125;)(window, window[<span class="string">'lib'</span>] || (window[<span class="string">'lib'</span>] = &#123;&#125;));</span><br></pre></td></tr></table></figure>
+<p><code>rem = document.documentElement.clientWidth / 10</code><br>上面说过的，乘以dpr，是因为页面有可能为了实现1px border页面会缩放(scale) 1/dpr 倍，所以这里可以不要dpr,这样就不需担心其他样式库的影响了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　一不小心又写了篇这么长的博客，耐心看完的一定是移动端真爱，答应你，下次写篇短一点的。那么，问题来了，看完后，新技能get到了吗？姐也只能帮你到这了。</p>
+<p>参考文章：</p>
+<ol>
+<li><a href="http://div.io/topic/1092" target="_blank" rel="external">移动端高清、多屏适配方案</a></li>
+<li><a href="http://iconmoon.com/blog2/iphone-6-plus-screen-size/" target="_blank" rel="external">一张图帮你看懂 iPhone 6 Plus 屏幕分辨率</a></li>
+<li><a href="http://www.xiaoxiangzi.com/Programme/CSS/4298.html" target="_blank" rel="external">浅谈前端移动端页面开发（布局篇）</a></li>
+<li><a href="http://www.xuanfengge.com/category/h5" target="_blank" rel="external">移动前端</a></li>
+<li><a href="http://www.tuicool.com/articles/mEr22e" target="_blank" rel="external">详解iPhone6分辨率与适配技巧</a></li>
+<li><a href="https://www.smashingmagazine.com/2012/08/towards-retina-web/" target="_blank" rel="external">RESOLUTION INDEPENDENCE Towards A Retina Web</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/重构/">重构</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/移动端/">移动端</a><a href="/tags/css/">css</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/29/closure/" title="JavaScript闭包" itemprop="url">JavaScript闭包</a>
   </h1>
   <p class="article-author">By
@@ -517,6 +670,10 @@
 		  
 		
 		  
+			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/网络/" title="网络">网络<sup>3</sup></a></li>
 		  
 		
@@ -546,15 +703,15 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -566,6 +723,14 @@
 			
 		
 			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 			
 		
@@ -574,23 +739,19 @@
 			
 		
 			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
 			
 		
 			
