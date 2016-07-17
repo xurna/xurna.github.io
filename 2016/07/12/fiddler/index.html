@@ -23,13 +23,18 @@
 为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
 调试过程手机调试
 首先">
-<meta property="og:updated_time" content="2016-07-12T14:57:58.512Z">
+<meta property="og:image" content="http://i4.piimg.com/8311/79483947769649d1.jpg">
+<meta property="og:image" content="http://i4.piimg.com/8311/a6028a5c442a7f2b.jpg">
+<meta property="og:image" content="http://i4.piimg.com/8311/05c82c6c540d2005.jpg">
+<meta property="og:image" content="http://i4.piimg.com/8311/6525c38ec5b61df0.jpg">
+<meta property="og:updated_time" content="2016-07-16T15:22:28.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fiddler调试">
 <meta name="twitter:description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
 为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
 调试过程手机调试
 首先">
+<meta name="twitter:image" content="http://i4.piimg.com/8311/79483947769649d1.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -112,14 +117,10 @@
 		<h2 id="利用fiddler调试"><a href="#利用fiddler调试" class="headerlink" title="利用fiddler调试"></a>利用fiddler调试</h2><p>其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。</p>
 <p>为什么需要用到fiddler来调试，它主要是为了调试手机或者页面<code>存在缓存</code>或者需要在线下<code>修复bug</code>而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。</p>
 <h2 id="调试过程"><a href="#调试过程" class="headerlink" title="调试过程"></a>调试过程</h2><h3 id="手机调试"><a href="#手机调试" class="headerlink" title="手机调试"></a>手机调试</h3><ol>
-<li><p>首先设置一下fiddler，打开tool-&gt;fidder options-&gt;connection,按照下图配置：</p>
-</li>
-<li><p>然后在手机端设置一下http代理，找到与电脑服务器连接同一wifi的ip地址，可在cmd中ipconfig中找到wifi的ip，电脑与手机需要在同一网段中才能成功。<br>手机的配置如下图，输入<code>服务器</code>和<code>端口</code>：</p>
-</li>
-<li><p>成功后在fiddler页面的左边可以看到所在进行的网络访问记录，找到你需要调试的页面，在<code>autoRespondor</code>中<code>add rules</code>,可以看到再下面出现你所选的页面，在下一个文本框中选择<code>find a file</code>，找到本地你需要进行调试的文件，然后点击<code>save</code>,如下图，最后就可以进行本地文件的修改，可以直接看到线上的效果，但是，这只是调试，最后文件调试好后还要上传你所更改过的文件。</p>
-</li>
+<li>首先设置一下fiddler，打开tool-&gt;fidder options-&gt;connection,按照下图配置：<br><img src="http://i4.piimg.com/8311/79483947769649d1.jpg"></li>
+<li>然后在手机端设置一下http代理，找到与电脑服务器连接同一wifi的ip地址，可在cmd中ipconfig中找到wifi的ip，电脑与手机需要在同一网段中才能成功。<br>手机的配置如下图，输入<code>服务器</code>和<code>端口</code>：<br><img src="http://i4.piimg.com/8311/a6028a5c442a7f2b.jpg" width="300"><br><img src="http://i4.piimg.com/8311/05c82c6c540d2005.jpg" width="300"></li>
+<li>成功后在fiddler页面的左边可以看到所在进行的网络访问记录，找到你需要调试的页面，在<code>autoRespondor</code>中<code>add rules</code>,可以看到再下面出现你所选的页面，在下一个文本框中选择<code>find a file</code>，找到本地你需要进行调试的文件，然后点击<code>save</code>,如下图，最后就可以进行本地文件的修改，可以直接看到线上的效果，但是，这只是调试，最后文件调试好后还要上传你所更改过的文件。<br><img src="http://i4.piimg.com/8311/6525c38ec5b61df0.jpg"><h3 id="pc端调试"><a href="#pc端调试" class="headerlink" title="pc端调试"></a>pc端调试</h3>pc端的调试不用配置手机调试中的第一步与第二部，只要完成上面的第三步即可。</li>
 </ol>
-<h3 id="pc端调试"><a href="#pc端调试" class="headerlink" title="pc端调试"></a>pc端调试</h3><p>pc端的调试不用配置手机调试中的第一步与第二部，只要完成上面的第三步即可。</p>
 <h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>fiddler除了可以调试网页外，还可以进行抓包，查看http的头部信息等，这里没怎么用到我就不说了，点到为止。</p>
   
 	</div>
@@ -234,19 +235,7 @@
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
 			
 		
 			
@@ -254,15 +243,15 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
 			
 		
 			
@@ -274,7 +263,11 @@
 			
 		
 			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
 			
 		
 			
@@ -282,11 +275,19 @@
 			
 		
 			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 			
 		
 		</ul>
