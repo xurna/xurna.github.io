@@ -81,6 +81,95 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/17/git/" title="git在实践中的应用" itemprop="url">git在实践中的应用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-17T13:33:56.000Z" itemprop="datePublished"> 发表于 2016-07-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。</p>
+<h2 id="git操作流程"><a href="#git操作流程" class="headerlink" title="git操作流程"></a>git操作流程</h2><h3 id="开发前的配置"><a href="#开发前的配置" class="headerlink" title="开发前的配置"></a>开发前的配置</h3><p>首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的<code>SSH</code>和<code>http</code>的项目地址，通常会使用SSH地址。</p>
+<p>使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:xurna/animation-effect.git</span><br></pre></td></tr></table></figure></p>
+<p>先将远程代码复制下来，然后你还需要在本地创建你的公钥（SSH KEY），git平台上会有相关操作，不同平台的操作可能也不一样，按照提示操作即可（一般在setting中找到ssh key就可以设置）。</p>
+<blockquote>
+<p>而这两者的区别在于：<br>在管理Git项目上，很多时候都是直接使用https url克隆到本地，当然也有有些人使用SSH url克隆到本地。这两种方式的主要区别在于：使用https url克隆对初学者来说会比较方便，复制https url然后到git Bash里面直接用clone命令克隆到本地就好了，但是每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。而使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，因此，如果你想要使用SSH url克隆的话，你必须是这个项目的拥有者。否则你是无法添加SSH key的，另外ssh默认是每次fetch和push代码都不需要输入账号和密码，如果你想要每次都输入账号密码才能进行fetch和push也可以另外进行设置。</p>
+</blockquote>
+<p>生成<code>SSH key</code>后，一开始还会让你配置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name [username]</span><br><span class="line">git config --global user.email [email]</span><br><span class="line"></span><br><span class="line">使用git config --list查看已设配置</span><br></pre></td></tr></table></figure></p>
+<p>配完这些后你就可以对项目进行操作并提交你的代码了。</p>
+<h3 id="开发中的操作"><a href="#开发中的操作" class="headerlink" title="开发中的操作"></a>开发中的操作</h3><p>实际开发中其实我用到的git命令也不算太多，但基本上满足了开发的需求。<br>多人开发的项目通常需要建分支来管理代码,创建一个分支（这里需要注意的是，如果你已经创建了一个分支，又想再创建一个分支，那么最好先切换到master分支，然后再创建）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch subName</span><br></pre></td></tr></table></figure></p>
+<p>创建好分支后，你就可以“为所欲为”了，因为这不影响主分支（master）上面的代码。操作前先切换到自己的分支上：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout subName</span><br></pre></td></tr></table></figure></p>
+<p>上面的新建一个分支并切换到新的分支这两步可以一步到位，效果一样：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b subName</span><br></pre></td></tr></table></figure></p>
+<p>然后如果你对自己的分支代码进行操作，如果你改了某一部分代码，可以先提交到暂存区：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add [filename]</span><br><span class="line">或者全部修改过的文件提交</span><br><span class="line">git add .</span><br></pre></td></tr></table></figure></p>
+<p>可以再提交到仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">"提交代码的注释"</span></span><br></pre></td></tr></table></figure></p>
+<p>这个过程中你可以使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure></p>
+<p>来查看每一步的状态，它会提示你下一步需要做什么。<br>如果你要提交到远程分支上的话，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin subName（或者git push）</span><br><span class="line">如果你是第一次提交，他会让你先设置一个操作，会有代码提示，按照它的操作完成就好，具体我忘了。。。</span><br></pre></td></tr></table></figure></p>
+<p>这样你的代码就提交到了远程分支上了。</p>
+<h3 id="合并分支与冲突处理"><a href="#合并分支与冲突处理" class="headerlink" title="合并分支与冲突处理"></a>合并分支与冲突处理</h3><p>如果自己的代码没有问题，到了发布的时候，就可以和master合并分支了，先切换到master分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure></p>
+<p>合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge subName</span><br></pre></td></tr></table></figure></p>
+<p>情况1. 如果在你提交之前，原来master上的代码其他人没有修改过，那么这个过程就进行地很顺利。<br>情况2. 如果master上的代码已经修改过了，git bash会提示你先更新的你的代码再合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
+<p>情况3. 然后再使用上面的合并分支的命令，如果这个过程中提示有代码冲突，即别人修改了和你修改的一样的地方，这个时候，你需要手动删除，例如，在文件中会有：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> master</span><br><span class="line"></span><br><span class="line">=======</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> dev</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; dev</span><br></pre></td></tr></table></figure></p>
+<p>其中“======”代表冲突区域分隔符，分隔符上下两段代码为你和别人都修改过的代码，你需要和别人协商最后要哪段代码，然后再删去那些符号。删掉后，再git commit代码，最后在git push上去。</p>
+<p>所有情况解决后都需要在master分支上git push才算是真正提交合并了自己修改的代码。</p>
+<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><p>如果你现在在做的一个需求还没有做完，然后产品经理那边又出了一个修改需求，需要先上线，那么此时你并不想提交你在做的这个需求代码，因为还没有完成，这种情况，你就可以在master上新建另一个分支去操作。注意，是切换到master上新建另一个分支，新建完后，如果它还有用处，那么可以保留它，注意，你并不需要再一次git clone一个项目下来，当你切换到不同分支的时候，代码会自动变到你的那个分支上，十分方便。<br>如果你用完觉得这个分支再也没有用处了，那么可以删掉本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="_">-d</span> subName2</span><br></pre></td></tr></table></figure></p>
+<p>可以查看本地分支和远程分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch (查看本地分支)</span><br><span class="line">git branch <span class="_">-a</span> (查看远程分支)</span><br></pre></td></tr></table></figure></p>
+<p>如果你修改了某个文件，但是又放弃对这个文件的修改，你可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout text.txt</span><br></pre></td></tr></table></figure></p>
+<p>如果你想回退到某个版本号的话，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard &#123;版本号&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br><span class="line">或者</span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure></p>
+<p>可以查看历史版本号，Git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录。</p>
+<p>好了，平时操作大多是这几类操作，如果后续有新的操作，再补进来吧。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发工具使用/">开发工具使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/12/fiddler/" title="fiddler调试" itemprop="url">fiddler调试</a>
   </h1>
   <p class="article-author">By
@@ -356,7 +445,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/网安/">网安</a><a href="/tags/数论/">数论</a>
+  <span></span> <a href="/tags/数论/">数论</a><a href="/tags/网安/">网安</a>
   </div>
 
 </div>
@@ -786,103 +875,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/10/module/" title="模块化开发(一)" itemprop="url">模块化开发(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-10T14:02:21.000Z" itemprop="datePublished"> 发表于 2016-04-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="先知先觉"><a href="#先知先觉" class="headerlink" title="先知先觉"></a>先知先觉</h2><p>随着前端项目越来越复杂，使用模块化开发可以提高代码的重用性，并且使项目结构清晰化。一个模块就是实现特定功能的文件，有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。模块开发需要遵循一定的规范，否则就都乱套了。</p>
-<p>目前，通行的js模块规范主要由三种：<code>AMD</code>,<code>CMD</code>,<code>CommonJS</code>.</p>
-<p>简单来说，就是使用<code>define</code>定义模块，使用<code>require</code>调用模块。</p>
-<p>先盗用一张图来方便理解他们的异同：<br><img src="http://i2.piimg.com/090c6bf8a4da2cad.png" alt="module"></p>
-<h2 id="AMD规范"><a href="#AMD规范" class="headerlink" title="AMD规范"></a>AMD规范</h2><p><a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">AMD规范文档</a><br><code>AMD</code> 即<code>Asynchronous Module Definition</code>，中文名是<code>异步模块定义</code>的意思。它是一个在浏览器端模块化开发的规范，服务器端的规范是<code>CommonJS</code></p>
-<p>模块将被<code>异步加载</code>，模块加载不影响后面语句的运行。所有依赖某些模块的语句均放置在回调函数中。</p>
-<p><code>AMD</code> 是<code>RequireJS</code> 在推广过程中对模块定义的规范化的产出。</p>
-<p>优点：</p>
-<ol>
-<li>实现js文件的异步加载，避免网页失去响应；</li>
-<li>管理模块之间的依赖性，便于代码的编写和维护。</li>
-</ol>
-<p>目前，实现AMD的库有<code>RequireJS</code> 、<code>curl</code> 、<code>Dojo</code>  、<code>Nodules</code> 等。</p>
-<h3 id="define-函数"><a href="#define-函数" class="headerlink" title="define() 函数"></a>define() 函数</h3><p>AMD规范只定义了一个函数 define，它是<code>全局变量</code>。函数的描述为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(id?, dependencies?, factory);</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>id：指定义中模块的名字，可选；如果没有提供该参数，模块的名字应该默认为模块加载器请求的指定脚本的名字。如果提供了该参数，模块名必须是“顶级”的和绝对的（不允许相对名字）。</p>
-<p>依赖dependencies：是一个当前模块依赖的，已被模块定义的模块标识的数组字面量。<br>依赖参数是可选的，如果忽略此参数，它应该默认为[“require”, “exports”, “module”]。然而，如果工厂方法的长度属性小于3，加载器会选择以函数的长度属性指定的参数个数调用工厂方法。</p>
-<p>工厂方法factory，模块初始化要执行的函数或对象。如果为函数，它应该只被执行一次。如果是对象，此对象应该为模块的输出值。<br>(来自-<a href="https://segmentfault.com/a/1190000000733959#articleHeader8" target="_blank" rel="external">segment</a>)</p>
-</blockquote>
-<p>模块名用来<code>唯一标识</code>定义中模块，它们同样在依赖性数组中使用，当一个文件中有多个define定义时，需要使用文件路径作为模块名来区分调用的模块是哪个。</p>
-<p>模块名可以为 “相对的” 或 “顶级的”。如果首字符为“.”或“..”则为相对的模块名；如果你定义了根目录（<code>baseUrl</code>），那么顶级的模块名从根命名空间的概念模块解析.</p>
-<p>函数定义例子：创建一个名为”alpha”的模块，使用了require，exports，和名为”beta”的模块:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">"alpha"</span>, [<span class="string">"require"</span>, <span class="string">"exports"</span>, <span class="string">"beta"</span>], <span class="keyword">function</span> (require, exports, beta) &#123;</span><br><span class="line">       exports.verb = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">           <span class="built_in">return</span> beta.verb();</span><br><span class="line">           //Or:</span><br><span class="line">           <span class="built_in">return</span> require(<span class="string">"beta"</span>).verb();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>RequireJS默认假定所有的依赖资源都是js脚本，因此无需在module ID上再加”.js”后缀，RequireJS在进行module ID到path的解析时会自动补上后缀。</p>
-<h3 id="require-函数"><a href="#require-函数" class="headerlink" title="require() 函数"></a>require() 函数</h3><p>可以看下面的实际例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require([<span class="string">'jquery'</span>,<span class="string">'underscore'</span>,<span class="string">'backbone'</span>],<span class="keyword">function</span>($, _, Backbone)&#123;</span><br><span class="line">	console.log($(<span class="string">".box"</span>).width());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>require()函数接受两个参数。第一个参数是一个<code>数组</code>，表示所依赖的模块，上例就是<code>[&#39;jquery&#39;, &#39;underscore&#39;, &#39;backbone&#39;]</code>，即主模块依赖这三个模块；第二个参数是一个<code>回调函数</code>，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块。require()异步加载<code>jquery</code>，<code>underscore</code>和<code>backbone</code>，浏览器不会失去响应；它指定的回调函数，只有前面的模块都加载成功后，才会运行，解决了依赖性的问题。</p>
-<h2 id="RequireJS模块的加载（手打RequireJS相关代码地址）"><a href="#RequireJS模块的加载（手打RequireJS相关代码地址）" class="headerlink" title="RequireJS模块的加载（手打RequireJS相关代码地址）"></a>RequireJS模块的加载（<a href="https://github.com/xurna/module" target="_blank" rel="external">手打RequireJS相关代码地址</a>）</h2><h3 id="调用require-js"><a href="#调用require-js" class="headerlink" title="调用require.js"></a>调用require.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"js/require.js"</span> data-main=<span class="string">"js/main"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>data-main属性的作用是，指定网页程序的主模块。在上例中，就是js目录下面的main.js，这个文件会第一个被require.js加载。由于require.js默认的文件后缀名是js，所以可以把main.js简写成main。</p>
-<h3 id="模块加载自定义"><a href="#模块加载自定义" class="headerlink" title="模块加载自定义"></a>模块加载自定义</h3><p>使用require.config()方法，我们可以对模块的加载行为进行自定义。require.config()就写在主模块（main.js）的头部。参数就是一个对象，这个对象的paths属性指定各个模块的加载路径。</p>
-<p>如果这些模块在其他目录，比如js/lib目录，则有两种写法。一种是逐一指定路径。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">　　　　paths: &#123;</span><br><span class="line">　　　　　　<span class="string">"jquery"</span>: <span class="string">"lib/jquery.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"underscore"</span>: <span class="string">"lib/underscore.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"backbone"</span>: <span class="string">"lib/backbone.min"</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>另一种则是直接改变基目录（baseUrl）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">　　　　baseUrl: <span class="string">"js/lib"</span>,</span><br><span class="line">　　　　paths: &#123;</span><br><span class="line">　　　　　　<span class="string">"jquery"</span>: <span class="string">"jquery.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"underscore"</span>: <span class="string">"underscore.min"</span>,</span><br><span class="line">　　　　　　<span class="string">"backbone"</span>: <span class="string">"backbone.min"</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>注意一点，如果加载require.js模块的时候出现<code>timeout</code>现象，解决办法：只要在config里面加上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>Seconds: 0, //解决timeout问题</span><br></pre></td></tr></table></figure></p>
-<p>除了paths，还有shim用来加载非规范的模块，可以<a href="http://www.ruanyifeng.com/blog/2012/11/require_js.html" target="_blank" rel="external">查看相关信息</a>.</p>
-<h3 id="AMD模块的写法"><a href="#AMD模块的写法" class="headerlink" title="AMD模块的写法"></a>AMD模块的写法</h3><p>require.js加载的模块，采用AMD规范。也就是说，模块必须按照AMD的规定来写。<br>具体来说，就是模块必须采用特定的define()函数来定义。如果一个模块不依赖其他模块，那么可以直接定义在define()函数之中。<br>假定现在有一个math.js文件，它定义了一个math模块。那么，math.js就要这样写：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// math.js</span><br><span class="line">　　define(<span class="function"><span class="title">function</span></span> ()&#123;</span><br><span class="line">　　　　var add = <span class="keyword">function</span> (x,y)&#123;</span><br><span class="line">　　　　　　<span class="built_in">return</span> x+y;</span><br><span class="line">　　　　&#125;;</span><br><span class="line">　　　　<span class="built_in">return</span> &#123;</span><br><span class="line">　　　　　　add: add</span><br><span class="line">　　　　&#125;;</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>加载方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">　　require([<span class="string">'math'</span>], <span class="keyword">function</span> (math)&#123;</span><br><span class="line">　　　　alert(math.add(1,1));</span><br><span class="line">　　&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>如果这个模块被其他模块依赖，那么define()函数的第一个参数，必须是一个数组，指明该模块的依赖性。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//myLib.js</span><br><span class="line">define([<span class="string">'../module/math'</span>],<span class="keyword">function</span>(math)&#123;</span><br><span class="line">	<span class="built_in">return</span> math.add(1,1);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>当require()函数加载上面这个模块的时候，就会先加载myLib.js文件。</p>
-<p>先写到这吧，有点累了，下次接着写。</p>
-<p>参考文章：<br>1.<a href="https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88" target="_blank" rel="external">https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88</a>)</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -913,7 +905,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>1</sup></a></li>
+			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>2</sup></a></li>
 		  
 		
 		  
@@ -950,7 +942,7 @@
 			
 		
 			
-				<li><a href="/tags/网安/" title="网安">网安<sup>2</sup></a></li>
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
 			
 		
 			
@@ -962,11 +954,11 @@
 			
 		
 			
-				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+				<li><a href="/tags/网安/" title="网安">网安<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
 			
 		
 			
@@ -974,7 +966,7 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 			
@@ -986,19 +978,23 @@
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 		</ul>

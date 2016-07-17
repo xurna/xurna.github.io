@@ -1,0 +1,574 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>git在实践中的应用 | xurna</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Xurna Yang">
+    
+
+    
+    <meta name="description" content="git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。
+git操作流程开发前的配置首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的SSH和http的项目地址，通常会使用SSH地址。
+使用1git clone git@github.com:xurna/animation-effe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git在实践中的应用">
+<meta property="og:url" content="http://yoursite.com/2016/07/17/git/index.html">
+<meta property="og:site_name" content="xurna">
+<meta property="og:description" content="git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。
+git操作流程开发前的配置首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的SSH和http的项目地址，通常会使用SSH地址。
+使用1git clone git@github.com:xurna/animation-effe">
+<meta property="og:updated_time" content="2016-07-17T14:47:03.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git在实践中的应用">
+<meta name="twitter:description" content="git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。
+git操作流程开发前的配置首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的SSH和http的项目地址，通常会使用SSH地址。
+使用1git clone git@github.com:xurna/animation-effe">
+
+    
+    <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="xurna" title="xurna"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="xurna">xurna</a></h1>
+				<h2 class="blog-motto">Never too late to learn.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/17/git/" title="git在实践中的应用" itemprop="url">git在实践中的应用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-17T13:33:56.000Z" itemprop="datePublished"> 发表于 2016-07-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#git操作流程"><span class="toc-number">1.</span> <span class="toc-text">git操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开发前的配置"><span class="toc-number">1.1.</span> <span class="toc-text">开发前的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发中的操作"><span class="toc-number">1.2.</span> <span class="toc-text">开发中的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并分支与冲突处理"><span class="toc-number">1.3.</span> <span class="toc-text">合并分支与冲突处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特殊情况"><span class="toc-number">1.4.</span> <span class="toc-text">特殊情况</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。</p>
+<h2 id="git操作流程"><a href="#git操作流程" class="headerlink" title="git操作流程"></a>git操作流程</h2><h3 id="开发前的配置"><a href="#开发前的配置" class="headerlink" title="开发前的配置"></a>开发前的配置</h3><p>首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的<code>SSH</code>和<code>http</code>的项目地址，通常会使用SSH地址。</p>
+<p>使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:xurna/animation-effect.git</span><br></pre></td></tr></table></figure></p>
+<p>先将远程代码复制下来，然后你还需要在本地创建你的公钥（SSH KEY），git平台上会有相关操作，不同平台的操作可能也不一样，按照提示操作即可（一般在setting中找到ssh key就可以设置）。</p>
+<blockquote>
+<p>而这两者的区别在于：<br>在管理Git项目上，很多时候都是直接使用https url克隆到本地，当然也有有些人使用SSH url克隆到本地。这两种方式的主要区别在于：使用https url克隆对初学者来说会比较方便，复制https url然后到git Bash里面直接用clone命令克隆到本地就好了，但是每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。而使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，因此，如果你想要使用SSH url克隆的话，你必须是这个项目的拥有者。否则你是无法添加SSH key的，另外ssh默认是每次fetch和push代码都不需要输入账号和密码，如果你想要每次都输入账号密码才能进行fetch和push也可以另外进行设置。</p>
+</blockquote>
+<p>生成<code>SSH key</code>后，一开始还会让你配置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name [username]</span><br><span class="line">git config --global user.email [email]</span><br><span class="line"></span><br><span class="line">使用git config --list查看已设配置</span><br></pre></td></tr></table></figure></p>
+<p>配完这些后你就可以对项目进行操作并提交你的代码了。</p>
+<h3 id="开发中的操作"><a href="#开发中的操作" class="headerlink" title="开发中的操作"></a>开发中的操作</h3><p>实际开发中其实我用到的git命令也不算太多，但基本上满足了开发的需求。<br>多人开发的项目通常需要建分支来管理代码,创建一个分支（这里需要注意的是，如果你已经创建了一个分支，又想再创建一个分支，那么最好先切换到master分支，然后再创建）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch subName</span><br></pre></td></tr></table></figure></p>
+<p>创建好分支后，你就可以“为所欲为”了，因为这不影响主分支（master）上面的代码。操作前先切换到自己的分支上：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout subName</span><br></pre></td></tr></table></figure></p>
+<p>上面的新建一个分支并切换到新的分支这两步可以一步到位，效果一样：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b subName</span><br></pre></td></tr></table></figure></p>
+<p>然后如果你对自己的分支代码进行操作，如果你改了某一部分代码，可以先提交到暂存区：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add [filename]</span><br><span class="line">或者全部修改过的文件提交</span><br><span class="line">git add .</span><br></pre></td></tr></table></figure></p>
+<p>可以再提交到仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">"提交代码的注释"</span></span><br></pre></td></tr></table></figure></p>
+<p>这个过程中你可以使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure></p>
+<p>来查看每一步的状态，它会提示你下一步需要做什么。<br>如果你要提交到远程分支上的话，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin subName（或者git push）</span><br><span class="line">如果你是第一次提交，他会让你先设置一个操作，会有代码提示，按照它的操作完成就好，具体我忘了。。。</span><br></pre></td></tr></table></figure></p>
+<p>这样你的代码就提交到了远程分支上了。</p>
+<h3 id="合并分支与冲突处理"><a href="#合并分支与冲突处理" class="headerlink" title="合并分支与冲突处理"></a>合并分支与冲突处理</h3><p>如果自己的代码没有问题，到了发布的时候，就可以和master合并分支了，先切换到master分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure></p>
+<p>合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge subName</span><br></pre></td></tr></table></figure></p>
+<p>情况1. 如果在你提交之前，原来master上的代码其他人没有修改过，那么这个过程就进行地很顺利。<br>情况2. 如果master上的代码已经修改过了，git bash会提示你先更新的你的代码再合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
+<p>情况3. 然后再使用上面的合并分支的命令，如果这个过程中提示有代码冲突，即别人修改了和你修改的一样的地方，这个时候，你需要手动删除，例如，在文件中会有：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> master</span><br><span class="line"></span><br><span class="line">=======</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> dev</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; dev</span><br></pre></td></tr></table></figure></p>
+<p>其中“======”代表冲突区域分隔符，分隔符上下两段代码为你和别人都修改过的代码，你需要和别人协商最后要哪段代码，然后再删去那些符号。删掉后，再git commit代码，最后在git push上去。</p>
+<p>所有情况解决后都需要在master分支上git push才算是真正提交合并了自己修改的代码。</p>
+<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><p>如果你现在在做的一个需求还没有做完，然后产品经理那边又出了一个修改需求，需要先上线，那么此时你并不想提交你在做的这个需求代码，因为还没有完成，这种情况，你就可以在master上新建另一个分支去操作。注意，是切换到master上新建另一个分支，新建完后，如果它还有用处，那么可以保留它，注意，你并不需要再一次git clone一个项目下来，当你切换到不同分支的时候，代码会自动变到你的那个分支上，十分方便。<br>如果你用完觉得这个分支再也没有用处了，那么可以删掉本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="_">-d</span> subName2</span><br></pre></td></tr></table></figure></p>
+<p>可以查看本地分支和远程分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch (查看本地分支)</span><br><span class="line">git branch <span class="_">-a</span> (查看远程分支)</span><br></pre></td></tr></table></figure></p>
+<p>如果你修改了某个文件，但是又放弃对这个文件的修改，你可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout text.txt</span><br></pre></td></tr></table></figure></p>
+<p>如果你想回退到某个版本号的话，可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard &#123;版本号&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br><span class="line">或者</span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure></p>
+<p>可以查看历史版本号，Git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录。</p>
+<p>好了，平时操作大多是这几类操作，如果后续有新的操作，再补进来吧。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发工具使用/">开发工具使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/07/17/git/" data-title="git在实践中的应用 | xurna" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/07/12/fiddler/"  title="fiddler调试">
+ <strong>下一篇：</strong><br/> 
+ <span>fiddler调试
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#git操作流程"><span class="toc-number">1.</span> <span class="toc-text">git操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开发前的配置"><span class="toc-number">1.1.</span> <span class="toc-text">开发前的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发中的操作"><span class="toc-number">1.2.</span> <span class="toc-text">开发中的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并分支与冲突处理"><span class="toc-number">1.3.</span> <span class="toc-text">合并分支与冲突处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特殊情况"><span class="toc-number">1.4.</span> <span class="toc-text">特殊情况</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/安卓/" title="安卓">安卓<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/重构/" title="重构">重构<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块化/" title="模块化">模块化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网安/" title="网安">网安<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.quantacenter.com/" target="_blank" title="(量子）信息技术服务中心">Quanta</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Welcome to my blog , I&#39;m Xurna Yang from GDUFS. <br/>
+			A programmer in QuantaCenter</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2696740840" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/xurna" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:565627595@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Xurna Yang">Xurna Yang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
