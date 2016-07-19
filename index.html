@@ -113,7 +113,7 @@
 <p>这样你的代码就提交到了远程分支上了。</p>
 <h3 id="合并分支与冲突处理"><a href="#合并分支与冲突处理" class="headerlink" title="合并分支与冲突处理"></a>合并分支与冲突处理</h3><p>如果自己的代码没有问题，到了发布的时候，就可以和master合并分支了，先切换到master分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure></p>
 <p>合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge subName</span><br></pre></td></tr></table></figure></p>
-<p>情况1. 如果在你提交之前，原来master上的代码其他人没有修改过，那么这个过程就进行地很顺利。<br>情况2. 如果master上的代码已经修改过了，git bash会提示你先更新的你的代码再合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
+<p>情况1. 如果在你提交之前，原来master上的代码其他人没有修改过，那么这个过程就进行地很顺利。<br>情况2. 如果master上的代码已经修改过了，git bash会提示你先更新的你的代码再合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure></p>
 <p>情况3. 然后再使用上面的合并分支的命令，如果这个过程中提示有代码冲突，即别人修改了和你修改的一样的地方，这个时候，你需要手动删除，例如，在文件中会有：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> master</span><br><span class="line"></span><br><span class="line">=======</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> dev</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; dev</span><br></pre></td></tr></table></figure></p>
 <p>其中“======”代表冲突区域分隔符，分隔符上下两段代码为你和别人都修改过的代码，你需要和别人协商最后要哪段代码，然后再删去那些符号。删掉后，再git commit代码，最后在git push上去。</p>
 <p>所有情况解决后都需要在master分支上git push才算是真正提交合并了自己修改的代码。</p>
@@ -938,15 +938,15 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/css/" title="css">css<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -958,11 +958,11 @@
 			
 		
 			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -970,7 +970,11 @@
 			
 		
 			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
 			
 		
 			
@@ -982,11 +986,7 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
 			
 		
 			
@@ -994,7 +994,7 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 			
 		
 		</ul>
