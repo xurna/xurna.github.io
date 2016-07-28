@@ -81,6 +81,328 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/30/http/" title="http协议" itemprop="url">http协议</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-30T03:11:44.000Z" itemprop="datePublished"> 发表于 2016-04-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>面试前端的时候有时会提到网络方面的问题，趁热打铁，温习一下关于http相关知识。</p>
+<h2 id="认识http"><a href="#认识http" class="headerlink" title="认识http"></a>认识http</h2><p><code>http（超文本传输协议）</code>是一个基于<code>请求与响应模式</code>的、<code>无状态的</code>、<code>应用层</code>的协议，常基于<code>TCP</code>的连接方式。<br>http的特点：</p>
+<ol>
+<li>使用面向连接的<code>TCP作为运输层协</code>，保证数据可靠性。</li>
+<li><code>无连接</code>：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。</li>
+<li><code>无状态</code>：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<p>http协议通常承载与TCP协议之上，有时也承载于<code>TLS</code>或者<code>SSL</code>协议层之上，这个时候，就变成常见的<code>HTTPS</code>。默认http端口号是<code>80</code>，https的端口号是<code>443</code>.<br><img src="http://i2.buimg.com/3adbbc37b41db444.jpg" alt="http协议"></p>
+<h2 id="http版本"><a href="#http版本" class="headerlink" title="http版本"></a>http版本</h2><h3 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h3><p>http1.0是无连接方式，所以浏览器每次发送http请求，就会建立一条TCP连接，等待服务器端响应后，这条连接就会断开。等下次再有请求的时候，需要再建立一条TCP连接，这样导致每次有2倍RTT往返时间（TCP占一个RTT,HTTP请求与响应占一个RTT），增加了网络开销。</p>
+<p>好在浏览器都提供了嫩能够打开5-10个并行的TCP连接，而每一个连接处理客户的一个请求。因此，使用并行TCP连接可以缩短响应时间。</p>
+<h3 id="http1-1"><a href="#http1-1" class="headerlink" title="http1.1"></a>http1.1</h3><p>http1.1改进了http1.0的缺点，http1.1采用<code>持续连接</code>，即只要建立一个TCP连接，就可以在这条连接上进行复用。优点是可以减少重复进行TCP三次握手的开销，提高效率。<br>http1.1分为两类：</p>
+<ol>
+<li>非流水线方式：在同一个TCP连接中，新的请求需要等上次请求的响应后，才能发送。因此，在TCP连接建立以后，客户每访问一次对象就要用去一个往返时间RTT，这比非持续连接的两倍RTT的开销节省了建立TCP连接所需的一个RTT时间。</li>
+<li>流水线方式：在同一个TCP连接中，客户在收到http响应报文之前就能够接着发送新的请求报文。于是一个接一个的请求报文到达服务器后，服务器就可以连续发送响应报文。使用流水线方式时，客户访问所有的对象只需花费一个RTT的时间，使TCP连接中的空闲时间减少，提高下载文档的速度。</li>
+</ol>
+<h3 id="http2-0"><a href="#http2-0" class="headerlink" title="http2.0"></a>http2.0</h3><p>http2.0提出<code>服务器推</code>的概念，服务器可以对一个客户端的请求发送多个响应，除了最初的请求外，还会额外想客户端推送资源，而无需客户端明确请求，客户端还可以缓存资源。</p>
+<p>http2.0的请求都在一条TCP连接上，允许多个信息在一条连接上同时交叉，采用并行双向字节流的请求和响应，只使用一个连接，可以并行交错发送请求和响应。</p>
+<p>增加了首部压缩，即使非常小的请求，其请求与响应的header都只会占用很小比例的带宽。</p>
+<h2 id="http请求与响应报文格式"><a href="#http请求与响应报文格式" class="headerlink" title="http请求与响应报文格式"></a>http请求与响应报文格式</h2><p>http请求报文和响应报文都是由<code>开始行</code>，<code>首部行</code>，<code>实体主体</code>，而请求与响应报文的不同在于<code>开始行</code>不一样。</p>
+<h3 id="请求格式"><a href="#请求格式" class="headerlink" title="请求格式"></a>请求格式</h3><p>请求行 = <code>方法</code> + <code>请求资源的URL</code> + <code>http版本</code> + [回车换行CRLF]<br>例子如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /hello.htm HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">If-Modified-Since: Wed, 17 Oct 2016 02:15:55 GMT</span><br><span class="line">If-None-Match: W/<span class="string">"158-1192587355000"</span></span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)</span><br><span class="line">Host: 192.168.2.162:8080</span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<h3 id="响应格式"><a href="#响应格式" class="headerlink" title="响应格式"></a>响应格式</h3><p>状态行 = <code>http版本</code> + <code>状态码</code> + <code>解释状态码的简单短语</code> + [回车换行CRLF]<br>例子如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">ETag: W/<span class="string">"158-1192590101000"</span></span><br><span class="line">Last-Modified: Wed, 17 Oct 2016 03:01:41 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 158</span><br><span class="line">Date: Wed, 17 Oct 2016 03:01:59 GMT</span><br><span class="line">Server: Apache-Coyote/1.1</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　http网络这块对于理解前端优化，服务器端优化来说还是很有必要的，理解后很多东西就豁然开朗了，所以说基础知识还是要打牢，并且随着互联网的发展，新出的技术可以使以前一些繁琐的处理变得简单甚至变得没有必要。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/http/">http</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/15/dns-search/" title="DNS查找过程" itemprop="url">DNS查找过程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-15T01:36:46.000Z" itemprop="datePublished"> 发表于 2016-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>这几天看了一些关于网络方面的知识，总结一下<code>域名系统DNS(Domain Name System)</code>的查找过程。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>定义很容易理解：DNS就是用来把便于人们使用的机器名字转换成ip地址。</p>
+<p><code>域名结构</code>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">     mail.qq.com</span><br><span class="line">    /     |     \</span><br><span class="line">三级域名.二级域名.顶级域名</span><br></pre></td></tr></table></figure></p>
+<p><code>域名服务器</code>；</p>
+<ol>
+<li>根域名服务器：最高层次的域名服务器，也是最重要的域名服务器。所有的根域名服务器都知道所有的顶级域名服务器的域名和IP地址。不管是哪一个本地域名服务器，若要对因特网上任何一个域名进行解析，只要自己无法解析，就首先求助根域名服务器。在很多情况下，根域名服务器并不直接把待查询的域名直接解析出IP地址，而是告诉本地域名服务器下一步应当找哪一个顶级域名服务器进行查询。</li>
+<li>顶级域名服务器：负责管理在该顶级域名服务器注册的二级域名。</li>
+<li>权限域名服务器：负责一个“区”的域名服务器。</li>
+<li>本地域名服务器：当一个主机发出DNS查询请求时，这个查询请求报文就发送给本地域名服务器。</li>
+</ol>
+<p><code>DNS查询方式分类</code>：</p>
+<ol>
+<li>递归查询：主机所询问的本地域名服务器不知道被查询的域名ip地址，那么本地服务器就以DNS客户的身份，向其他的根域名服务器继续发出查询请求报文，不论成功与否，都会做出对应的响应。（发生在DNS客户端与DNS服务器之间）<br><img src="http://i4.buimg.com/87fdd686bd1af0bd.jpg" alt="递归查询"></li>
+<li>迭代查询：DNS服务器根据自己的高速缓存或区域的数据，以最佳结果响应。如果DNS服务器无法解析，它可能返回一个指针。指针指向下级域名的DNS服务器，继续该过程。知道找到拥有所查询名字的DNS服务器，或者出错，超时为止。（发生在DNS服务器之间）<br><img src="http://i4.buimg.com/ec9da5e10bde8744.jpg" alt="迭代查询"></li>
+</ol>
+<h2 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h2><p>假设主机想查询另一个主机的www.163.com的IP地址，则查询步骤如下：</p>
+<ol>
+<li>主机向本地DNS服务器进行递归查询，浏览器检查缓存中有没有这个域名对应的解析过的ip地址，如果缓存中有，则查询过程结束。</li>
+<li>否则本地服务器采用迭代查询。它先向一个根域名服务器查询，全球只有13台根域名服务器。</li>
+<li>根域名服务器告诉本地服务器，下一次应查询的顶级域名服务器dns.com的IP地址。</li>
+<li>本地域名服务器向顶级域名服务器dns.com进行查询。</li>
+<li>顶级域名服务器dns.com告诉本地域名服务器，下一步应查询的权限服务器dns.163.com的IP地址。</li>
+<li>本地域名服务器向权限域名服务器dns.163.com进行查询。</li>
+<li>权限域名服务器dns.163.com告诉本地域名服务器，所查询的主机的IP地址。</li>
+<li>本地域名服务器最后把查询结果告诉主机。<br>引用别人的一张图片：<br><img src="http://i4.buimg.com/0ebd847531d57f06.jpg" alt="DNS查询过程"></li>
+</ol>
+<p>整个查询过程共用到了8个UDP报文。<br>为了提高DNS查询效率，并减轻服务器的负荷和减少因特网上的DNS查询报文数量，在域名服务器中广泛使用了高速缓存，用来存放最近查询过的域名以及从何处获得域名映射信息的记录。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/DNS/">DNS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/11/module3/" title="模块化开发(三)" itemprop="url">模块化开发(三)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-11T13:22:41.000Z" itemprop="datePublished"> 发表于 2016-04-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a>CommonJS规范</h2><p>上两篇博客中提到的<code>AMD``CMD</code>都是浏览器端的模块开发方案，而<code>CommonJS</code>是服务器端模块的规范，<code>Node.js</code>采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
+<p>根据<code>CommonJS</code>规范，一个单独的文件就是一个模块。每一个模块都是一个单独的作用域，也就是说，在该模块内部定义的变量，无法被其他模块读取，除非定义为<code>global</code>对象的属性。</p>
+<p>输出模块变量的最好方法是使用<code>module.exports</code>对象。</p>
+<p>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象(之前所用的exports其实是module.exports的一个引用,<a href="https://github.com/seajs/seajs/issues/242" target="_blank" rel="external">详情</a>)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br><span class="line">var max = 30;</span><br><span class="line"></span><br><span class="line">module.exports = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  <span class="keyword">for</span> (i; i++ &lt; max; ) &#123;</span><br><span class="line">    console.log(i);</span><br><span class="line">  &#125;</span><br><span class="line">  max * = 1.1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面代码通过<code>module.exports</code>对象，定义了一个函数，该函数就是模块外部与内部通信的桥梁。<br>加载模块使用<code>require</code>方法，该方法读取一个文件并执行，最后返回文件内部的<code>module.exports</code>对象。</p>
+<p>为什么<code>CommonJS</code>适用于服务器端呢？需要分析一下浏览器端的js和服务器端js都主要做了哪些事，有什么不同了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------服务器端JS   |    浏览器端JS-------------------------------</span><br><span class="line"></span><br><span class="line">                      相同的代码需要多次执行  |    代码需要从一个服务器端分发到多个客户端执行</span><br><span class="line"></span><br><span class="line">                        CPU和内存资源是瓶颈   |    带宽是瓶颈</span><br><span class="line"></span><br><span class="line">                         加载时从磁盘中加载   |    加载时需要通过网络加载</span><br></pre></td></tr></table></figure>
+<p><code>CommonJS</code>加载模块是<code>同步</code>的，所以只有加载完成才能执行后面的操作。像<code>Node.js</code>主要用于服务器的编程，加载的模块文件一般都已经存在本地硬盘，所以加载起来比较快，不用考虑异步加载的方式，所以<code>CommonJS</code>规范比较适用。但如果是浏览器环境，要从服务器加载模块，这时就必须采用异步模式。所以就有了 <code>AMD</code>  <code>CMD</code> 解决方案。</p>
+<p>不过，<code>Node.js</code>还没有看咧，待我学好了再来深入了解这个规范吧~~</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/11/module2/" title="模块化开发(二)" itemprop="url">模块化开发(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-11T12:14:37.000Z" itemprop="datePublished"> 发表于 2016-04-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><h3 id="CMD规范"><a href="#CMD规范" class="headerlink" title="CMD规范"></a>CMD规范</h3><p><a href="https://github.com/seajs/seajs/issues/242" target="_blank" rel="external">CMD规范文档</a><br><code>CMD</code>（Common Module Definition） <code>通用模块定义</code>。该规范明确了模块的基本书写格式和基本交互规则。该规范是在国内发展出来的。AMD是依赖关系前置，CMD是按需加载。<br><code>CMD</code> 是 <code>SeaJS</code> 在推广过程中对模块定义的规范化产出。<br>在 CMD 规范中，一个模块就是一个文件。代码的书写格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="keyword">function</span>(require, exports, module) &#123;</span><br><span class="line">  // 模块代码</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>define方法在执行时，默认会传入三个参数：<code>require</code>、<code>exports</code> 和 <code>module</code>。如果需要一个文件中加载多个define()函数，则需要定义模块名。<br><code>require</code>是可以把其他模块导入进来的一个参数，而<code>export</code>是可以把模块内的一些属性和方法导出的。</p>
+<h2 id="seajs模块引入与自定义（手打RequireJS相关代码地址）"><a href="#seajs模块引入与自定义（手打RequireJS相关代码地址）" class="headerlink" title="seajs模块引入与自定义（手打RequireJS相关代码地址）"></a>seajs模块引入与自定义（<a href="https://github.com/xurna/module" target="_blank" rel="external">手打RequireJS相关代码地址</a>）</h2><p>与<code>require.js</code>类似，<code>seajs</code>使用<code>base</code>作为根目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span> src=<span class="string">"js/sea.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">seajs.config(&#123;</span><br><span class="line">    base:<span class="string">"./js"</span>,</span><br><span class="line">    <span class="built_in">alias</span>:&#123;</span><br><span class="line">        <span class="string">"range"</span>:<span class="string">"module/range.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">seajs.use(<span class="string">"app.js"</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="主模块加载"><a href="#主模块加载" class="headerlink" title="主模块加载"></a>主模块加载</h3><p>与<code>require.js</code>不同，seajs加载模块的时候，<code>require</code>函数是写在<code>define</code>函数里面的，下面的例子，其实可以不用写上模块名和依赖模块（模块名要把 ID 定为文件路<a href="https://github.com/seajs/seajs/issues/930" target="_blank" rel="external">理由</a>）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">"app"</span>,[<span class="string">"module/drag"</span>,<span class="string">"module/scale"</span>],<span class="keyword">function</span> (require,exports,module)&#123;</span><br><span class="line">    var oInput = document.getElementById(<span class="string">'input1'</span>);</span><br><span class="line">    var oDiv1 = document.getElementById(<span class="string">'div1'</span>);</span><br><span class="line">    var oDiv2 = document.getElementById(<span class="string">'div2'</span>);</span><br><span class="line">    var oDiv3 = document.getElementById(<span class="string">'div3'</span>);</span><br><span class="line"></span><br><span class="line">    require(<span class="string">"module/drag.js"</span>).drag(oDiv3);</span><br><span class="line">    oInput.onclick = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    	oDiv1.style.display = <span class="string">"block"</span>;</span><br><span class="line">    	require(<span class="string">"module/scale.js"</span>).scale(oDiv1,oDiv2);</span><br><span class="line">    	//require 是同步往下执行，require.async 则是异步回调执行。require.async 一般用来加载可延迟异步加载的模块。</span><br><span class="line">    	require.async(<span class="string">"module/scale.js"</span>,<span class="keyword">function</span>(ex)&#123;</span><br><span class="line">    		ex.scale(oDiv1,oDiv2);</span><br><span class="line">    	&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>注意，有时你想使用 require 来进行条件加载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="keyword">function</span>(require)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">false</span>) &#123;</span><br><span class="line">        require(<span class="string">"module-A"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        require(<span class="string">"module-B"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>但是，require无法完成条件加载,从静态分析的角度来看，这个模块同时依赖 module-A 和 module-B 两个模块，加载器会把这两个模块文件都下载下来。 这种情况下，推荐使用 require.async 来进行条件加载。</p>
+<p>其实区别就是一点，require模块的加载过程是发生在模块源码分析期; require.async加载发生在模块执行期。</p>
+<h2 id="AMD和CMD"><a href="#AMD和CMD" class="headerlink" title="AMD和CMD"></a>AMD和CMD</h2><blockquote>
+<p>AMD 是 RequireJS 在推广过程中对模块定义的规范化产出。<br>CMD 是 SeaJS 在推广过程中对模块定义的规范化产出。</p>
+</blockquote>
+<p>对于依赖的模块，<code>AMD</code> 是提前执行，<code>CMD</code> 是延迟执行。</p>
+<blockquote>
+<p>AMD:提前执行（异步加载：依赖先执行）+延迟执行<br>CMD:延迟执行（运行到需加载，根据顺序执行）</p>
+</blockquote>
+<p>CMD 推崇依赖就近，AMD 推崇依赖前置。看如下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// CMD</span><br><span class="line">define(<span class="keyword">function</span>(require, exports, module) &#123;</span><br><span class="line">var a = require(<span class="string">'./a'</span>)</span><br><span class="line">a.doSomething()</span><br><span class="line"></span><br><span class="line">var b = require(<span class="string">'./b'</span>) // 依赖可以就近书写</span><br><span class="line">b.doSomething()</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// AMD 默认推荐的是</span><br><span class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="keyword">function</span>(a, b) &#123; // 依赖必须一开始就写好</span><br><span class="line">a.doSomething()</span><br><span class="line"></span><br><span class="line">b.doSomething()</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>另外一个区别是：</p>
+<blockquote>
+<p>AMD:API根据使用范围有区别，但使用同一个api接口<br>CMD:每个API的职责单一</p>
+</blockquote>
+<p>AMD的优点是：异步并行加载，在AMD的规范下，同时异步加载是不会产生错误的。<br>CMD的机制则不同，这种加载方式会产生错误，如果能规范化模块内容形式，也可以</p>
+<p><code>RequireJS</code> 和 <code>Sea.js</code> 都是模块加载器，倡导模块化开发理念，核心价值是让 JavaScript 的模块化开发变得简单自然。</p>
+<p><code>SeaJS</code>与<code>RequireJS</code>最大的区别：</p>
+<blockquote>
+<p><code>SeaJS</code>对模块的态度是懒执行, 而<code>RequireJS</code>对模块的态度是预执行。</p>
+</blockquote>
+<p>RequireJS的做法是并行加载所有依赖的模块, 并完成解析后, 再开始执行其他代码, 因此执行结果只会”停顿”1次, 完成整个过程是会比SeaJS要快.</p>
+<p>而SeaJS一样是并行加载所有依赖的模块, 但不会立即执行模块, 等到真正需要(require)的时候才开始解析, 这里耗费了时间, 所以说的SeaJS是”懒执行”.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/模块化/">模块化</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/10/module/" title="模块化开发(一)" itemprop="url">模块化开发(一)</a>
   </h1>
   <p class="article-author">By
@@ -303,7 +625,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/移动端/">移动端</a><a href="/tags/css/">css</a>
+  <span></span> <a href="/tags/css/">css</a><a href="/tags/移动端/">移动端</a>
   </div>
 
 </div>
@@ -759,7 +1081,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>7</sup></a></li>
 		  
 		
 		  
@@ -776,6 +1098,10 @@
 		
 		  
 			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/那些年遇到过的bug/" title="那些年遇到过的bug">那些年遇到过的bug<sup>1</sup></a></li>
 		  
 		
 		  
@@ -800,15 +1126,11 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -820,35 +1142,11 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
 			
 		
 			
@@ -857,6 +1155,46 @@
 		
 			
 				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
 			
 		
 		</ul>

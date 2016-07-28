@@ -4,37 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>fiddler调试 | xurna</title>
+    <title>experience | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
-为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
-调试过程手机调试
-首先">
+    <meta name="description" content="这篇主要是讲一下在开发中遇到的一些有趣的解决办法，以及一些技巧。
+1.  input中设置cursor：pointer无效背景是当我要实现一个上传封面功能时，我把input标签放在上层，a标签放在下层，这时我想优化一下交互效果，当鼠标移到input上时变成手型，但是事实怎么这样做失效了，所以经过查阅资料，最终加上font-size:0;,问题解决。font-size:0;在解决相邻的display">
 <meta property="og:type" content="article">
-<meta property="og:title" content="fiddler调试">
-<meta property="og:url" content="http://yoursite.com/2016/07/12/fiddler/index.html">
+<meta property="og:title" content="experience">
+<meta property="og:url" content="http://yoursite.com/2016/07/25/experience/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
-为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
-调试过程手机调试
-首先">
-<meta property="og:image" content="http://i4.piimg.com/8311/79483947769649d1.jpg">
-<meta property="og:image" content="http://i4.piimg.com/8311/a6028a5c442a7f2b.jpg">
-<meta property="og:image" content="http://i4.piimg.com/8311/05c82c6c540d2005.jpg">
-<meta property="og:image" content="http://i4.piimg.com/8311/6525c38ec5b61df0.jpg">
-<meta property="og:updated_time" content="2016-07-16T15:22:28.301Z">
+<meta property="og:description" content="这篇主要是讲一下在开发中遇到的一些有趣的解决办法，以及一些技巧。
+1.  input中设置cursor：pointer无效背景是当我要实现一个上传封面功能时，我把input标签放在上层，a标签放在下层，这时我想优化一下交互效果，当鼠标移到input上时变成手型，但是事实怎么这样做失效了，所以经过查阅资料，最终加上font-size:0;,问题解决。font-size:0;在解决相邻的display">
+<meta property="og:updated_time" content="2016-07-28T14:46:34.126Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fiddler调试">
-<meta name="twitter:description" content="利用fiddler调试其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。
-为什么需要用到fiddler来调试，它主要是为了调试手机或者页面存在缓存或者需要在线下修复bug而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。
-调试过程手机调试
-首先">
-<meta name="twitter:image" content="http://i4.piimg.com/8311/79483947769649d1.jpg">
+<meta name="twitter:title" content="experience">
+<meta name="twitter:description" content="这篇主要是讲一下在开发中遇到的一些有趣的解决办法，以及一些技巧。
+1.  input中设置cursor：pointer无效背景是当我要实现一个上传封面功能时，我把input标签放在上层，a标签放在下层，这时我想优化一下交互效果，当鼠标移到input上时变成手型，但是事实怎么这样做失效了，所以经过查阅资料，最终加上font-size:0;,问题解决。font-size:0;在解决相邻的display">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -94,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/12/fiddler/" title="fiddler调试" itemprop="url">fiddler调试</a>
+      <a href="/2016/07/25/experience/" title="experience" itemprop="url">experience</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-12T13:57:47.000Z" itemprop="datePublished"> 发表于 2016-07-12</time>
+    <time datetime="2016-07-25T14:44:42.000Z" itemprop="datePublished"> 发表于 2016-07-25</time>
     
   </p>
 </header>
@@ -110,33 +99,21 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用fiddler调试"><span class="toc-number">1.</span> <span class="toc-text">利用fiddler调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试过程"><span class="toc-number">2.</span> <span class="toc-text">调试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手机调试"><span class="toc-number">2.1.</span> <span class="toc-text">手机调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pc端调试"><span class="toc-number">2.2.</span> <span class="toc-text">pc端调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">3.</span> <span class="toc-text">抓包</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-input中设置cursor：pointer无效"><span class="toc-number">1.</span> <span class="toc-text">1.  input中设置cursor：pointer无效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-编辑内容使用contenteditable-”true”"><span class="toc-number">2.</span> <span class="toc-text">2. 编辑内容使用contenteditable=”true”</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="利用fiddler调试"><a href="#利用fiddler调试" class="headerlink" title="利用fiddler调试"></a>利用fiddler调试</h2><p>其实我主要想讲的就是怎样利用fiddler工具进行页面js，css，html等文件的调试，fiddler的下载和安装都很简单，此处不说了。</p>
-<p>为什么需要用到fiddler来调试，它主要是为了调试手机或者页面<code>存在缓存</code>或者需要在线下<code>修复bug</code>而又不影响线上表现的情况下使用。而对于调试手机以及网页上的具有缓存的文件来说，fiddler无疑是给开发者带来了福音。</p>
-<h2 id="调试过程"><a href="#调试过程" class="headerlink" title="调试过程"></a>调试过程</h2><h3 id="手机调试"><a href="#手机调试" class="headerlink" title="手机调试"></a>手机调试</h3><ol>
-<li>首先设置一下fiddler，打开tool-&gt;fidder options-&gt;connection,按照下图配置：<br><img src="http://i4.piimg.com/8311/79483947769649d1.jpg"></li>
-<li>然后在手机端设置一下http代理，找到与电脑服务器连接同一wifi的ip地址，可在cmd中ipconfig中找到wifi的ip，电脑与手机需要在同一网段中才能成功。<br>手机的配置如下图，输入<code>服务器</code>和<code>端口</code>：<br><img src="http://i4.piimg.com/8311/a6028a5c442a7f2b.jpg" width="300"><br><img src="http://i4.piimg.com/8311/05c82c6c540d2005.jpg" width="300"></li>
-<li>成功后在fiddler页面的左边可以看到所在进行的网络访问记录，找到你需要调试的页面，在<code>autoRespondor</code>中<code>add rules</code>,可以看到再下面出现你所选的页面，在下一个文本框中选择<code>find a file</code>，找到本地你需要进行调试的文件，然后点击<code>save</code>,如下图，最后就可以进行本地文件的修改，可以直接看到线上的效果，但是，这只是调试，最后文件调试好后还要上传你所更改过的文件。<br><img src="http://i4.piimg.com/8311/6525c38ec5b61df0.jpg"><h3 id="pc端调试"><a href="#pc端调试" class="headerlink" title="pc端调试"></a>pc端调试</h3>pc端的调试不用配置手机调试中的第一步与第二部，只要完成上面的第三步即可。</li>
-</ol>
-<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>fiddler除了可以调试网页外，还可以进行抓包，查看http的头部信息等，这里没怎么用到我就不说了，点到为止。</p>
+		<p>这篇主要是讲一下在开发中遇到的一些有趣的解决办法，以及一些技巧。</p>
+<h3 id="1-input中设置cursor：pointer无效"><a href="#1-input中设置cursor：pointer无效" class="headerlink" title="1.  input中设置cursor：pointer无效"></a>1.  input中设置cursor：pointer无效</h3><p>背景是当我要实现一个上传封面功能时，我把<code>input</code>标签放在上层，<code>a</code>标签放在下层，这时我想优化一下交互效果，当鼠标移到input上时变成手型，但是事实怎么这样做失效了，所以经过查阅资料，最终加上<code>font-size:0;</code>,问题解决。<br><code>font-size:0;</code>在解决相邻的<code>display:inline-block;</code>元素之间存在的默认间隙也是十分有用。<br>例如，有很多人抱怨为什么我将两个a标签设置成<code>display:inline-block;width：50%</code>，而最终他们不是在同一行中，第二个a标签被挤到下一行，这是因为<code>display:inline-block;</code>默认有一个间距，消除这个间距的办法有很多，常见的就有加上<code>font-size:0;</code></p>
+<h3 id="2-编辑内容使用contenteditable-”true”"><a href="#2-编辑内容使用contenteditable-”true”" class="headerlink" title="2. 编辑内容使用contenteditable=”true”"></a>2. 编辑内容使用contenteditable=”true”</h3><p>以前的提交表单内容的思想都是用到input，textarea等等表单标签，却没有想到html元素中的属性<code>contenteditable=&quot;true&quot;</code>也是一个不错的选择。</p>
+<p>contenteditable属性兼容所有浏览器（IE6之前的版本是否兼容未测试）<br>在有些时候我们完全可以用DIV去替代input或者textarea来达到同样的效果，例如，在使用ajax的时候，在提交表单时我们可以获取DIV的内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div contenteditable=<span class="string">"true"</span>&gt;可以编辑里面的内容&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>我们可以编辑div里面的内容，再通过ajax把内容提交给后台。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发工具使用/">开发工具使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/fiddler调试/">fiddler调试</a>
-  </div>
 
 </div>
 
@@ -144,7 +121,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/07/12/fiddler/" data-title="fiddler调试 | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/07/25/experience/" data-title="experience | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -158,18 +135,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/17/git/" title="git在实践中的应用">
+ <a href="/2016/07/25/touchSlideNav/" title="移动端上下滑判断">
   <strong>上一篇：</strong><br/>
   <span>
-  git在实践中的应用</span>
+  移动端上下滑判断</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/06/23/cookieAndSession/"  title="cookie和Session">
+<a href="/2016/07/17/git/"  title="git在实践中的应用">
  <strong>下一篇：</strong><br/> 
- <span>cookie和Session
+ <span>git在实践中的应用
 </span>
 </a>
 </div>
@@ -184,7 +161,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用fiddler调试"><span class="toc-number">1.</span> <span class="toc-text">利用fiddler调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试过程"><span class="toc-number">2.</span> <span class="toc-text">调试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手机调试"><span class="toc-number">2.1.</span> <span class="toc-text">手机调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pc端调试"><span class="toc-number">2.2.</span> <span class="toc-text">pc端调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">3.</span> <span class="toc-text">抓包</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-input中设置cursor：pointer无效"><span class="toc-number">1.</span> <span class="toc-text">1.  input中设置cursor：pointer无效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-编辑内容使用contenteditable-”true”"><span class="toc-number">2.</span> <span class="toc-text">2. 编辑内容使用contenteditable=”true”</span></a></li></ol>
  
   </div>
 

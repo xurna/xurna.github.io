@@ -21,7 +21,7 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 <meta property="og:description" content="git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。
 git操作流程开发前的配置首先和别人开始一个项目前，当然是需要在github或者其他git项目管理平台上创建一个项目，每个项目都会有它的SSH和http的项目地址，通常会使用SSH地址。
 使用1git clone git@github.com:xurna/animation-effe">
-<meta property="og:updated_time" content="2016-07-19T14:48:11.514Z">
+<meta property="og:updated_time" content="2016-07-27T14:41:55.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git在实践中的应用">
 <meta name="twitter:description" content="git作为代码版本控制开发工具，实在是太方便了，非常实用，本文主要围绕在项目开发过程中git的实际操作，以此总结。
@@ -126,8 +126,10 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 <h3 id="合并分支与冲突处理"><a href="#合并分支与冲突处理" class="headerlink" title="合并分支与冲突处理"></a>合并分支与冲突处理</h3><p>如果自己的代码没有问题，到了发布的时候，就可以和master合并分支了，先切换到master分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure></p>
 <p>合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge subName</span><br></pre></td></tr></table></figure></p>
 <p>情况1. 如果在你提交之前，原来master上的代码其他人没有修改过，那么这个过程就进行地很顺利。<br>情况2. 如果master上的代码已经修改过了，git bash会提示你先更新的你的代码再合并分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure></p>
+<p>这里注意一点，git pull操作是可以在本分支上拉下最新的代码的，但是如果你要拉其他分支的代码，例如，你需要在subName分支上拉master的代码，那么，在subName分支上，不能单是执行git pull，而是执行git pull origin master，如果是在master分支上，则可以直接git pull，因为他本身对应的就是master分支。</p>
 <p>情况3. 然后再使用上面的合并分支的命令，如果这个过程中提示有代码冲突，即别人修改了和你修改的一样的地方，这个时候，你需要手动删除，例如，在文件中会有：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> master</span><br><span class="line"></span><br><span class="line">=======</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> <span class="keyword">in</span> dev</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; dev</span><br></pre></td></tr></table></figure></p>
-<p>其中“======”代表冲突区域分隔符，分隔符上下两段代码为你和别人都修改过的代码，你需要和别人协商最后要哪段代码，然后再删去那些符号。删掉后，再git commit代码，最后在git push上去。</p>
+<p>其中“======”代表冲突区域分隔符，分隔符上下两段代码为你和别人都修改过的代码，你需要和别人协商最后要哪段代码，然后再删去那些符号。删掉后，再git commit代码，最后在git push上去。但是这样做不好，因为别人也需要在master上提交东西，自己直接在master上处理冲突的话，对于项目处理可能会出现问题，所以这个时候，可以考虑回退当前版本，在自己分支上处理冲突，最后再提交：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD</span><br><span class="line">git checkout subName</span><br><span class="line">git pull origin master</span><br><span class="line">然后手动处理冲突，处理完再commit上去，最后push上去。</span><br><span class="line">最后再git checkout master,git pull,git merge subName,git push</span><br></pre></td></tr></table></figure>
 <p>所有情况解决后都需要在master分支上git push才算是真正提交合并了自己修改的代码。</p>
 <h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><p>如果你现在在做的一个需求还没有做完，然后产品经理那边又出了一个修改需求，需要先上线，那么此时你并不想提交你在做的这个需求代码，因为还没有完成，这种情况，你就可以在master上新建另一个分支去操作。注意，是切换到master上新建另一个分支，新建完后，如果它还有用处，那么可以保留它，注意，你并不需要再一次git clone一个项目下来，当你切换到不同分支的时候，代码会自动变到你的那个分支上，十分方便。<br>如果你用完觉得这个分支再也没有用处了，那么可以删掉本地分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="_">-d</span> subName2</span><br></pre></td></tr></table></figure></p>
 <p>可以查看本地分支和远程分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch (查看本地分支)</span><br><span class="line">git branch <span class="_">-a</span> (查看远程分支)</span><br></pre></td></tr></table></figure></p>
@@ -136,6 +138,7 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 <p>使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br><span class="line">或者</span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure></p>
 <p>可以查看历史版本号，Git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录。</p>
 <p>好了，平时操作大多是这几类操作，如果后续有新的操作，再补进来吧。</p>
+<p><code>对了，在master上合并完分支后切记要切回自己的分支，不然改的就直接是master的代码了！</code></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -171,6 +174,14 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/07/25/experience/" title="experience">
+  <strong>上一篇：</strong><br/>
+  <span>
+  experience</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/07/12/fiddler/"  title="fiddler调试">
@@ -208,7 +219,7 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>7</sup></a></li>
 		  
 		
 		  
@@ -225,6 +236,10 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 		
 		  
 			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/那些年遇到过的bug/" title="那些年遇到过的bug">那些年遇到过的bug<sup>1</sup></a></li>
 		  
 		
 		  
@@ -249,15 +264,11 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -269,35 +280,11 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/移动端/" title="移动端">移动端<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
 			
 		
 			
@@ -306,6 +293,46 @@ git操作流程开发前的配置首先和别人开始一个项目前，当然�
 		
 			
 				<li><a href="/tags/ajax/" title="ajax">ajax<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
 			
 		
 		</ul>
