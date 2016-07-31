@@ -1,0 +1,579 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>formData | xurna</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Xurna Yang">
+    
+
+    
+    <meta name="description" content="需求是实现一个上传封面的功能。
+为什么使用参数formdata？
+一般当你想把复杂的数据从一个网页（文件，非ASCII编码的内容）发送到服务器，则必须使用multipart/form-data内容类型的form，例如：1234&amp;lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; action=&quot;http://xxxx&quot;&amp;gt;&amp;lt;input">
+<meta property="og:type" content="article">
+<meta property="og:title" content="formData">
+<meta property="og:url" content="http://yoursite.com/2016/07/31/formData/index.html">
+<meta property="og:site_name" content="xurna">
+<meta property="og:description" content="需求是实现一个上传封面的功能。
+为什么使用参数formdata？
+一般当你想把复杂的数据从一个网页（文件，非ASCII编码的内容）发送到服务器，则必须使用multipart/form-data内容类型的form，例如：1234&amp;lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; action=&quot;http://xxxx&quot;&amp;gt;&amp;lt;input">
+<meta property="og:updated_time" content="2016-07-31T13:26:10.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="formData">
+<meta name="twitter:description" content="需求是实现一个上传封面的功能。
+为什么使用参数formdata？
+一般当你想把复杂的数据从一个网页（文件，非ASCII编码的内容）发送到服务器，则必须使用multipart/form-data内容类型的form，例如：1234&amp;lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; action=&quot;http://xxxx&quot;&amp;gt;&amp;lt;input">
+
+    
+    <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="xurna" title="xurna"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="xurna">xurna</a></h1>
+				<h2 class="blog-motto">Never too late to learn.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/31/formData/" title="formData" itemprop="url">formData</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-31T13:41:54.000Z" itemprop="datePublished"> 发表于 2016-07-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p>需求是实现一个上传封面的功能。</p>
+<p>为什么使用参数formdata？</p>
+<p>一般当你想把复杂的数据从一个网页（文件，非ASCII编码的内容）发送到服务器，则必须使用multipart/form-data内容类型的form，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span> action=<span class="string">"http://xxxx"</span>&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"file"</span> name=<span class="string">"media"</span>/&gt;</span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"submit"</span> value=<span class="string">"upload"</span>/&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这就是我们平时做的上传文件的表单。</p>
+<p>也许你想使用XMLHttpRequest发送文件。你想复制这种形式，这真的很难，因为你必须在JavaScript中创建multipart/form-data内容。</p>
+<p>这时参数formdata就有用了：他重现在JavaScript中form的提交机制,XMLHttpRequest level  2（编者草案）增加了新的参数formdata接口的支持。 参数formdata对象提供了一种方法来轻松地构建一组键/值对表示表单字段及其值，然后可以使用XMLHttpRequest的send()方法以“multipart/form-data”的格式发送。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=<span class="string">"y-topic-info"</span> id=<span class="string">"bg-set"</span> style=<span class="string">"background-image: url(&#123;&#123;topic_info.pic_url&#125;&#125;);"</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">"y-topic-info-content"</span>  data-tid=<span class="string">"&#123;&#123;topic_info['topic_id']&#125;&#125;"</span>&gt;</span><br><span class="line">        &lt;div class=<span class="string">"change-bg-block"</span>&gt;</span><br><span class="line">            &lt;input <span class="built_in">type</span>=<span class="string">"file"</span> name=<span class="string">"change-bg"</span> id=<span class="string">"change-bg"</span> class=<span class="string">"upload-bg"</span> data-sel=<span class="string">"bg-file"</span>&gt;</span><br><span class="line">            &lt;a href=<span class="string">"javascript:;"</span> class=<span class="string">"change-bg-btn"</span>&gt;上传封面&lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">     &lt;input <span class="built_in">type</span>=<span class="string">"hidden"</span> id=<span class="string">"uploadtoken"</span> value=<span class="string">"&#123;&#123;token&#125;&#125;"</span>/&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>token</code>字段是用户的一个信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">;(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    $(<span class="string">'[data-sel=bg-file]'</span>).change(<span class="keyword">function</span>(e)&#123;</span><br><span class="line">        var token = $(<span class="string">'#uploadtoken'</span>).val()</span><br><span class="line">        var file = document.getElementById(<span class="string">'change-bg'</span>).files[0]</span><br><span class="line"></span><br><span class="line">        //创建一个空的FormData对象，然后再用append方法逐个添加键值对：</span><br><span class="line">        var form = new FormData()</span><br><span class="line">        form.append(<span class="string">'file'</span>, file)</span><br><span class="line">        form.append(<span class="string">'token'</span>, token)</span><br><span class="line"></span><br><span class="line">        var xhr = new XMLHttpRequest()</span><br><span class="line">        //上传</span><br><span class="line">        xhr.open(<span class="string">"POST"</span>, <span class="string">"http://xxxx.com"</span>, <span class="literal">true</span>);</span><br><span class="line">        //进度条</span><br><span class="line">        xhr.upload.addEventListener(<span class="string">"progress"</span>, <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">             tool.showTip(<span class="string">'上传中...'</span>,<span class="literal">false</span>)</span><br><span class="line">        &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        //下载,内嵌ajax</span><br><span class="line">        xhr.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">            var postStr = JSON.parse(xhr.responseText).key;</span><br><span class="line">            var outerSrc = <span class="string">'xxxx/'</span>+ postStr</span><br><span class="line"></span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                url : <span class="string">'xxxx'</span>,</span><br><span class="line">                <span class="built_in">type</span> : <span class="string">'POST'</span>,</span><br><span class="line">                data : &#123;</span><br><span class="line">                    <span class="string">'icon'</span> : postStr</span><br><span class="line">                &#125;,</span><br><span class="line">                dataType: <span class="string">'json'</span>,</span><br><span class="line">                success : <span class="keyword">function</span>(data) &#123;</span><br><span class="line">                    document.getElementById(<span class="string">'bg-set'</span>).style.backgroundImage=<span class="string">"url("</span>+outerSrc+<span class="string">")"</span>;</span><br><span class="line">                &#125;,</span><br><span class="line">                error : <span class="keyword">function</span>(data) &#123;</span><br><span class="line">                    alert(<span class="string">'上传封面失败'</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        //错误信息</span><br><span class="line">        xhr.addEventListener(<span class="string">"error"</span>, <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">           alert(<span class="string">'上传封面失败'</span>);</span><br><span class="line">        &#125;, <span class="literal">false</span>);</span><br><span class="line">        //取消</span><br><span class="line">        xhr.addEventListener(<span class="string">"abort"</span>, <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">            //...</span><br><span class="line">        &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        //发送请求</span><br><span class="line">        xhr.send(form);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>除了用原生的js实现ajax上传，还可以使用jquery的ajax上传：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type:&apos;post&apos;,</span><br><span class="line">    url:&quot;http://xxxx&quot;,</span><br><span class="line">    //上传格式为formData格式</span><br><span class="line">    data:formData,</span><br><span class="line">    async: false,</span><br><span class="line">    cache: false,</span><br><span class="line">    contentType: false,</span><br><span class="line">    processData: false,//好像不可缺！</span><br><span class="line">    success:function(resultStr)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>利用Formdata对象，我们可以使用原生js通过ajax实现异步上传图片，当然，现在已经有jquery的批量上传插件了，实现原理就是利用了Formdata。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/formData/">formData</a><a href="/tags/css/">css</a><a href="/tags/ajax/">ajax</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/07/31/formData/" data-title="formData | xurna" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/31/arrow/" title="css画箭头">
+  <strong>上一篇：</strong><br/>
+  <span>
+  css画箭头</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/27/bug-touchend/"  title="安卓移动端滑动不支持touchend事件">
+ <strong>下一篇：</strong><br/> 
+ <span>安卓移动端滑动不支持touchend事件
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/安卓/" title="安卓">安卓<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/那些年遇到过的bug/" title="那些年遇到过的bug">那些年遇到过的bug<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/重构/" title="重构">重构<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/css/" title="css">css<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块化/" title="模块化">模块化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网安/" title="网安">网安<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/formData/" title="formData">formData<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.quantacenter.com/" target="_blank" title="(量子）信息技术服务中心">Quanta</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Welcome to my blog , I&#39;m Xurna Yang from GDUFS. <br/>
+			A programmer in QuantaCenter</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2696740840" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/xurna" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:565627595@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Xurna Yang">Xurna Yang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
