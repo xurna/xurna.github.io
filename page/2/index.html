@@ -81,6 +81,90 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/18/rsa/" title="RSA算法" itemprop="url">RSA算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-18T09:20:37.000Z" itemprop="datePublished"> 发表于 2016-06-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。</p>
+<p>在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。</p>
+<h2 id="密钥生成步骤"><a href="#密钥生成步骤" class="headerlink" title="密钥生成步骤"></a>密钥生成步骤</h2><p>假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。</p>
+<p>1.第一步，随机选择两个<code>不相等的质数p和q</code>。<br>假设A选择了61和53。（实际应用中，这两个质数越大，就越难破解。）</p>
+<p>2.第二步，计算p和q的<code>乘积n</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = 61×53 = 3233</span><br></pre></td></tr></table></figure></p>
+<p><code>n的长度就是密钥长度</code>。3233写成二进制是110010100001，一共有12位，所以这个密钥就是12位。实际应用中，RSA密钥一般是<code>1024</code>位，重要场合则为<code>2048</code>位。</p>
+<p>3.第三步，计算n的<code>欧拉函数φ(n)</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">φ(n) = (p-1)(q-1)</span><br></pre></td></tr></table></figure></p>
+<p>算出φ(3233)等于60×52，即3120。</p>
+<p>4.第四步，随机选择一个<code>整数e</code>，条件是<code>1&lt; e &lt; φ(n)</code>，且<code>e与φ(n) 互质</code>。<br>在1到3120之间，随机选择了17。（实际应用中，常常选择65537。）</p>
+<p>5.第五步，计算e对于φ(n)的<code>模反元素d</code>。<br>所谓”模反元素”就是指有一个整数d，可以使得ed被φ(n)除的余数为1。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    ed ≡ 1 (mod φ(n))</span><br><span class="line">即：</span><br><span class="line">    ed + 1 = φ(n)x</span><br><span class="line">已知 e=17, φ(n)=3120，</span><br><span class="line">所以：</span><br><span class="line">    17d +1 =3120x</span><br><span class="line">求出一组解为（d,x）=(2753,-15) ,即d = 2753</span><br></pre></td></tr></table></figure></p>
+<p>至此所有计算完成。</p>
+<p>6.第六步，将n和e封装成公钥，n和d封装成私钥。<br>n=3233，e=17，d=2753，所以公钥就是 <code>(3233,17)</code>，私钥就是<code>（3233, 2753）</code>。<br>实际应用中，公钥和私钥的数据都采用ASN.1格式表达（实例）。</p>
+<h2 id="算法可靠性"><a href="#算法可靠性" class="headerlink" title="算法可靠性"></a>算法可靠性</h2><p>密钥生成步骤中，（n，e）是公钥，是公开的，p,q,φ(n),d是不公开的，其中最关键的是d，因为n和d组成了私钥，一旦d泄漏，就等于私钥泄漏。</p>
+<blockquote>
+<p>那么，有无可能在已知n和e的情况下，推导出d？</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）ed≡1 (mod φ(n))。只有知道e和φ(n)，才能算出d。</span><br><span class="line">（2）φ(n)=(p-1)(q-1)。只有知道p和q，才能算出φ(n)。</span><br><span class="line">（3）n=pq。只有将n因数分解，才能算出p和q。</span><br></pre></td></tr></table></figure>
+<p>结论：如果n可以被因数分解，d就可以算出，也就意味着私钥被破解。<br>可是，大整数的因数分解，是一件非常困难的事情。目前，除了暴力破解，还没有发现别的有效方法。</p>
+<h2 id="加密和解密"><a href="#加密和解密" class="headerlink" title="加密和解密"></a>加密和解密</h2><p>（1）加密要用公钥 (n,e)<br>假设B要向A发送加密信息m，他就要用A的公钥 (n,e) 对m进行加密。这里需要注意，m必须是整数（字符串可以取ascii值或unicode值），且m必须小于n。<br>所谓”加密”，就是算出下式的c：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　c = ( m^e) mod n</span><br></pre></td></tr></table></figure></p>
+<p>A的公钥是 (3233, 17)，B的m假设是65，那么可以算出下面的等式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　c =( 65^17) mod 3233 =  2790</span><br></pre></td></tr></table></figure></p>
+<p>c = 2790,B把2790发给A</p>
+<p>（2）解密要用私钥(n,d)<br>A收到B发过来的2790后，就用自己的私钥（3233,2753）进行解密。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = (c^d) mod n</span><br><span class="line">即：</span><br><span class="line">m = (2790^2753) mod 3233 = 65</span><br></pre></td></tr></table></figure></p>
+<p>A知道了B加密前的原文就是65。</p>
+<p>至此，”加密–解密”的整个过程全部完成。<br>我们可以看到，如果不知道d，就没有办法从c求出m。而前面已经说过，要知道d就必须分解n，这是极难做到的，所以RSA算法保证了通信安全。<br>你可能会问，公钥(n,e) 只能加密小于n的整数m，那么如果要加密大于n的整数，该怎么办？有两种解决方法：一种是把长信息分割成若干段短消息，每段分别加密；另一种是先选择一种”对称性加密算法”（比如DES），用这种算法的密钥加密信息，再用RSA公钥加密DES密钥。</p>
+<p>参考文章：<br><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络安全/">网络安全</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网安/">网安</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/18/shulun/" title="数论" itemprop="url">数论</a>
   </h1>
   <p class="article-author">By
@@ -136,7 +220,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/数论/">数论</a><a href="/tags/网安/">网安</a>
+  <span></span> <a href="/tags/网安/">网安</a><a href="/tags/数论/">数论</a>
   </div>
 
 </div>
@@ -950,118 +1034,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/28/waterfall/" title="瀑布流实现" itemprop="url">瀑布流实现</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-28T09:16:42.000Z" itemprop="datePublished"> 发表于 2016-03-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>　　积累久了的知识还是要拿出来顺一顺，碰巧这几天研究瀑布流，就顺带理清了瀑布流的实现思路，也用ajax实现了下拉从数据库加载数据的效果,并且对实现过程中遇到的问题作出了解决。代码也已经放上了<a href="https://github.com/xurna/waterfall" target="_blank" rel="external">github</a>，有需要者自行下载。</p>
-<p>　　瀑布流相信大家都不会陌生，据说最早是<a href="https://www.pinterest.com/" target="_blank" rel="external">Pinterest</a>网站使用的网页布局，后来流行于各大网站。<br>　　瀑布流的实现有几种方式，详情可见：<a href="http://ued.taobao.org/blog/2011/09/waterfall/" target="_blank" rel="external">淘宝网UED官方博客</a><br>　　而我所用的方法是使用<code>JavaScript</code>来实现，其他方法在这里就不多描述了。</p>
-<h1 id="静态瀑布流实现过程"><a href="#静态瀑布流实现过程" class="headerlink" title="静态瀑布流实现过程"></a>静态瀑布流实现过程</h1><p><a href="https://github.com/QuantaCenter/oureffect/tree/master/pubuliu" target="_blank" rel="external">下载地址</a></p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
-<li><p>html的基本页面布局为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span> class=<span class="string">"container"</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">"imgShow"</span>&gt;&lt;img src=<span class="string">""</span>/&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>css的设置为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">     position: absolute;</span><br><span class="line">     top: 20px;</span><br><span class="line">     width:100%;</span><br><span class="line">&#125;</span><br><span class="line">.imgShow &#123;</span><br><span class="line">     position: absolute;</span><br><span class="line">     border: solid 1px <span class="comment">#ccc;</span></span><br><span class="line">     padding: 10px;</span><br><span class="line">     width: 200px;</span><br><span class="line">     top: 0px;</span><br><span class="line">     left: 0px;</span><br><span class="line">&#125;</span><br><span class="line">img &#123; width: 100%; &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="核心过程"><a href="#核心过程" class="headerlink" title="核心过程"></a>核心过程</h2><p>实现瀑布流的过程中使用了函数的prototype属性，当创建一个函数实例的时候，实例可以共享原型对象包含的属性和方法。</p>
-<blockquote>
-<p>我们创建的每个函数都有一个prototype（原型）属性，这个属性是一个指针，指向一个对象，<br>而这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。<br>使用原型对象的好处是可以让所有的对象实例共享它包含的属性和方法。<br>–《JavaScript高级程序设计》</p>
-</blockquote>
-<ol>
-<li><p>首先定义需要的属性。<br>可以把瀑布流拆成三个部分来看：容器、列、格子</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">function</span> WaterFall(containerId)&#123;</span><br><span class="line">	this.container = document.getElementById(containerId);</span><br><span class="line">	this.conWidth = 0;//container容器宽度</span><br><span class="line">	this.boxWidth = 0;//每一个格子的宽度</span><br><span class="line">	this.columnNum = 1; //分为多少列</span><br><span class="line">	this.columnHeight = [];//存储每列的高度</span><br><span class="line">	this.boxTagName = <span class="string">"div"</span>;</span><br><span class="line">	this.boxList = []; //所有的格子的对象</span><br><span class="line">	this.init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始化数据，并且计算出每行可以放下的格子的数量n = 屏幕可见区域宽度/(格子宽度+间距)。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WaterFall.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	this.boxList = this.container.getElementsByTagName(this.boxTagName);</span><br><span class="line">	this.boxWidth = this.boxList[0].offsetWidth + 10;</span><br><span class="line">	this.conWidth = this.container.offsetWidth;</span><br><span class="line">	// 计算每行可以放下的格子数量</span><br><span class="line">	var n = parseInt(this.conWidth/this.boxWidth);</span><br><span class="line">	this.columnNum = (n &gt; 0) ? n : 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进行排序：在上一步中得到每行可以放下的格子的数量n后，把前n个格子放在第一行每一列中；然后每次寻找高度最小的一列，依次把格子放进去，并通过设置left（容器离左边的宽度+间距+格子的宽度*最低列索引）和top（间距+最低列高度）来实现定位，最后刷新新列的高度，遍历所有格子直到格子全都被排序。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">WaterFall.prototype.show = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	var len = this.boxList.length;</span><br><span class="line">	var conLeft = this.container.offsetLeft;</span><br><span class="line">	var conTop = this.container.offsetTop;</span><br><span class="line">	var marginTop = 10;</span><br><span class="line">	var marginLeft = 10;</span><br><span class="line">	<span class="keyword">for</span>(var i=0; i&lt;len; i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;this.columnNum)&#123;</span><br><span class="line">			this.boxList[i].style.left = conLeft + marginLeft + i*this.boxWidth + <span class="string">'px'</span>;</span><br><span class="line">			this.boxList[i].style.top = conTop + <span class="string">'px'</span>;</span><br><span class="line">			this.columnHeight[i] = conTop + this.boxList[i].offsetHeight;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			var minColum = this.getM<span class="keyword">in</span>HeightCol();</span><br><span class="line">			var boxHeight = this.boxList[i].offsetHeight + marginTop;</span><br><span class="line">			this.boxList[i].style.left = conLeft + marginLeft + minColum*(this.boxWidth ) + <span class="string">'px'</span>;</span><br><span class="line">			this.boxList[i].style.top = this.columnHeight[minColum] + marginTop + <span class="string">'px'</span>;</span><br><span class="line">			this.columnHeight[minColum] += boxHeight;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>加载函数，实例化对象。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.onload = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	var water = new WaterFull(<span class="string">"container"</span>);</span><br><span class="line">	water.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>当浏览器窗口被缩放时，进行页面重排渲染。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	var water = new WaterFull(<span class="string">"container"</span>);</span><br><span class="line">	water.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>　　考虑到当窗口大小在进行改变但未终止时都要对瀑布流进行重排渲染的话，网页性能会大大降低，所以我采用setTimeout的方法来适当延时窗口大小改变后瀑布流的重排渲染。上面的代码改为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> var timer;</span><br><span class="line">window.onresize = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	clearTimeout(timer);</span><br><span class="line">	timer = <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">		water.show()</span><br><span class="line">	&#125;,300);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>进行到这里，静态的瀑布流效果就完成了。但是现在很多网页不会一下子把格子里面的内容从数据库中导出，而是通过ajax来实现分页请求数据。</p>
-<h1 id="动态瀑布流实现过程"><a href="#动态瀑布流实现过程" class="headerlink" title="动态瀑布流实现过程"></a>动态瀑布流实现过程</h1><p><a href="https://github.com/xurna/waterfall" target="_blank" rel="external">下载地址</a></p>
-<ol>
-<li><p>html部分在上面的基础上加上</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"hidden"</span> name=<span class="string">"currentPage"</span> id=<span class="string">"currentPage"</span> value=<span class="string">"1"</span>&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>核心部分跟静态的一样，通过ajax请求数据，每次请求15条数据（其实实现下拉ajax分页请求数据与后台php分页类似）。前提是自己用php写了一个上传图片的功能，并将图片暂存到了uoloads文件夹中，详情请看<a href="https://github.com/xurna/waterfall" target="_blank" rel="external">github</a>。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getImage</span></span>()&#123;</span><br><span class="line">	var html = <span class="string">""</span>;</span><br><span class="line">	var currentPage = parseInt($(<span class="string">"#currentPage"</span>).val());</span><br><span class="line">	$.ajax(&#123;</span><br><span class="line">		url:<span class="string">"getAjax.php"</span>,</span><br><span class="line">		<span class="built_in">type</span>:<span class="string">'post'</span>,</span><br><span class="line">		data:<span class="string">"currentPage="</span>+currentPage,</span><br><span class="line">		dataType:<span class="string">'json'</span>,</span><br><span class="line">		success:<span class="keyword">function</span>(result)&#123;</span><br><span class="line">			 var data = result;</span><br><span class="line">			 $.each(data,<span class="keyword">function</span>(index,value)&#123;</span><br><span class="line">			 	html = <span class="string">" &lt;div class='imgShow'&gt;&lt;img src='uploads/"</span>+ value.photo+<span class="string">"'/&gt; &lt;/div&gt; "</span>;</span><br><span class="line">				$(<span class="string">".container"</span>).append(html);</span><br><span class="line">				var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">					water.show();</span><br><span class="line">			 &#125;);</span><br><span class="line">			 $(<span class="string">"#currentPage"</span>).val(currentPage+1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下拉加载判断：当滚动条的高度+窗口可视高度==整个文档的高度时，再请求多一页数据，这里的判断条件比较随意，有兴趣者可以进行改进。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(window).scroll(<span class="keyword">function</span>(event)&#123;</span><br><span class="line">	<span class="keyword">if</span>($(window).scrollTop() + $(window).height() == $(document).height())&#123;</span><br><span class="line">		getImage();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>　　测试了一下，咦？为什么有些图片重叠了，但是在下拉的过程中又正常排列了，一开始我以为是函数的加载顺序搞错了，调试了之后是没问题的，后来看到一种现象，如下图：<br><img src="http://i2.piimg.com/d99ac71edb48c283.jpg" alt="waterfall"></p>
-<ul>
-<li>有问题的代码测试为<a href="https://github.com/xurna/waterfall/blob/master/waterfall/waterfallAjax2.php" target="_blank" rel="external">waterfallAjax2</a><br>　　经过分析，觉悟到是前一张图片还没有加载完，后一张图片就贴上来的，所以会出现重叠的现象。于是我进行了图片预加载工作。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> preLoad(src)&#123;</span><br><span class="line">    var img = new Image();</span><br><span class="line">    img.src = src;</span><br><span class="line">    var html= <span class="string">""</span>;</span><br><span class="line">    img.onload = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        html = <span class="string">" &lt;div class='imgShow'&gt;&lt;img src='"</span>+ src+<span class="string">"'/&gt; &lt;/div&gt; "</span>;</span><br><span class="line">        $(<span class="string">".container"</span>).append(html);</span><br><span class="line">        // 瀑布流显示图片</span><br><span class="line">        var water = new WaterFall(<span class="string">"container"</span>);</span><br><span class="line">        water.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>经过这一步后，瀑布流正常显示，瞬间感觉自己棒棒哒~</p>
-<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>　　经过整个项目的实现，自己对ajax以及页面布局又有了更好的了解，并且学会在项目中运用自己所学的知识，以达到巩固的效果。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/css/">css</a><a href="/tags/ajax/">ajax</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1084,7 +1056,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
 		  
 		
 		  
@@ -1133,10 +1105,6 @@
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
@@ -1149,6 +1117,10 @@
 			
 		
 			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
 			
 		
@@ -1157,35 +1129,7 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/formData/" title="formData">formData<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
 			
 		
 			
@@ -1193,11 +1137,39 @@
 			
 		
 			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+				<li><a href="/tags/iframe/" title="iframe">iframe<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/object/" title="object">object<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
 			
 		
 		</ul>

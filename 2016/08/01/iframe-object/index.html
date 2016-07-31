@@ -4,31 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>安卓移动端滑动不支持touchend事件 | xurna</title>
+    <title>视屏播放器中的iframe&amp;object | xurna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Xurna Yang">
     
 
     
-    <meta name="description" content="背景讲讲今天遇到的这个bug，背景是我要做一个在移动端上上滑显示导航栏，下滑隐藏导航栏的效果，于是，我的基本思路是通过手机端的touchstart和touchend事件来计算手指触摸屏幕的横纵坐标，从而计算它的角度，用来判断是往上的方向还是往下的方向。
-过程嗯，想象很美好，于是，噼里啪啦地做好后，在苹果手机上一测，各种顺利通过，我对着手机会心一笑，需求完成。
-然而，现实很残酷，产品经理跑来跟我说，">
+    <meta name="description" content="背景这里的背景是实现腾讯视频与爱奇艺视频的一个视频切换功能，爱奇艺那边提供的是使用object标签实现视频的播放效果，一开始想和腾讯视频一样使用iframe标签，但是发现iframe在爱奇艺上面不能全屏，无奈之下，只好用回object。
+iframe与object参数iframe标签：1&apos;&amp;lt;iframe id=&quot;videof&quot; frameborder=&quot;0&quot; width=&quot;100%&quot;  he">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安卓移动端滑动不支持touchend事件">
-<meta property="og:url" content="http://yoursite.com/2016/07/27/bug-touchend/index.html">
+<meta property="og:title" content="视屏播放器中的iframe&object">
+<meta property="og:url" content="http://yoursite.com/2016/08/01/iframe-object/index.html">
 <meta property="og:site_name" content="xurna">
-<meta property="og:description" content="背景讲讲今天遇到的这个bug，背景是我要做一个在移动端上上滑显示导航栏，下滑隐藏导航栏的效果，于是，我的基本思路是通过手机端的touchstart和touchend事件来计算手指触摸屏幕的横纵坐标，从而计算它的角度，用来判断是往上的方向还是往下的方向。
-过程嗯，想象很美好，于是，噼里啪啦地做好后，在苹果手机上一测，各种顺利通过，我对着手机会心一笑，需求完成。
-然而，现实很残酷，产品经理跑来跟我说，">
-<meta property="og:image" content="http://i1.piimg.com/8311/05a13daaf7118c18.png">
-<meta property="og:updated_time" content="2016-07-27T14:41:55.779Z">
+<meta property="og:description" content="背景这里的背景是实现腾讯视频与爱奇艺视频的一个视频切换功能，爱奇艺那边提供的是使用object标签实现视频的播放效果，一开始想和腾讯视频一样使用iframe标签，但是发现iframe在爱奇艺上面不能全屏，无奈之下，只好用回object。
+iframe与object参数iframe标签：1&apos;&amp;lt;iframe id=&quot;videof&quot; frameborder=&quot;0&quot; width=&quot;100%&quot;  he">
+<meta property="og:updated_time" content="2016-07-31T14:37:20.755Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安卓移动端滑动不支持touchend事件">
-<meta name="twitter:description" content="背景讲讲今天遇到的这个bug，背景是我要做一个在移动端上上滑显示导航栏，下滑隐藏导航栏的效果，于是，我的基本思路是通过手机端的touchstart和touchend事件来计算手指触摸屏幕的横纵坐标，从而计算它的角度，用来判断是往上的方向还是往下的方向。
-过程嗯，想象很美好，于是，噼里啪啦地做好后，在苹果手机上一测，各种顺利通过，我对着手机会心一笑，需求完成。
-然而，现实很残酷，产品经理跑来跟我说，">
-<meta name="twitter:image" content="http://i1.piimg.com/8311/05a13daaf7118c18.png">
+<meta name="twitter:title" content="视屏播放器中的iframe&object">
+<meta name="twitter:description" content="背景这里的背景是实现腾讯视频与爱奇艺视频的一个视频切换功能，爱奇艺那边提供的是使用object标签实现视频的播放效果，一开始想和腾讯视频一样使用iframe标签，但是发现iframe在爱奇艺上面不能全屏，无奈之下，只好用回object。
+iframe与object参数iframe标签：1&apos;&amp;lt;iframe id=&quot;videof&quot; frameborder=&quot;0&quot; width=&quot;100%&quot;  he">
 
     
     <link rel="alternative" href="/atom.xml" title="xurna" type="application/atom+xml">
@@ -88,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/27/bug-touchend/" title="安卓移动端滑动不支持touchend事件" itemprop="url">安卓移动端滑动不支持touchend事件</a>
+      <a href="/2016/08/01/iframe-object/" title="视屏播放器中的iframe&amp;object" itemprop="url">视屏播放器中的iframe&amp;object</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-27T15:37:49.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    <time datetime="2016-08-01T01:43:33.000Z" itemprop="datePublished"> 发表于 2016-08-01</time>
     
   </p>
 </header>
@@ -104,26 +99,40 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过程"><span class="toc-number">2.</span> <span class="toc-text">过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决办法"><span class="toc-number">3.</span> <span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法一"><span class="toc-number">3.1.</span> <span class="toc-text">解决办法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法二"><span class="toc-number">3.2.</span> <span class="toc-text">解决办法二</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iframe与object参数"><span class="toc-number">2.</span> <span class="toc-text">iframe与object参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性"><span class="toc-number">3.</span> <span class="toc-text">兼容性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器之间的兼容"><span class="toc-number">3.1.</span> <span class="toc-text">浏览器之间的兼容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视频平台的兼容"><span class="toc-number">3.2.</span> <span class="toc-text">视频平台的兼容</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>讲讲今天遇到的这个bug，背景是我要做一个在移动端上上滑显示导航栏，下滑隐藏导航栏的效果，于是，我的基本思路是通过手机端的<code>touchstart</code>和<code>touchend</code>事件来计算手指触摸屏幕的横纵坐标，从而计算它的角度，用来判断是往上的方向还是往下的方向。</p>
-<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>嗯，想象很美好，于是，噼里啪啦地做好后，在苹果手机上一测，各种顺利通过，我对着手机会心一笑，需求完成。</p>
-<p>然而，现实很残酷，产品经理跑来跟我说，安卓上的什么UC浏览器，百度浏览器，对这个效果都不显示，QQ浏览器是一会显示，一会又傻傻的。</p>
-<p>然后，我开始找问题，终于，发现在安卓上检测不出滑动时touchend事件的执行，问题找到了。于是我上网百度，到处一片哀怨，原来这个是安卓本身的bug，安卓的浏览器用的是所下载的浏览器本身的内核，所以各种类型的内核都有，上述几种浏览器都是有基于<code>Tridient</code>来做的，简单来说，就是IE的内核，安卓一直在更新版本，却还是没有解决这个问题。相比之下，iphone就可爱很多，在iphone下的阿鸡阿狗浏览器，用的都是<code>webkit</code>内核，对各种特性支持度都十分好，这就是差距啊!</p>
-<p>在安卓上,滑动手机屏幕的触发事件过程是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touchstart-&gt;touchmove一次，无touchend</span><br></pre></td></tr></table></figure></p>
-<p>在iphone上,滑动手机屏幕的触发事件过程是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touchstart-&gt;touchmove*n-&gt;touchend</span><br></pre></td></tr></table></figure></p>
-<p>素以，在安卓上，滑动不能用touchend事件了（这里并不是说本身不能用touchend事件，只是滑动时无这个事件而已），经过查资料，发现之前很多人说zepto中的touch.JS在微信以及安卓上用swipe的时候失效，其实就是因为用了这个touchend事件，故没有效果。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>解决办法也不是没有的，先说明一下在移动端的事件：</p>
-<ol>
-<li>touchstart：手指触摸手机屏幕的触发，即使已经有一个手指放在屏幕上也会触发。</li>
-<li>touchmove：手指在手机屏幕时滑动时连续触发，发生期间，调用<code>event.preventDefault()</code>可以阻止滚动</li>
-<li>touchend；手机触摸屏幕离开后触发</li>
-<li>touchcancel：当系统停止跟踪触摸的时候触发</li>
-</ol>
-<h3 id="解决办法一"><a href="#解决办法一" class="headerlink" title="解决办法一"></a>解决办法一</h3><p>如果屏幕不考虑滚动的话，可以在touchstart中添加<code>event.preventDefault()</code>，意思是取消了touchstart的默认事件，但是这样做就没有了滚动手机屏幕这个效果，这个适用于局部使用。但我觉得这种效果并不好。</p>
-<h3 id="解决办法二"><a href="#解决办法二" class="headerlink" title="解决办法二"></a>解决办法二</h3><p>使用<code>touchcancel</code>事件，在js中同时绑定touchend和touchcancel事件，这里我截取了UC浏览器中的一段描述：<br><img src="http://i1.piimg.com/8311/05a13daaf7118c18.png"><br>我认为这种办法是比较好的，当然这也不是最好的解决办法，拿来顶替一下还是可以的。</p>
+		<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这里的背景是实现腾讯视频与爱奇艺视频的一个视频切换功能，爱奇艺那边提供的是使用object标签实现视频的播放效果，一开始想和腾讯视频一样使用iframe标签，但是发现iframe在爱奇艺上面不能全屏，无奈之下，只好用回object。</p>
+<h2 id="iframe与object参数"><a href="#iframe与object参数" class="headerlink" title="iframe与object参数"></a>iframe与object参数</h2><p>iframe标签：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'&lt;iframe id="videof" frameborder="0" width="100%"  height="'</span>+(videoHeight)+<span class="string">'" src="'</span>+src+<span class="string">'" allowfullscreen="true"&gt;&lt;/iframe&gt;'</span></span><br></pre></td></tr></table></figure></p>
+<p>object标签：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="string">'&lt;object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="100%" height="'</span>+(videoHeight)+<span class="string">'" align="middle"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="allowscriptaccess" value="always"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="quality" value="high"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="autoStart" value="0" /&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="wmode" value="opaque"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="allowfullscreen" value="true"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="bgcolor" value="#000000"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="movie" value="'</span>+src2+<span class="string">'"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="flashvars" value="vid='</span>+ params0[3] +<span class="string">';tvid='</span>+ params0[2] +<span class="string">'&amp;amp;autoPlay=1&amp;amp;autoChainPlay=1&amp;amp;showSearch=0&amp;amp;showSearchBox=0&amp;amp;autoHideControl=1&amp;amp;showFocus=0&amp;amp;showShare=0&amp;amp;showLogo=0&amp;amp;coop=coop_227_qsbk&amp;amp;cid=qc_100001_300089&amp;amp;bd=1&amp;amp;showDock=0"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;embed width="100%" height="'</span>+(videoHeight)+<span class="string">'" allowscriptaccess="always" wmode="opaque" allowfullscreen="true" bgcolor="#000000" align="middle" flashvars="vid='</span>+ params0[3] +<span class="string">'&amp;amp;tvid='</span>+ params0[2] +<span class="string">'&amp;amp;autoPlay=1&amp;amp;autoChainPlay=1&amp;amp;showSearch=0&amp;amp;showSearchBox=0&amp;amp;autoHideControl=1&amp;amp;showFocus=0&amp;amp;showShare=0&amp;amp;showLogo=0&amp;amp;coop=coop_227_qsbk&amp;amp;cid=qc_100001_300089&amp;amp;bd=1&amp;amp;showDock=0" src="'</span>+src2+<span class="string">'" name="mvFlash" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;/object&gt;'</span></span><br></pre></td></tr></table></figure></p>
+<p>具体的参数我就不多说了，网上也有很多资源，我主要想讲一下浏览器对他们的兼容性。</p>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><h3 id="浏览器之间的兼容"><a href="#浏览器之间的兼容" class="headerlink" title="浏览器之间的兼容"></a>浏览器之间的兼容</h3><p>首先IE只支持对Object的解析。<br>火狐，谷歌，Safari只支持对Embed的解析。<br>上面的例子中同时使用 object 和 embed 标签来嵌入，细心的人会发现，object 的很多参数和 embed 里面的很多属性是重复的，为什么这样做？为了浏览器兼容性，有的浏览器支持 object，有的支持 embed，这也是为什么要修改 Flash 的参数时两个地方都要改的原因。这种方法是 Macromedia 一直以来的官方方法，最大限度的保证了 Flash 的功能，没有兼容性问题。</p>
+<h3 id="视频平台的兼容"><a href="#视频平台的兼容" class="headerlink" title="视频平台的兼容"></a>视频平台的兼容</h3><table>
+<thead>
+<tr>
+<th>兼容性</th>
+<th>web</th>
+<th>touch端</th>
+<th>ipad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>腾讯视频</td>
+<td>iframe</td>
+<td>iframe</td>
+<td>iframe</td>
+</tr>
+<tr>
+<td>爱奇艺</td>
+<td>object</td>
+<td>iframe</td>
+<td>iframe(不能全屏)</td>
+</tr>
+</tbody>
+</table>
+<p>因为在ipad中仍然用的是web中样式，但是ipad中是没有flash插件的，所以不能用object，只能用iframe标签，但是也可以尝试去用新出的<code>video</code>标签来实现。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -131,13 +140,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/那些年遇到过的bug/">那些年遇到过的bug</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/bug/">bug</a>
+  <span></span> <a href="/tags/iframe/">iframe</a><a href="/tags/object/">object</a>
   </div>
 
 </div>
@@ -146,7 +155,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/07/27/bug-touchend/" data-title="安卓移动端滑动不支持touchend事件 | xurna" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/08/01/iframe-object/" data-title="视屏播放器中的iframe&amp;object | xurna" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -159,19 +168,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/31/formData/" title="formData">
-  <strong>上一篇：</strong><br/>
-  <span>
-  formData</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/27/pagination/"  title="分页逻辑">
+<a href="/2016/07/31/arrow/"  title="css画箭头">
  <strong>下一篇：</strong><br/> 
- <span>分页逻辑
+ <span>css画箭头
 </span>
 </a>
 </div>
@@ -186,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过程"><span class="toc-number">2.</span> <span class="toc-text">过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决办法"><span class="toc-number">3.</span> <span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法一"><span class="toc-number">3.1.</span> <span class="toc-text">解决办法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法二"><span class="toc-number">3.2.</span> <span class="toc-text">解决办法二</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iframe与object参数"><span class="toc-number">2.</span> <span class="toc-text">iframe与object参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性"><span class="toc-number">3.</span> <span class="toc-text">兼容性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器之间的兼容"><span class="toc-number">3.1.</span> <span class="toc-text">浏览器之间的兼容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视频平台的兼容"><span class="toc-number">3.2.</span> <span class="toc-text">视频平台的兼容</span></a></li></ol></li></ol>
  
   </div>
 

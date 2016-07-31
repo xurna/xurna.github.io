@@ -81,6 +81,95 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/08/01/iframe-object/" title="视屏播放器中的iframe&amp;object" itemprop="url">视屏播放器中的iframe&amp;object</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-01T01:43:33.000Z" itemprop="datePublished"> 发表于 2016-08-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这里的背景是实现腾讯视频与爱奇艺视频的一个视频切换功能，爱奇艺那边提供的是使用object标签实现视频的播放效果，一开始想和腾讯视频一样使用iframe标签，但是发现iframe在爱奇艺上面不能全屏，无奈之下，只好用回object。</p>
+<h2 id="iframe与object参数"><a href="#iframe与object参数" class="headerlink" title="iframe与object参数"></a>iframe与object参数</h2><p>iframe标签：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'&lt;iframe id="videof" frameborder="0" width="100%"  height="'</span>+(videoHeight)+<span class="string">'" src="'</span>+src+<span class="string">'" allowfullscreen="true"&gt;&lt;/iframe&gt;'</span></span><br></pre></td></tr></table></figure></p>
+<p>object标签：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="string">'&lt;object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="100%" height="'</span>+(videoHeight)+<span class="string">'" align="middle"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="allowscriptaccess" value="always"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="quality" value="high"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="autoStart" value="0" /&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="wmode" value="opaque"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="allowfullscreen" value="true"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="bgcolor" value="#000000"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="movie" value="'</span>+src2+<span class="string">'"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;param name="flashvars" value="vid='</span>+ params0[3] +<span class="string">';tvid='</span>+ params0[2] +<span class="string">'&amp;amp;autoPlay=1&amp;amp;autoChainPlay=1&amp;amp;showSearch=0&amp;amp;showSearchBox=0&amp;amp;autoHideControl=1&amp;amp;showFocus=0&amp;amp;showShare=0&amp;amp;showLogo=0&amp;amp;coop=coop_227_qsbk&amp;amp;cid=qc_100001_300089&amp;amp;bd=1&amp;amp;showDock=0"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;embed width="100%" height="'</span>+(videoHeight)+<span class="string">'" allowscriptaccess="always" wmode="opaque" allowfullscreen="true" bgcolor="#000000" align="middle" flashvars="vid='</span>+ params0[3] +<span class="string">'&amp;amp;tvid='</span>+ params0[2] +<span class="string">'&amp;amp;autoPlay=1&amp;amp;autoChainPlay=1&amp;amp;showSearch=0&amp;amp;showSearchBox=0&amp;amp;autoHideControl=1&amp;amp;showFocus=0&amp;amp;showShare=0&amp;amp;showLogo=0&amp;amp;coop=coop_227_qsbk&amp;amp;cid=qc_100001_300089&amp;amp;bd=1&amp;amp;showDock=0" src="'</span>+src2+<span class="string">'" name="mvFlash" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"&gt;'</span></span><br><span class="line">+<span class="string">'&lt;/object&gt;'</span></span><br></pre></td></tr></table></figure></p>
+<p>具体的参数我就不多说了，网上也有很多资源，我主要想讲一下浏览器对他们的兼容性。</p>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><h3 id="浏览器之间的兼容"><a href="#浏览器之间的兼容" class="headerlink" title="浏览器之间的兼容"></a>浏览器之间的兼容</h3><p>首先IE只支持对Object的解析。<br>火狐，谷歌，Safari只支持对Embed的解析。<br>上面的例子中同时使用 object 和 embed 标签来嵌入，细心的人会发现，object 的很多参数和 embed 里面的很多属性是重复的，为什么这样做？为了浏览器兼容性，有的浏览器支持 object，有的支持 embed，这也是为什么要修改 Flash 的参数时两个地方都要改的原因。这种方法是 Macromedia 一直以来的官方方法，最大限度的保证了 Flash 的功能，没有兼容性问题。</p>
+<h3 id="视频平台的兼容"><a href="#视频平台的兼容" class="headerlink" title="视频平台的兼容"></a>视频平台的兼容</h3><table>
+<thead>
+<tr>
+<th>兼容性</th>
+<th>web</th>
+<th>touch端</th>
+<th>ipad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>腾讯视频</td>
+<td>iframe</td>
+<td>iframe</td>
+<td>iframe</td>
+</tr>
+<tr>
+<td>爱奇艺</td>
+<td>object</td>
+<td>iframe</td>
+<td>iframe(不能全屏)</td>
+</tr>
+</tbody>
+</table>
+<p>因为在ipad中仍然用的是web中样式，但是ipad中是没有flash插件的，所以不能用object，只能用iframe标签，但是也可以尝试去用新出的<code>video</code>标签来实现。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iframe/">iframe</a><a href="/tags/object/">object</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/31/arrow/" title="css画箭头" itemprop="url">css画箭头</a>
   </h1>
   <p class="article-author">By
@@ -186,7 +275,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/formData/">formData</a><a href="/tags/css/">css</a><a href="/tags/ajax/">ajax</a>
+  <span></span> <a href="/tags/css/">css</a><a href="/tags/JavaScript/">JavaScript</a><a href="/tags/formData/">formData</a><a href="/tags/ajax/">ajax</a>
   </div>
 
 </div>
@@ -718,90 +807,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/18/rsa/" title="RSA算法" itemprop="url">RSA算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-18T09:20:37.000Z" itemprop="datePublished"> 发表于 2016-06-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>RSA算法被认为是目前地球上最重要的加密算法，所以作为互联网的热爱者来说，想了解一下它的神秘感，加深对网络安全方面的认识。</p>
-<p>在数论那一章铺垫了很多要实现RSA算法的准备工作，现在主要讲解一下如何生成密钥。</p>
-<h2 id="密钥生成步骤"><a href="#密钥生成步骤" class="headerlink" title="密钥生成步骤"></a>密钥生成步骤</h2><p>假设A要和B进行加密通信，她就需要生成公钥和私钥。公钥用来给A加密信息，私钥用来解密。</p>
-<p>1.第一步，随机选择两个<code>不相等的质数p和q</code>。<br>假设A选择了61和53。（实际应用中，这两个质数越大，就越难破解。）</p>
-<p>2.第二步，计算p和q的<code>乘积n</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = 61×53 = 3233</span><br></pre></td></tr></table></figure></p>
-<p><code>n的长度就是密钥长度</code>。3233写成二进制是110010100001，一共有12位，所以这个密钥就是12位。实际应用中，RSA密钥一般是<code>1024</code>位，重要场合则为<code>2048</code>位。</p>
-<p>3.第三步，计算n的<code>欧拉函数φ(n)</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">φ(n) = (p-1)(q-1)</span><br></pre></td></tr></table></figure></p>
-<p>算出φ(3233)等于60×52，即3120。</p>
-<p>4.第四步，随机选择一个<code>整数e</code>，条件是<code>1&lt; e &lt; φ(n)</code>，且<code>e与φ(n) 互质</code>。<br>在1到3120之间，随机选择了17。（实际应用中，常常选择65537。）</p>
-<p>5.第五步，计算e对于φ(n)的<code>模反元素d</code>。<br>所谓”模反元素”就是指有一个整数d，可以使得ed被φ(n)除的余数为1。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    ed ≡ 1 (mod φ(n))</span><br><span class="line">即：</span><br><span class="line">    ed + 1 = φ(n)x</span><br><span class="line">已知 e=17, φ(n)=3120，</span><br><span class="line">所以：</span><br><span class="line">    17d +1 =3120x</span><br><span class="line">求出一组解为（d,x）=(2753,-15) ,即d = 2753</span><br></pre></td></tr></table></figure></p>
-<p>至此所有计算完成。</p>
-<p>6.第六步，将n和e封装成公钥，n和d封装成私钥。<br>n=3233，e=17，d=2753，所以公钥就是 <code>(3233,17)</code>，私钥就是<code>（3233, 2753）</code>。<br>实际应用中，公钥和私钥的数据都采用ASN.1格式表达（实例）。</p>
-<h2 id="算法可靠性"><a href="#算法可靠性" class="headerlink" title="算法可靠性"></a>算法可靠性</h2><p>密钥生成步骤中，（n，e）是公钥，是公开的，p,q,φ(n),d是不公开的，其中最关键的是d，因为n和d组成了私钥，一旦d泄漏，就等于私钥泄漏。</p>
-<blockquote>
-<p>那么，有无可能在已知n和e的情况下，推导出d？</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）ed≡1 (mod φ(n))。只有知道e和φ(n)，才能算出d。</span><br><span class="line">（2）φ(n)=(p-1)(q-1)。只有知道p和q，才能算出φ(n)。</span><br><span class="line">（3）n=pq。只有将n因数分解，才能算出p和q。</span><br></pre></td></tr></table></figure>
-<p>结论：如果n可以被因数分解，d就可以算出，也就意味着私钥被破解。<br>可是，大整数的因数分解，是一件非常困难的事情。目前，除了暴力破解，还没有发现别的有效方法。</p>
-<h2 id="加密和解密"><a href="#加密和解密" class="headerlink" title="加密和解密"></a>加密和解密</h2><p>（1）加密要用公钥 (n,e)<br>假设B要向A发送加密信息m，他就要用A的公钥 (n,e) 对m进行加密。这里需要注意，m必须是整数（字符串可以取ascii值或unicode值），且m必须小于n。<br>所谓”加密”，就是算出下式的c：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　c = ( m^e) mod n</span><br></pre></td></tr></table></figure></p>
-<p>A的公钥是 (3233, 17)，B的m假设是65，那么可以算出下面的等式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　c =( 65^17) mod 3233 =  2790</span><br></pre></td></tr></table></figure></p>
-<p>c = 2790,B把2790发给A</p>
-<p>（2）解密要用私钥(n,d)<br>A收到B发过来的2790后，就用自己的私钥（3233,2753）进行解密。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = (c^d) mod n</span><br><span class="line">即：</span><br><span class="line">m = (2790^2753) mod 3233 = 65</span><br></pre></td></tr></table></figure></p>
-<p>A知道了B加密前的原文就是65。</p>
-<p>至此，”加密–解密”的整个过程全部完成。<br>我们可以看到，如果不知道d，就没有办法从c求出m。而前面已经说过，要知道d就必须分解n，这是极难做到的，所以RSA算法保证了通信安全。<br>你可能会问，公钥(n,e) 只能加密小于n的整数m，那么如果要加密大于n的整数，该怎么办？有两种解决方法：一种是把长信息分割成若干段短消息，每段分别加密；另一种是先选择一种”对称性加密算法”（比如DES），用这种算法的密钥加密信息，再用RSA公钥加密DES密钥。</p>
-<p>参考文章：<br><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络安全/">网络安全</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/网安/">网安</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -824,7 +829,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
 		  
 		
 		  
@@ -873,10 +878,6 @@
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
@@ -889,6 +890,10 @@
 			
 		
 			
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
 			
 		
@@ -897,35 +902,7 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/formData/" title="formData">formData<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
 			
 		
 			
@@ -933,11 +910,39 @@
 			
 		
 			
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
+				<li><a href="/tags/iframe/" title="iframe">iframe<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/object/" title="object">object<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
 			
 		
 		</ul>
