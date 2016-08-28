@@ -81,6 +81,108 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/08/28/vuejs/" title="vue组件化开发" itemprop="url">vue组件化开发</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-28T07:37:49.000Z" itemprop="datePublished"> 发表于 2016-08-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="新接触"><a href="#新接触" class="headerlink" title="新接触"></a>新接触</h2><p>最近接触了一下<code>vue.js</code>，这个框架非常强大，它跟以往我们前端的常规开发很不一样，它基于node.js，使用数据驱动的方式，避免直接去操作DOM，使用它来构建移动端的单页应用十分方便。项目中我采用<a href="http://cn.vuejs.org/guide/installation.html" target="_blank" rel="external">vue.js</a> + <a href="http://vuex.vuejs.org/zh-cn/index.html" target="_blank" rel="external">vuex</a> + <a href="http://router.vuejs.org/zh-cn/index.html" target="_blank" rel="external">vue-router</a> + <a href="https://github.com/xurna/vue-resource" target="_blank" rel="external">vue-resource</a> + <a href="https://vuxjs.gitbooks.io/vux/content/" target="_blank" rel="external">vux</a>+ <a href="http://webpack.github.io/docs/" target="_blank" rel="external">webpack</a>，来实现一个完整应用的创建，幸好的是，我所说到的这些，都是为了服务于vue.js的，所以它们与vue.js搭配起来用真的十分方便，简化了许多繁琐的DOM操作。</p>
+<h2 id="关于vue-js"><a href="#关于vue-js" class="headerlink" title="关于vue.js"></a>关于vue.js</h2><p>vue.js它是一个<code>MVVM</code>的框架，即<code>Model-View-ViewModel</code>，引用官方的一张图：<br><img src="http://i4.buimg.com/8311/a63b4708ab0886fb.png"><br>vue.js是一个构建数据驱动的web界面的库。Vue.js的目标是通过尽可能简单的API实现<code>响应的数据绑定</code>和<code>组合的视图组件</code>。它意味着我们在普通 HTML 模板中使用特殊的语法将 DOM “绑定”到底层数据。一旦创建了绑定，DOM 将与数据保持同步。每当修改了数据，DOM 便相应地更新。这样我们应用中的逻辑就几乎都是直接修改数据了，不必与DOM更新搅在一起。这让我们的代码更容易撰写、理解与维护。这与Angular.js有点类似。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>如果是急需创建一个大型应用的话，使用命令行<code>vue-cli</code>十分方便，它直接创建好了一个基于vue的框架<br>有两个极力推荐的参考项目：<br><a href="https://github.com/beilunyang/cnodejs-vue" target="_blank" rel="external">cnodejs-vue</a><br><a href="https://github.com/hilongjw/vue-zhihu-daily" target="_blank" rel="external">vue-zhihu-daily</a></p>
+<blockquote>
+<p>Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需一分钟即可启动带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：<a href="http://cn.vuejs.org/guide/installation.html" target="_blank" rel="external">vue官网</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局安装 vue-cli</span></span><br><span class="line">$ npm install -g vue-cli</span><br><span class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></span><br><span class="line">$ vue init webpack my-project</span><br><span class="line"><span class="comment"># 安装依赖，走你</span></span><br><span class="line">$ <span class="built_in">cd</span> my-project</span><br><span class="line">$ npm install</span><br><span class="line">$ npm run dev（需要一直开着）</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>执行完最后一步后，使用<code>npm run build</code>来打包项目，然后在默认的<a href="http://localhost:8080/就可以看到项目主页了。" target="_blank" rel="external">http://localhost:8080/就可以看到项目主页了。</a></p>
+<p>接下来，你可以参考其他的文档安装配套使用的库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">安装vue-resource:</span><br><span class="line">$ npm install vue-resource</span><br><span class="line"></span><br><span class="line">安装vue-router:</span><br><span class="line">$ npm install vue-router</span><br><span class="line"></span><br><span class="line">安装vuex:</span><br><span class="line">$ npm install --save vuex</span><br><span class="line"></span><br><span class="line">安装vux样式库：</span><br><span class="line">npm install vux</span><br><span class="line"><span class="comment">#安装less-loader, vuejs-templates模板默认不安装less less-loader</span></span><br><span class="line">npm install less less-loader --save-dev</span><br></pre></td></tr></table></figure></p>
+<h2 id="一些说明"><a href="#一些说明" class="headerlink" title="一些说明"></a>一些说明</h2><p>可能很多人在开始使用vue的时候都一脸懵逼，因为这和我们平常做的常规项目确实是很不一样，踩坑是很正常的事情，那么我想分享几点可能大家在开始上手的时候遇到的疑惑点。</p>
+<h3 id="安装的这些库分别是干什么？"><a href="#安装的这些库分别是干什么？" class="headerlink" title="安装的这些库分别是干什么？"></a>安装的这些库分别是干什么？</h3><ol>
+<li><p>首先讲vuex，它是用来进行状态管理的，将store里的数据和页面绑定起来，并通过action进来重新分发到页面，实现数据实时改变。参考官方的图：<br><img src="http://i4.buimg.com/8311/cf694dfb1e0996c2.png"></p>
+<blockquote>
+<p>Vuex 的四个核心概念分别是：<br>The state tree：Vuex 使用单一状态树，用一个对象就包含了全部的应用层级状态。至此它便作为一个『唯一数据源(SSOT)』而存在。这也意味着，每个应用将仅仅包含一个 store 实例。单状态树让我们能够直接地定位任一特定的状态片段，在调试的过程中也能轻易地取得整个当前应用状态的快照。<br>Getters：用来从 store 获取 Vue 组件数据。<br>Mutators：事件处理器用来驱动状态的变化。<br>Actions：可以给组件使用的函数，以此用来驱动事件处理器 mutations</p>
+</blockquote>
+</li>
+<li><p>vue-router<br>顾名思义，主要用来路由页面使用，通过配置map函数，来定义单页应用路由的地址，避免了单页应用去到某一个页面的时候刷新而回到首页的问题，这个对于单页应用是个很大的优化。</p>
+</li>
+<li>vue-resource<br>这个类似于JQuery中的<code>$.ajax</code>，用来请求服务器端的数据。</li>
+<li>vux<br>Vux = Vue + WeUI + A Bunch of Components，这个库是基于vue和微信样式开发的，所以使用起来很搭配。</li>
+</ol>
+<h3 id="vue的小分享"><a href="#vue的小分享" class="headerlink" title="vue的小分享"></a>vue的小分享</h3><p>1.vue组件的特点是可插拔、独立作用域、观察者模式、完整的生命周期。</p>
+<p>在Vue.js中，父子之间的通信主要通过事件来完成，这种就是我们熟悉的观察者模式（或叫订阅-发布模式），很多框架也都使用了这种设计模式，比如Angular。父组件通过Vue内置的$broadcast()向下广播事件和传递数据，子组件通过$dispatch()向上派发事件和传递数据，双方都可以在events对象内接收自定义事件，并且处理各自的业务逻辑。<br>引用官方模板：<br>子组件传给父组件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 子组件模板 --&gt;</span><br><span class="line">&lt;template id=<span class="string">"child-template"</span>&gt;</span><br><span class="line">  &lt;input v-model=<span class="string">"msg"</span>&gt;</span><br><span class="line">  &lt;button v-on:click=<span class="string">"notify"</span>&gt;Dispatch Event&lt;/button&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 父组件模板 --&gt;</span><br><span class="line">&lt;div id=<span class="string">"events-example"</span>&gt;</span><br><span class="line">  &lt;p&gt;Messages: &#123;&#123; messages | json &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;child&gt;&lt;/child&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">-----------------------------------------------</span><br><span class="line"></span><br><span class="line">// 注册子组件</span><br><span class="line">// 将当前消息派发出去</span><br><span class="line">Vue.component(<span class="string">'child'</span>, &#123;</span><br><span class="line">  template: <span class="string">'#child-template'</span>,</span><br><span class="line">  data: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    <span class="built_in">return</span> &#123; msg: <span class="string">'hello'</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    notify: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">      <span class="keyword">if</span> (this.msg.trim()) &#123;</span><br><span class="line">        this.<span class="variable">$dispatch</span>(<span class="string">'child-msg'</span>, this.msg)</span><br><span class="line">        this.msg = <span class="string">''</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 初始化父组件</span><br><span class="line">// 将收到消息时将事件推入一个数组</span><br><span class="line">var parent = new Vue(&#123;</span><br><span class="line">  el: <span class="string">'#events-example'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    messages: []</span><br><span class="line">  &#125;,</span><br><span class="line">  // 在创建实例时 `events` 选项简单地调用 `<span class="variable">$on</span>`</span><br><span class="line">  events: &#123;</span><br><span class="line">    <span class="string">'child-msg'</span>: <span class="keyword">function</span> (msg) &#123;</span><br><span class="line">      // 事件回调内的 `this` 自动绑定到注册它的实例上</span><br><span class="line">      this.messages.push(msg)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">或者父组件使用：</span><br><span class="line">&lt;child v-on:child-msg=<span class="string">"handleIt"</span>&gt;&lt;/child&gt;</span><br><span class="line">再在methods中标明handleIt函数。</span><br></pre></td></tr></table></figure></p>
+<p>父组件传给子组件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 默认为单向绑定 --&gt;</span><br><span class="line">&lt;child :msg=<span class="string">"parentMsg"</span>&gt;&lt;/child&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 双向绑定 --&gt;</span><br><span class="line">&lt;child :msg.sync=<span class="string">"parentMsg"</span>&gt;&lt;/child&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 单次绑定 --&gt;</span><br><span class="line">&lt;child :msg.once=<span class="string">"parentMsg"</span>&gt;&lt;/child&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">子组件接受参数：</span><br><span class="line">Vue.component(<span class="string">'example'</span>, &#123;</span><br><span class="line">	props: &#123;</span><br><span class="line">	  msg: &#123;</span><br><span class="line">	    <span class="built_in">type</span>: String,</span><br><span class="line">	    required: <span class="literal">false</span></span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>2.关于样式：<br>我们给按钮定义了一些基本的样式，但是我们用的css选择器就是一个.button类名，可能会和别的组件中的.button样式冲突，所以我们加入了一个scoped属性，让App.vue中的style样式只作用于这个组件内部。<br>注意：scoped并不会影响css的作用优先级，使用scoped不代表不会被外部样式表覆盖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style scpped&gt; </span><br><span class="line">	...</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3.vue动态组件<br>例如我们要实现一个tab切换的效果，我们设计两个tab，每点击一个tab是切换一个子组件，然后再把事件添加到两个tab上；<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">//父组件</span><br><span class="line">&lt;nav&gt;</span><br><span class="line">    &lt;ul class=<span class="string">"nav nav-pills pull-right"</span>&gt;</span><br><span class="line">      &lt;li role=<span class="string">"presentation"</span>&gt;</span><br><span class="line">        &lt;a href=<span class="string">"#"</span> @click=<span class="string">"currentView='manage-posts'"</span>&gt;Manage Posts&lt;/a&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">      &lt;li role=<span class="string">"presentation"</span>&gt;</span><br><span class="line">        &lt;a href=<span class="string">"#"</span> @click=<span class="string">"currentView='create-post'"</span>&gt;Create Post&lt;/a&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=<span class="string">"container"</span>&gt;</span><br><span class="line">  &lt;!-- render the currently active component/page here --&gt;</span><br><span class="line">  &lt;component :is=<span class="string">"currentView"</span> keep-alive&gt;&lt;/component&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(<span class="string">'manage-posts'</span>, &#123;</span><br><span class="line">  template: <span class="string">'#manage-template'</span>,</span><br><span class="line">  data: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> &#123;</span><br><span class="line">      posts: [</span><br><span class="line">        <span class="string">'Vue.js: The Basics'</span>,</span><br><span class="line">        <span class="string">'Vue.js Components'</span>,</span><br><span class="line">        <span class="string">'Server Side Rendering with Vue'</span>,</span><br><span class="line">        <span class="string">'Vue + Firebase'</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Vue.component(<span class="string">'create-post'</span>, &#123;</span><br><span class="line">  template: <span class="string">'#create-template'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: <span class="string">'body'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    currentView: <span class="string">'manage-posts'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 <code>keep-alive</code> 指令参数</p>
+<p>4.不要将HTML的Attributes和Vue的Model混用<br>比如最终要实现的代码是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=123.jpg&gt;</span><br><span class="line">&lt;a href=<span class="string">"index.html?id=123"</span>&gt;&lt;/a&gt;</span><br><span class="line">&lt;div id=<span class="string">"id-123"</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>比如Vue实例为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">    el: <span class="string">'body'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        id: 123</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>错误 的使用是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&#123;&#123; id &#125;&#125;.jpg&gt;</span><br><span class="line">&lt;a href=<span class="string">"index.html?id=&#123;&#123; id &#125;&#125;"</span>&gt;&lt;/a&gt;</span><br><span class="line">&lt;div id=<span class="string">"id-&#123;&#123; id &#125;&#125;"</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>正确 的使用是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img :src=id + <span class="string">'.jpg'</span>&gt;</span><br><span class="line">&lt;a :href=<span class="string">"'index.html?id=' + id"</span>&gt;&lt;/a&gt;</span><br><span class="line">&lt;div :id=<span class="string">"'id-' + id "</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>5.使用组件的时候传的参数要用小写不能用大小写混合，或者用横杠-连接:userinfo=”userinfo”<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;cmp-account :userinfo=<span class="string">"userinfo"</span>&gt;&lt;/cmp-account&gt;</span><br><span class="line">  &lt;cmp-task :task=<span class="string">"task"</span>&gt;&lt;/cmp-task&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>6.理解异步更新<br>默认情况下， Vue 的 DOM 更新是异步执行的。理解这一点非常重要。当侦测到数据变化时， Vue 会打开一个队列，然后把在同一个事件循环 (event loop) 当中观察到数据变化的 watcher 推送进这个队列。假如一个 watcher 在一个事件循环中被触发了多次，它只会被推送到队列中一次。然后，在进入下一次的事件循环时， Vue 会清空队列并进行必要的 DOM 更新。在内部，Vue 会使用 MutationObserver 来实现队列的异步处理，如果不支持则会回退到 setTimeout(fn, 0)。</p>
+<p>举例来说，当你设置 vm.someData = ‘new value’，DOM 并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新。如果你想要根据更新的 DOM 状态去做某些事情，就必须要留意这个细节。尽管 Vue.js 鼓励开发者用 “数据驱动” 的方式想问题，避免直接操作 DOM ，但有时候你可能就是想要使用某个熟悉的 jQuery 插件。这种情况下怎么办呢？你可以在数据改变后，立刻调用 Vue.nextTick(callback)，并把你要做的事情放到回调函数里面。当Vue.nextTick 的回调函数执行时，DOM 将会已经是更新后的状态了。</p>
+<p>示例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"example"</span>&gt;&#123;&#123;msg&#125;&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  el: <span class="string">'#example'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    msg: <span class="string">'123'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">vm.msg = <span class="string">'new message'</span> // change data</span><br><span class="line">vm.<span class="variable">$el</span>.textContent === <span class="string">'new message'</span> // <span class="literal">false</span></span><br><span class="line">Vue.nextTick(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  vm.<span class="variable">$el</span>.textContent === <span class="string">'new message'</span> // <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，也有一个实例方法 vm.$nextTick()。这个方法和全局的 Vue.nextTick 功能一样，但更方便在组件内部使用，因为它不需要全局的 Vue 变量，另外它的回调函数的 this 上下文会自动绑定到调用它的 Vue 实例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'example'</span>, &#123;</span><br><span class="line">  template: <span class="string">'&lt;span&gt;&#123;&#123;msg&#125;&#125;&lt;/span&gt;'</span>,</span><br><span class="line">  data: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    <span class="built_in">return</span> &#123;</span><br><span class="line">      msg: <span class="string">'not updated'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    updateMessage: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">      this.msg = <span class="string">'updated'</span></span><br><span class="line">      console.log(this.<span class="variable">$el</span>.textContent) // =&gt; <span class="string">'not updated'</span></span><br><span class="line">      this.<span class="variable">$nextTick</span>(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">        console.log(this.<span class="variable">$el</span>.textContent) // =&gt; <span class="string">'updated'</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相对于react native来说的话，vue.js是比较轻量级的，而且相对比较容易上手，对于单页应用来说无疑是带来了福音，做完项目后也是学到了很多知识，得到了很多经验，对于组件化的开发又有了深刻的认识，站在巨人的肩膀上又看远了那么一点。</p>
+<h2 id="极力推荐参考文章："><a href="#极力推荐参考文章：" class="headerlink" title="极力推荐参考文章："></a>极力推荐参考文章：</h2><ol>
+<li><a href="http://ylcui.top/2016/08/08/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Vue%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6/" target="_blank" rel="external">【翻译】Vue动态组件</a></li>
+<li><a href="https://www.talkingcoder.com/article/6310724958473489215" target="_blank" rel="external">Vue+Webpack开发可复用的单页面富应用教程</a></li>
+<li><a href="https://segmentfault.com/a/1190000005891026#articleHeader14" target="_blank" rel="external">使用 Vuex + Vue.js 构建单页应用</a></li>
+<li><a href="https://segmentfault.com/a/1190000005009052" target="_blank" rel="external">Vue构建单页应用最佳实战</a></li>
+<li><a href="https://segmentfault.com/a/1190000005891026#articleHeader14" target="_blank" rel="external">使用 Vuex + Vue.js 构建单页应用</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发框架/">开发框架</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/vue框架/">vue框架</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/08/01/iframe-object/" title="视屏播放器中的iframe&amp;object" itemprop="url">视屏播放器中的iframe&amp;object</a>
   </h1>
   <p class="article-author">By
@@ -738,75 +840,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/23/cookieAndSession/" title="cookie和Session" itemprop="url">cookie和Session</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Xurna Yang" target="_blank" itemprop="author">Xurna Yang</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-23T02:45:36.000Z" itemprop="datePublished"> 发表于 2016-06-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><h3 id="cookie定义"><a href="#cookie定义" class="headerlink" title="cookie定义"></a>cookie定义</h3><p>用户访问网络，服务器给当前客户机上创建的一个临时文件用来保存用户信息，以便用户下次继续访问该网络时，网站服务器能识别用户身份，常见cookie用来保存用户界面，用户id等资源。</p>
-<h3 id="cookie的使用"><a href="#cookie的使用" class="headerlink" title="cookie的使用"></a>cookie的使用</h3><p>1.创建cookie：当前页面设置cookie不是立即生效，等下一个页面才能看到。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">setcookie(<span class="string">'name'</span>,<span class="string">'mary'</span>,time()+24*60*60) //一天</span><br><span class="line">          cookie名称  cookie值  有效时间</span><br><span class="line">应用：</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_POST</span>[<span class="string">'name'</span>]&amp;&amp;<span class="variable">$_POST</span>[<span class="string">'password'</span>])&#123;</span><br><span class="line">    setcookie(<span class="string">'name'</span>,<span class="string">'mary'</span>,time()+24*60*60);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>设置有效时间，cookie会保存在硬盘里，不设置，则保存在内存里，用户关掉页面就消失了。<br>cookie是http协议头的一部分，用于浏览器和服务器之间传递信息，cookie是通过http报头发送的。</p>
-<p>2.接受cookie<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isset(<span class="variable">$_COOKIE</span>(<span class="string">'name'</span>)))&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$_COOKIE</span>(<span class="string">'name'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.删除cookie<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setcookie(<span class="string">'name'</span>,<span class="string">''</span>,time()-1);</span><br></pre></td></tr></table></figure></p>
-<p>如何利用实现自动登录：<br>当用户在某个网站注册后，就会收到一个<code>惟一用户ID</code>的cookie。客户后来重新连接时，这个用户ID会自动返回，服务器对它进行检查，确定它是否为注册用户且选择了自动登录，从而使用户务需给出明确的用户名和密码，就可以访问服务器上的资源。</p>
-<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><h3 id="session定义"><a href="#session定义" class="headerlink" title="session定义"></a>session定义</h3><p>服务器机制，使用类似散列表的结构来保存信息，php会给每一个访问用户创建一个session id，该id<code>唯一</code>，它的存放有三种方式:<br>· url传递：安全性差<br>· 保存在客户端的cookie中：php会话机制通过设置cookie，在cookie中保存会话id（session id），在服务器会生成session文件，与用户关联。<br>· 保存在数据库中：安全，但是效率下降。</p>
-<h3 id="session的使用"><a href="#session的使用" class="headerlink" title="session的使用"></a>session的使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">启动session：</span><br><span class="line">    session_start() //必须放在文件最前面</span><br><span class="line"></span><br><span class="line">创建session：</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">'name'</span>] = <span class="string">"hello"</span>;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">'arr'</span>] = array(<span class="string">"name"</span>=&gt;<span class="string">"hello"</span>,<span class="string">"type"</span>=&gt;<span class="string">"web"</span>);</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$_SESSION</span>[<span class="string">'name'</span>];</span><br><span class="line"></span><br><span class="line">删除session：</span><br><span class="line">    <span class="built_in">unset</span>(<span class="variable">$_SESSION</span>[<span class="string">'name'</span>]);</span><br><span class="line"></span><br><span class="line">清空用户所有的session信息：</span><br><span class="line">    session_destroy();</span><br></pre></td></tr></table></figure>
-<p>当程序为某个用户创建一个session，服务器首先检查客户端请求是够包含session标识（session id），若有，则服务器按照session id把session检索出来使用；若无，则服务器创建一个session并且生成一个与此相关联的session id，这个session id将在本次响应中返回给客户端保存。</p>
-<h2 id="cookie与session之间的联系"><a href="#cookie与session之间的联系" class="headerlink" title="cookie与session之间的联系"></a>cookie与session之间的联系</h2><p>具体来说cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案。同时我们也看到，由于才服务器端保持状态的方案在客户端也需要保存一个标识，所以session机制可能需要借助于cookie机制来达到保存标识的目的，但实际上还有其他选择.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络/">网络</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/web存储/">web存储</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -829,7 +862,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>6</sup></a></li>
 		  
 		
 		  
@@ -838,6 +871,10 @@
 		
 		  
 			<li><a href="/categories/开发工具使用/" title="开发工具使用">开发工具使用<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发框架/" title="开发框架">开发框架<sup>4</sup></a></li>
 		  
 		
 		  
@@ -878,7 +915,7 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
 			
 		
 			
@@ -886,11 +923,11 @@
 			
 		
 			
-				<li><a href="/tags/ajax/" title="ajax">ajax<sup>2</sup></a></li>
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -902,7 +939,15 @@
 			
 		
 			
-				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/formData/" title="formData">formData<sup>1</sup></a></li>
 			
 		
 			
@@ -910,15 +955,11 @@
 			
 		
 			
-				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
+				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
 			
 		
 			
@@ -930,19 +971,15 @@
 			
 		
 			
-				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+				<li><a href="/tags/数论/" title="数论">数论<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 		</ul>
