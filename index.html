@@ -320,7 +320,7 @@
 <h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>嗯，想象很美好，于是，噼里啪啦地做好后，在苹果手机上一测，各种顺利通过，我对着手机会心一笑，需求完成。</p>
 <p>然而，现实很残酷，产品经理跑来跟我说，安卓上的什么UC浏览器，百度浏览器，对这个效果都不显示，QQ浏览器是一会显示，一会又傻傻的。</p>
 <p>然后，我开始找问题，终于，发现在安卓上检测不出滑动时touchend事件的执行，问题找到了。于是我上网百度，到处一片哀怨，原来这个是安卓本身的bug，安卓的浏览器用的是所下载的浏览器本身的内核，所以各种类型的内核都有，上述几种浏览器都是有基于<code>Tridient</code>来做的，简单来说，就是IE的内核，安卓一直在更新版本，却还是没有解决这个问题。相比之下，iphone就可爱很多，在iphone下的阿鸡阿狗浏览器，用的都是<code>webkit</code>内核，对各种特性支持度都十分好，这就是差距啊!</p>
-<p>在安卓上,滑动手机屏幕的触发事件过程是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touchstart-&gt;touchmove一次，无touchend</span><br></pre></td></tr></table></figure></p>
+<p>在安卓上,滑动手机屏幕的触发事件过程是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touchstart-&gt;touchmove*n，无touchend</span><br></pre></td></tr></table></figure></p>
 <p>在iphone上,滑动手机屏幕的触发事件过程是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touchstart-&gt;touchmove*n-&gt;touchend</span><br></pre></td></tr></table></figure></p>
 <p>素以，在安卓上，滑动不能用touchend事件了（这里并不是说本身不能用touchend事件，只是滑动时无这个事件而已），经过查资料，发现之前很多人说zepto中的touch.JS在微信以及安卓上用swipe的时候失效，其实就是因为用了这个touchend事件，故没有效果。</p>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>解决办法也不是没有的，先说明一下在移动端的事件：</p>
@@ -878,10 +878,6 @@
 			
 		
 			
-				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
@@ -894,6 +890,10 @@
 			
 		
 			
+				<li><a href="/tags/blog/" title="blog">blog<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
 			
 		
@@ -902,19 +902,15 @@
 			
 		
 			
-				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/bug/" title="bug">bug<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 			
 		
 			
@@ -922,7 +918,7 @@
 			
 		
 			
-				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
 			
 		
 			
@@ -934,15 +930,19 @@
 			
 		
 			
+				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fiddler调试/" title="fiddler调试">fiddler调试<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/闭包/" title="闭包">闭包<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/web存储/" title="web存储">web存储<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分页/" title="分页">分页<sup>1</sup></a></li>
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
 			
 		
 		</ul>
